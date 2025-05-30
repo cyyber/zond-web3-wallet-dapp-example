@@ -1,4 +1,12 @@
 import { useWalletProvider } from "../hooks/useWalletProvider";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 
 export const WalletError = () => {
   const { errorMessage, clearError } = useWalletProvider();
@@ -7,18 +15,20 @@ export const WalletError = () => {
   return (
     isError && (
       <div className="flex flex-col gap-2">
-        <div className="text-sm font-bold opacity-50">Wallet Error:</div>
-        <div className="flex flex-col gap-2">
-          <div>
-            <strong>Error:</strong> {errorMessage}
-          </div>
-          <button
-            className="p-2 bg-gray-600 rounded-md text-white"
-            onClick={clearError}
-          >
-            Clear error
-          </button>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Wallet Error</CardTitle>
+            <CardDescription>
+              The error occurred with the wallet interaction
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>{errorMessage}</div>
+            <Button variant="secondary" onClick={clearError}>
+              Clear error
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     )
   );

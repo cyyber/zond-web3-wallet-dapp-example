@@ -1,4 +1,12 @@
 import { useWalletProvider } from "../hooks/useWalletProvider";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 
 export const SelectedWallet = () => {
   const { selectedWallet, selectedAccount, disconnectWallet } =
@@ -8,40 +16,44 @@ export const SelectedWallet = () => {
     (selectedAccount?.slice(0, 2) ?? "") + selectedAccount?.slice(2);
   const formattedAccountAddress = `${upperAfterLastTwo.substring(
     0,
-    5
-  )}...${upperAfterLastTwo.substring(39)}`;
+    6
+  )} ... ${upperAfterLastTwo.substring(36)}`;
 
   return (
     selectedAccount && (
-      <div className="flex flex-col gap-2">
-        <div className="text-sm font-bold opacity-50">Selected Wallet:</div>
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-4">
-            <img
-              src={selectedWallet?.info.icon}
-              alt={selectedWallet?.info.name}
-            />
-            <div className="flex flex-col">
-              <div>{selectedWallet?.info.name}</div>
-              <div>({formattedAccountAddress})</div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Selected Wallet</CardTitle>
+          <CardDescription>
+            The wallet you've connected to this dApp
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex gap-4 items-center">
+              <img
+                src={selectedWallet?.info.icon}
+                alt={selectedWallet?.info.name}
+              />
+              <div className="flex flex-col">
+                <div className="text-xs">{selectedWallet?.info.name}</div>
+                <div className="font-bold text-xl">
+                  {formattedAccountAddress}
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
             <div>
               <strong>uuid:</strong> {selectedWallet?.info.uuid}
             </div>
             <div>
               <strong>rdns:</strong> {selectedWallet?.info.rdns}
             </div>
+            <Button variant="destructive" onClick={disconnectWallet}>
+              Disconnect wallet
+            </Button>
           </div>
-          <button
-            className="p-2 bg-red-500 rounded-md text-white"
-            onClick={disconnectWallet}
-          >
-            Disconnect wallet
-          </button>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     )
   );
 };

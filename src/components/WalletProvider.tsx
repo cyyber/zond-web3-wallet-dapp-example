@@ -20,7 +20,6 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const clearError = () => setErrorMessage("");
-  const setError = (error: string) => setErrorMessage(error);
 
   useEffect(() => {
     const savedSelectedWalletRdns = localStorage.getItem("selectedWalletRdns");
@@ -82,8 +81,8 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       } catch (error) {
         console.error("Failed to connect to provider:", error);
         const walletError: WalletError = error as WalletError;
-        setError(
-          `Code: ${walletError.code} \nError Message: ${walletError.message}`
+        setErrorMessage(
+          `Code: ${walletError.code}, \nMessage: ${walletError.message}`
         );
       }
     },

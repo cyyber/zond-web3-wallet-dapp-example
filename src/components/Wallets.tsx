@@ -10,6 +10,7 @@ import {
 } from "./ui/card";
 import { WalletError } from "./WalletError";
 import { WalletProvider } from "./WalletProvider";
+import { WalletResponse } from "./WalletResponse";
 
 export const Wallets = () => {
   return (
@@ -28,6 +29,7 @@ export const Wallets = () => {
             </div>
             <div className="col-span-1 space-y-6">
               <SelectedWallet />
+              <WalletResponse />
               <WalletError />
             </div>
           </CardContent>

@@ -198,8 +198,12 @@ export const DetectedWallets = () => {
         Object.values(wallets).map((provider: EIP6963ProviderDetail) => (
           <AccordionItem key={provider.info.uuid} value={provider.info.name}>
             <AccordionTrigger>
-              <div className="flex gap-4 items-center">
-                <img src={provider.info.icon} alt={provider.info.name} />
+              <div className="flex gap-4 items-center text-xl">
+                <img
+                  className="w-5"
+                  src={provider.info.icon}
+                  alt={provider.info.name}
+                />
                 {provider.info.name}
               </div>
             </AccordionTrigger>

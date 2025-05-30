@@ -1,3 +1,4 @@
+import { Unlink } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import { Button } from "./ui/button";
 import {
@@ -49,7 +50,7 @@ export const SelectedWallet = () => {
               <strong>rdns:</strong> {selectedWallet?.info.rdns}
             </div>
             <Button variant="destructive" onClick={disconnectWallet}>
-              Disconnect wallet
+              <Unlink /> Disconnect wallet
             </Button>
           </div>
         </CardContent>

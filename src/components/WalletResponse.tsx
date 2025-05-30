@@ -1,4 +1,4 @@
-import { Paintbrush } from "lucide-react";
+import { Copy } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import { Button } from "./ui/button";
 import {
@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "./ui/card";
 
-export const WalletError = () => {
+export const WalletResponse = () => {
   const { errorMessage, clearError } = useWalletProvider();
   const isError = !!errorMessage;
 
@@ -18,15 +18,15 @@ export const WalletError = () => {
       <div className="flex flex-col gap-2">
         <Card>
           <CardHeader>
-            <CardTitle>Wallet Error</CardTitle>
+            <CardTitle>Wallet Response</CardTitle>
             <CardDescription>
-              The error occurred during wallet interaction
+              The response from wallet interaction
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>{errorMessage}</div>
             <Button variant="secondary" onClick={clearError}>
-              <Paintbrush /> Clear error
+              <Copy /> Copy response
             </Button>
           </CardContent>
         </Card>

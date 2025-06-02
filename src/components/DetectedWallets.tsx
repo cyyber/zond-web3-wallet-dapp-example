@@ -1,4 +1,4 @@
-import { Wallet } from "lucide-react";
+import { PlugZap, Wallet } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import {
   Accordion,
@@ -8,24 +8,32 @@ import {
 } from "./ui/accordion";
 import { Button } from "./ui/button";
 import { Alert, AlertTitle } from "./ui/alert";
+import {
+  RESTRICTED_METHODS,
+  UNRESTRICTED_METHODS,
+} from "@/constants/requestConstants";
 
 export const DetectedWallets = () => {
   const { wallets, connectWallet } = useWalletProvider();
+
+  // Restricted methods invocation
+  const personal_sign = async (provider: EIP6963ProviderDetail) => {
+    const params = [
+      "0x506c65617365207369676e2074686973206d65737361676520746f20636f6e6669726d20796f7572206964656e746974792e",
+      "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
+    ];
+    const signature = await provider.provider.request({
+      method: "personal_sign",
+      params,
+    });
+    return signature;
+  };
 
   const zond_requestAccounts = async (provider: EIP6963ProviderDetail) => {
     const accounts = await provider.provider.request({
       method: "zond_requestAccounts",
     });
-
-    console.log(">>>zond_requestAccounts: ", accounts);
-  };
-
-  const zond_accounts = async (provider: EIP6963ProviderDetail) => {
-    const accounts = await provider.provider.request({
-      method: "zond_accounts",
-    });
-
-    console.log(">>>zond_accounts: ", accounts);
+    return accounts;
   };
 
   const zond_sendTransaction = async (provider: EIP6963ProviderDetail) => {
@@ -53,13 +61,11 @@ export const DetectedWallets = () => {
     //   gas: "0x1cbb3",
     //   type: "0x2",
     // };
-
     const transactionReceipt = await provider.provider.request({
       method: "zond_sendTransaction",
       params: [requestForContractDeployment],
     });
-
-    console.log(">>>zond_sendTransaction: ", transactionReceipt);
+    return transactionReceipt;
   };
 
   const zond_signTypedData_v4 = async (provider: EIP6963ProviderDetail) => {
@@ -132,21 +138,46 @@ export const DetectedWallets = () => {
       method: "zond_signTypedData_v4",
       params: [from, msgParams],
     });
-
-    console.log(">>>zond_signTypedData_v4: ", signature);
+    return signature;
   };
 
-  const personal_sign = async (provider: EIP6963ProviderDetail) => {
-    const params = [
-      "0x506c65617365207369676e2074686973206d65737361676520746f20636f6e6669726d20796f7572206964656e746974792e",
-      "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
-    ];
-    const signature = await provider.provider.request({
-      method: "personal_sign",
-      params,
+  // Unrestricted methods invocation
+  const wallet_revokePermissions = async (provider: EIP6963ProviderDetail) => {
+    const response = await provider.provider.request({
+      method: "wallet_revokePermissions",
+      params: [{ zond_accounts: {} }],
     });
+    return response;
+  };
 
-    console.log(">>>zond_sendTransaction: ", signature);
+  const zond_accounts = async (provider: EIP6963ProviderDetail) => {
+    const accounts = await provider.provider.request({
+      method: "zond_accounts",
+      params: [],
+    });
+    return accounts;
+  };
+
+  const zond_blockNumber = async (provider: EIP6963ProviderDetail) => {
+    const blockNumber = await provider.provider.request({
+      method: "zond_blockNumber",
+      params: [],
+    });
+    return blockNumber;
+  };
+
+  const zond_call = async (provider: EIP6963ProviderDetail) => {
+    const returnData = await provider.provider.request({
+      method: "zond_call",
+      params: [
+        {
+          to: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+          value: "0x1",
+        },
+        "latest",
+      ],
+    });
+    return returnData;
   };
 
   const zond_chainId = async (provider: EIP6963ProviderDetail) => {
@@ -154,17 +185,21 @@ export const DetectedWallets = () => {
       method: "zond_chainId",
       params: [],
     });
-
-    console.log(">>>zond_chainId: ", chainId);
+    return chainId;
   };
 
-  const zond_getTransactionCount = async (provider: EIP6963ProviderDetail) => {
-    const transactionCount = await provider.provider.request({
-      method: "zond_getTransactionCount",
-      params: ["Z208318ecd68f26726CE7C54b29CaBA94584969B6", "latest"],
+  const zond_estimateGas = async (provider: EIP6963ProviderDetail) => {
+    const gasEstimate = await provider.provider.request({
+      method: "zond_estimateGas",
+      params: [
+        {
+          from: "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
+          to: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+          value: "0x1",
+        },
+      ],
     });
-
-    console.log(">>>zond_getTransactionCount: ", transactionCount);
+    return gasEstimate;
   };
 
   const zond_gasPrice = async (provider: EIP6963ProviderDetail) => {
@@ -172,8 +207,15 @@ export const DetectedWallets = () => {
       method: "zond_gasPrice",
       params: [],
     });
+    return gasPrice;
+  };
 
-    console.log(">>>zond_gasPrice: ", gasPrice);
+  const zond_getBalance = async (provider: EIP6963ProviderDetail) => {
+    const balance = await provider.provider.request({
+      method: "zond_getBalance",
+      params: ["Z208318ecd68f26726CE7C54b29CaBA94584969B6", "latest"],
+    });
+    return balance;
   };
 
   const zond_getBlockByHash = async (provider: EIP6963ProviderDetail) => {
@@ -184,8 +226,105 @@ export const DetectedWallets = () => {
         false,
       ],
     });
+    return blockInformation;
+  };
 
-    console.log(">>>zond_getBlockByHash: ", blockInformation);
+  const zond_getBlockByNumber = async (provider: EIP6963ProviderDetail) => {
+    const blockInformation = await provider.provider.request({
+      method: "zond_getBlockByNumber",
+      params: ["0x1", false],
+    });
+    return blockInformation;
+  };
+
+  const zond_getCode = async (provider: EIP6963ProviderDetail) => {
+    const code = await provider.provider.request({
+      method: "zond_getCode",
+      params: ["Z208318ecd68f26726CE7C54b29CaBA94584969B6", "latest"],
+    });
+    return code;
+  };
+
+  const zond_getTransactionByHash = async (provider: EIP6963ProviderDetail) => {
+    const transaction = await provider.provider.request({
+      method: "zond_getTransactionByHash",
+      params: [
+        "0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
+      ],
+    });
+    return transaction;
+  };
+
+  const zond_getTransactionCount = async (provider: EIP6963ProviderDetail) => {
+    const transactionCount = await provider.provider.request({
+      method: "zond_getTransactionCount",
+      params: ["Z208318ecd68f26726CE7C54b29CaBA94584969B6", "latest"],
+    });
+    return transactionCount;
+  };
+
+  const zond_getTransactionReceipt = async (
+    provider: EIP6963ProviderDetail
+  ) => {
+    const transactionReceipt = await provider.provider.request({
+      method: "zond_getTransactionReceipt",
+      params: [
+        "0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
+      ],
+    });
+    return transactionReceipt;
+  };
+
+  const callRpcMethod = async (
+    provider: EIP6963ProviderDetail,
+    method:
+      | (typeof UNRESTRICTED_METHODS)[keyof typeof UNRESTRICTED_METHODS]
+      | (typeof RESTRICTED_METHODS)[keyof typeof RESTRICTED_METHODS]
+  ) => {
+    try {
+      switch (method) {
+        case RESTRICTED_METHODS.PERSONAL_SIGN:
+          return personal_sign(provider);
+        case RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS:
+          return zond_requestAccounts(provider);
+        case RESTRICTED_METHODS.ZOND_SEND_TRANSACTION:
+          return zond_sendTransaction(provider);
+        case RESTRICTED_METHODS.ZOND_SIGN_TYPED_DATA_V4:
+          return zond_signTypedData_v4(provider);
+        case UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS:
+          return wallet_revokePermissions(provider);
+        case UNRESTRICTED_METHODS.ZOND_ACCOUNTS:
+          return zond_accounts(provider);
+        case UNRESTRICTED_METHODS.ZOND_BLOCK_NUMBER:
+          return zond_blockNumber(provider);
+        case UNRESTRICTED_METHODS.ZOND_CALL:
+          return zond_call(provider);
+        case UNRESTRICTED_METHODS.ZOND_CHAIN_ID:
+          return zond_chainId(provider);
+        case UNRESTRICTED_METHODS.ZOND_ESTIMATE_GAS:
+          return zond_estimateGas(provider);
+        case UNRESTRICTED_METHODS.ZOND_GAS_PRICE:
+          return zond_gasPrice(provider);
+        case UNRESTRICTED_METHODS.ZOND_GET_BALANCE:
+          return zond_getBalance(provider);
+        case UNRESTRICTED_METHODS.ZOND_GET_BLOCK_BY_HASH:
+          return zond_getBlockByHash(provider);
+        case UNRESTRICTED_METHODS.ZOND_GET_BLOCK_BY_NUMBER:
+          return zond_getBlockByNumber(provider);
+        case UNRESTRICTED_METHODS.ZOND_GET_CODE:
+          return zond_getCode(provider);
+        case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_BY_HASH:
+          return zond_getTransactionByHash(provider);
+        case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_COUNT:
+          return zond_getTransactionCount(provider);
+        case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_RECEIPT:
+          return zond_getTransactionReceipt(provider);
+        default:
+          return "Method not implemented for this provider.";
+      }
+    } catch (error) {
+      console.error(`Error calling ${method}:`, error);
+    }
   };
 
   return (
@@ -208,44 +347,46 @@ export const DetectedWallets = () => {
                 {provider.info.name}
               </div>
             </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-4 text-balance">
-              <div className="flex gap-6 flex-col">
-                <button
-                  className="w-40 flex flex-col gap-2 items-center p-4 border-2 dark:border-white border-gray-950 rounded-lg"
-                  key={provider.info.uuid}
-                  onClick={() => connectWallet(provider.info.rdns)}
-                >
-                  <img src={provider.info.icon} alt={provider.info.name} />
-                  <div>{provider.info.name}</div>
-                </button>
-
-                <button onClick={() => zond_requestAccounts(provider)}>
-                  zond_requestAccounts
-                </button>
-                <button onClick={() => zond_accounts(provider)}>
-                  zond_accounts
-                </button>
-                <button onClick={() => zond_sendTransaction(provider)}>
-                  zond_sendTransaction
-                </button>
-                <button onClick={() => zond_signTypedData_v4(provider)}>
-                  zond_signTypedData_v4
-                </button>
-                <button onClick={() => personal_sign(provider)}>
-                  personal_sign
-                </button>
-                <button onClick={() => zond_chainId(provider)}>
-                  zond_chainId
-                </button>
-                <button onClick={() => zond_getTransactionCount(provider)}>
-                  zond_getTransactionCount
-                </button>
-                <button onClick={() => zond_gasPrice(provider)}>
-                  zond_gasPrice
-                </button>
-                <Button onClick={() => zond_getBlockByHash(provider)}>
-                  zond_getBlockByHash
-                </Button>
+            <AccordionContent className="flex flex-col items-center space-y-6">
+              <Button
+                size="lg"
+                className="max-w-min"
+                onClick={() => connectWallet(provider.info.rdns)}
+              >
+                <PlugZap />
+                <span> Connect {provider.info.name}</span>
+              </Button>
+              <div className="w-full space-y-6">
+                <div className="space-y-2">
+                  <div className="font-bold">Restricted methods:</div>
+                  <div className="flex flex-wrap gap-2">
+                    {Object.values(RESTRICTED_METHODS).map((method, index) => (
+                      <Button
+                        key={method}
+                        variant="outline"
+                        onClick={() => callRpcMethod(provider, method)}
+                      >
+                        {index + 1}. {method}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="font-bold">Unrestricted methods:</div>
+                  <div className="flex flex-wrap gap-2">
+                    {Object.values(UNRESTRICTED_METHODS).map(
+                      (method, index) => (
+                        <Button
+                          key={method}
+                          variant="outline"
+                          onClick={() => callRpcMethod(provider, method)}
+                        >
+                          {index + 1}. {method}
+                        </Button>
+                      )
+                    )}
+                  </div>
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>

@@ -10,7 +10,7 @@ import {
 } from "./ui/card";
 
 export const WalletResponse = () => {
-  const { errorMessage, clearError } = useWalletProvider();
+  const { errorMessage } = useWalletProvider();
   const isError = !!errorMessage;
 
   return (
@@ -25,7 +25,10 @@ export const WalletResponse = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>{errorMessage}</div>
-            <Button variant="secondary" onClick={clearError}>
+            <Button
+              variant="secondary"
+              onClick={() => window.navigator.clipboard.writeText(errorMessage)}
+            >
               <Copy /> Copy response
             </Button>
           </CardContent>

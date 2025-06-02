@@ -12,6 +12,13 @@ import {
   RESTRICTED_METHODS,
   UNRESTRICTED_METHODS,
 } from "@/constants/requestConstants";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 
 export const DetectedWallets = () => {
   const { wallets, connectWallet } = useWalletProvider();
@@ -348,18 +355,33 @@ export const DetectedWallets = () => {
               </div>
             </AccordionTrigger>
             <AccordionContent className="flex flex-col items-center space-y-6">
-              <Button
-                size="lg"
-                className="max-w-min"
-                onClick={() => connectWallet(provider.info.rdns)}
-              >
-                <PlugZap />
-                <span> Connect {provider.info.name}</span>
-              </Button>
               <div className="w-full space-y-6">
-                <div className="space-y-2">
-                  <div className="font-bold">Restricted methods:</div>
-                  <div className="flex flex-wrap gap-2">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Connect wallet</CardTitle>
+                    <CardDescription>
+                      Connect this dApp with the wallet to interact with it
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex flex-wrap gap-4">
+                    <Button
+                      size="lg"
+                      className="max-w-min"
+                      onClick={() => connectWallet(provider.info.rdns)}
+                    >
+                      <PlugZap />
+                      <span> Connect {provider.info.name}</span>
+                    </Button>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Restricted methods</CardTitle>
+                    <CardDescription>
+                      The methods that require user's approval to execute
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex flex-wrap gap-4">
                     {Object.values(RESTRICTED_METHODS).map((method, index) => (
                       <Button
                         key={method}
@@ -369,11 +391,17 @@ export const DetectedWallets = () => {
                         {index + 1}. {method}
                       </Button>
                     ))}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="font-bold">Unrestricted methods:</div>
-                  <div className="flex flex-wrap gap-2">
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Unrestricted methods</CardTitle>
+                    <CardDescription>
+                      The methods that run in the background without user's
+                      approval
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex flex-wrap gap-4">
                     {Object.values(UNRESTRICTED_METHODS).map(
                       (method, index) => (
                         <Button
@@ -385,8 +413,8 @@ export const DetectedWallets = () => {
                         </Button>
                       )
                     )}
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               </div>
             </AccordionContent>
           </AccordionItem>

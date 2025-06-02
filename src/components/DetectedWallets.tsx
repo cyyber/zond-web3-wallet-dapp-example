@@ -21,7 +21,7 @@ import {
 } from "./ui/card";
 
 export const DetectedWallets = () => {
-  const { wallets, connectWallet } = useWalletProvider();
+  const { wallets, connectWallet, selectedWallet } = useWalletProvider();
 
   // Restricted methods invocation
   const personal_sign = async (provider: EIP6963ProviderDetail) => {
@@ -387,6 +387,9 @@ export const DetectedWallets = () => {
                         key={method}
                         variant="outline"
                         onClick={() => callRpcMethod(provider, method)}
+                        disabled={
+                          provider.info.name !== selectedWallet?.info.name
+                        }
                       >
                         {index + 1}. {method}
                       </Button>
@@ -408,6 +411,9 @@ export const DetectedWallets = () => {
                           key={method}
                           variant="outline"
                           onClick={() => callRpcMethod(provider, method)}
+                          disabled={
+                            provider.info.name !== selectedWallet?.info.name
+                          }
                         >
                           {index + 1}. {method}
                         </Button>

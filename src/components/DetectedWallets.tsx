@@ -1,3 +1,4 @@
+import { Wallet } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import {
   Accordion,
@@ -6,7 +7,7 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 import { Button } from "./ui/button";
-import { Card } from "./ui/card";
+import { Alert, AlertTitle } from "./ui/alert";
 
 export const DetectedWallets = () => {
   const { wallets, connectWallet } = useWalletProvider();
@@ -250,7 +251,12 @@ export const DetectedWallets = () => {
           </AccordionItem>
         ))
       ) : (
-        <Card>No wallets found!</Card>
+        <Alert variant="destructive" className="max-w-md">
+          <Wallet />
+          <AlertTitle>
+            No wallets detected. Please install a web3 wallet extension!
+          </AlertTitle>
+        </Alert>
       )}
     </Accordion>
   );

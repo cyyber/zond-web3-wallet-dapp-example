@@ -381,7 +381,7 @@ export const DetectedWallets = () => {
                   </CardHeader>
                   <CardContent className="flex flex-wrap gap-4">
                     {provider?.info.name === selectedWallet?.info.name ? (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 text-constructive">
                         <CheckCheck size="16" />
                         <span>Connected to {selectedWallet?.info.name}</span>
                       </div>

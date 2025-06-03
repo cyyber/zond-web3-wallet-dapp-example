@@ -1,4 +1,4 @@
-import { Copy } from "lucide-react";
+import { Bug, Copy } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import { Button } from "./ui/button";
 import {
@@ -18,13 +18,15 @@ export const WalletError = () => {
       <div className="flex flex-col gap-2">
         <Card>
           <CardHeader>
-            <CardTitle>Wallet Error</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Bug className="w-5" /> Wallet Error
+            </CardTitle>
             <CardDescription>
               The error occurred during wallet interaction
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="break-all max-h-48 overflow-y-auto">
+            <div className="break-all max-h-48 overflow-y-auto text-destructive">
               {errorMessage}
             </div>
             <Button

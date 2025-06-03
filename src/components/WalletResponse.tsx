@@ -1,4 +1,4 @@
-import { Copy } from "lucide-react";
+import { Copy, FileText } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import { Button } from "./ui/button";
 import {
@@ -18,7 +18,9 @@ export const WalletResponse = () => {
       <div className="flex flex-col gap-2">
         <Card>
           <CardHeader>
-            <CardTitle>Wallet Response</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="w-5" /> Wallet Response
+            </CardTitle>
             <CardDescription>
               The response from wallet interaction
             </CardDescription>

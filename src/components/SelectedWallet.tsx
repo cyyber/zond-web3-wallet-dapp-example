@@ -1,4 +1,4 @@
-import { Unplug } from "lucide-react";
+import { Unplug, Wallet } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import { Button } from "./ui/button";
 import {
@@ -24,7 +24,10 @@ export const SelectedWallet = () => {
     selectedAccount && (
       <Card>
         <CardHeader>
-          <CardTitle>Selected Wallet</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Wallet className="w-5" />
+            Selected Wallet
+          </CardTitle>
           <CardDescription>
             The wallet you've connected to this dApp
           </CardDescription>

@@ -1,4 +1,4 @@
-import { CheckCheck, PlugZap, Wallet } from "lucide-react";
+import { CheckCheck, Copy, PlugZap, Wallet } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import {
   Accordion,
@@ -31,6 +31,13 @@ export const DetectedWallets = () => {
     writeError,
     clearError,
   } = useWalletProvider();
+
+  const TEST_ACCOUNT_1 = "Z208318ecd68f26726CE7C54b29CaBA94584969B6";
+  const TEST_ACCOUNT_1_SEED =
+    "harsh altar congo heater chilly spade buy pore money swiss trendy stable decade bosom ironic maxim slab grill chosen text pouch recent eric text injury cheese trek tsar fish rogue tempo differ";
+  // const TEST_ACCOUNT_2 = "Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c";
+  // const TEST_ACCOUNT_2_SEED =
+  //   "stifle button kidnap melon japan here sound pursue bamboo bait plague among disco leper age entire hello aroma till lagoon load dome upward scrub pigsty gosh lick humid dinner supply gall badly";
 
   // Restricted methods invocation
   const personal_sign = async (provider: EIP6963ProviderDetail) => {
@@ -385,9 +392,44 @@ export const DetectedWallets = () => {
                   </CardHeader>
                   <CardContent className="flex flex-wrap gap-4">
                     {provider?.info.name === selectedWallet?.info.name ? (
-                      <div className="flex gap-2 text-constructive">
-                        <CheckCheck size="16" />
-                        <span>Connected to {selectedWallet?.info.name}</span>
+                      <div className="space-y-4">
+                        <div className="flex gap-2 text-constructive">
+                          <CheckCheck size="16" />
+                          <span>Connected to {selectedWallet?.info.name}</span>
+                        </div>
+                        <div className="space-y-2">
+                          <div>Test Account 1</div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold">
+                                {TEST_ACCOUNT_1}
+                              </span>
+                              <span>
+                                <Copy
+                                  className="cursor-pointer"
+                                  onClick={() =>
+                                    navigator.clipboard.writeText(
+                                      TEST_ACCOUNT_1
+                                    )
+                                  }
+                                />
+                              </span>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <span>{TEST_ACCOUNT_1_SEED}</span>
+                              <span>
+                                <Copy
+                                  className="cursor-pointer"
+                                  onClick={() =>
+                                    navigator.clipboard.writeText(
+                                      TEST_ACCOUNT_1_SEED
+                                    )
+                                  }
+                                />
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     ) : (
                       <Button

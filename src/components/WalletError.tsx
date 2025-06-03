@@ -1,4 +1,4 @@
-import { Paintbrush } from "lucide-react";
+import { Copy } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import { Button } from "./ui/button";
 import {
@@ -10,7 +10,7 @@ import {
 } from "./ui/card";
 
 export const WalletError = () => {
-  const { errorMessage, clearError } = useWalletProvider();
+  const { errorMessage } = useWalletProvider();
   const isError = !!errorMessage;
 
   return (
@@ -24,9 +24,14 @@ export const WalletError = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div>{errorMessage}</div>
-            <Button variant="secondary" onClick={clearError}>
-              <Paintbrush /> Clear error
+            <div className="break-all max-h-48 overflow-y-auto">
+              {errorMessage}
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => navigator.clipboard.writeText(errorMessage || "")}
+            >
+              <Copy /> Copy error
             </Button>
           </CardContent>
         </Card>

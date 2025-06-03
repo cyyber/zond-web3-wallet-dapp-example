@@ -36,7 +36,7 @@ export const DetectedWallets = () => {
   const personal_sign = async (provider: EIP6963ProviderDetail) => {
     const params = [
       "0x506c65617365207369676e2074686973206d65737361676520746f20636f6e6669726d20796f7572206964656e746974792e",
-      "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
+      "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
     ];
     const signature = await provider.provider.request({
       method: "personal_sign",
@@ -48,14 +48,14 @@ export const DetectedWallets = () => {
   const zond_sendTransaction = async (provider: EIP6963ProviderDetail) => {
     const requestForContractDeployment = {
       data: "0x608060405234801561001057600080fd5b5061010e806100206000396000f3fe6080604052600436106100295760003560e01c806306661abd1461002e57806360fe47b11461003c578063d09de08a14610057575b600080fd5b61003a61003a565b005b61004561009a565b60405161005291906100ce565b60405180910390f35b61005f6100a0565b60405161006c91906100ce565b60405180910390f35b60008054905090565b60005481565b60008054905090565b6000819050919050565b6100928161007f565b82525050565b60006020820190506100ad6000830184610089565b92915050565b6000819050919050565b6100c6816100b3565b82525050565b60006020820190506100e160008301846100bd565b9291505056fea26469706673582212202e7f728e9bfb79346c7c0c1570a776bd0b2e6f38e18738c9f76cc6fa0cf92adf64736f6c63430008000033",
-      from: "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
+      from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
       gas: "0x1cbb3",
       type: "0x2",
       value: "0x0",
     };
     // // Example request for a contract interaction
     // const requestForContractInteraction = {
-    //   from: "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
+    //   from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
     //   to: "Z3ca82a624ee8f3d5ee808ffeb7d7a1a06dd73b61",
     //   data: "0x60fe47b1000000000000000000000000000000000000000000000000000000000000007b",
     //   value: "0x0",
@@ -64,7 +64,7 @@ export const DetectedWallets = () => {
     // };
     // // Example request for a ZND transfer
     // const requestForZndTransfer = {
-    //   from: "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
+    //   from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
     //   to: "Z20EE9760786AD48aB90E326c5cd78c6269Ba10AB",
     //   value: "0xde0b6b3a7640000",
     //   gas: "0x1cbb3",
@@ -78,7 +78,7 @@ export const DetectedWallets = () => {
   };
 
   const zond_signTypedData_v4 = async (provider: EIP6963ProviderDetail) => {
-    const from = "Z20D20b8026B8F02540246f58120ddAAf35AECD9B";
+    const from = "Z208318ecd68f26726CE7C54b29CaBA94584969B6";
     const msgParams = {
       types: {
         EIP712Domain: [
@@ -172,7 +172,11 @@ export const DetectedWallets = () => {
       method: "zond_call",
       params: [
         {
-          to: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+          from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+          to: "Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c",
+          accessList: [],
+          blobVersionedHashes: [],
+          blobs: [],
           value: "0x1",
         },
         "latest",
@@ -194,8 +198,8 @@ export const DetectedWallets = () => {
       method: "zond_estimateGas",
       params: [
         {
-          from: "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
-          to: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+          from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+          to: "Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c",
           value: "0x1",
         },
       ],
@@ -214,7 +218,7 @@ export const DetectedWallets = () => {
   const zond_getBalance = async (provider: EIP6963ProviderDetail) => {
     const balance = await provider.provider.request({
       method: "zond_getBalance",
-      params: ["Z208318ecd68f26726CE7C54b29CaBA94584969B6", "latest"],
+      params: ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c", "latest"],
     });
     return balance;
   };
@@ -241,7 +245,7 @@ export const DetectedWallets = () => {
   const zond_getCode = async (provider: EIP6963ProviderDetail) => {
     const code = await provider.provider.request({
       method: "zond_getCode",
-      params: ["Z208318ecd68f26726CE7C54b29CaBA94584969B6", "latest"],
+      params: ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c", "latest"],
     });
     return code;
   };
@@ -259,7 +263,7 @@ export const DetectedWallets = () => {
   const zond_getTransactionCount = async (provider: EIP6963ProviderDetail) => {
     const transactionCount = await provider.provider.request({
       method: "zond_getTransactionCount",
-      params: ["Z208318ecd68f26726CE7C54b29CaBA94584969B6", "latest"],
+      params: ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c", "latest"],
     });
     return transactionCount;
   };

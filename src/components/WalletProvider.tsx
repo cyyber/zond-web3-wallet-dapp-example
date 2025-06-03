@@ -23,9 +23,11 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
     useState<SelectedAccountByWallet>({});
 
   const [response, setResponse] = useState("");
+  const writeResponse = (newResponse: string) => setResponse(newResponse);
   const clearResponse = () => setResponse("");
 
   const [errorMessage, setErrorMessage] = useState("");
+  const writeError = (newError: string) => setErrorMessage(newError);
   const clearError = () => setErrorMessage("");
 
   useEffect(() => {
@@ -79,6 +81,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
           method: UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS,
           params: [{ zond_accounts: {} }],
         });
+        return "";
       } catch (error) {
         console.error("Failed to revoke permissions:", error);
       }
@@ -93,7 +96,6 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
         const accounts = (await wallet.provider.request({
           method: RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS,
         })) as string[];
-        setResponse(`[${accounts.join(", ")}]`);
 
         if (accounts?.[0]) {
           setSelectedWalletRdns(wallet.info.rdns);
@@ -111,10 +113,11 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
             })
           );
         }
+        return accounts;
       } catch (error) {
         console.error("Failed to connect to provider:", error);
         const walletError: WalletError = error as WalletError;
-        setErrorMessage(
+        writeError(
           `Code: ${walletError.code}, \nMessage: ${walletError.message}`
         );
       }
@@ -131,10 +134,12 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
         ? null
         : selectedAccountByWalletRdns[selectedWalletRdns],
     response,
+    writeResponse,
     clearResponse,
     errorMessage,
     connectWallet,
     disconnectWallet,
+    writeError,
     clearError,
   };
 

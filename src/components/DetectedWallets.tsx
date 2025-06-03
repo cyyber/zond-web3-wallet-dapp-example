@@ -26,7 +26,9 @@ export const DetectedWallets = () => {
     connectWallet,
     disconnectWallet,
     selectedWallet,
+    writeResponse,
     clearResponse,
+    writeError,
     clearError,
   } = useWalletProvider();
 
@@ -288,7 +290,7 @@ export const DetectedWallets = () => {
       case RESTRICTED_METHODS.ZOND_SIGN_TYPED_DATA_V4:
         return await zond_signTypedData_v4(provider);
       case UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS:
-        return disconnectWallet();
+        return await disconnectWallet();
       case UNRESTRICTED_METHODS.ZOND_ACCOUNTS:
         return await zond_accounts(provider);
       case UNRESTRICTED_METHODS.ZOND_BLOCK_NUMBER:
@@ -331,8 +333,18 @@ export const DetectedWallets = () => {
     try {
       const response = await getRpcResponse(provider, method);
       console.log(`Response from ${method}:`, response);
+      writeResponse(
+        typeof response === "string"
+          ? response
+          : JSON.stringify(response, null, 2)
+      );
     } catch (error) {
       console.error(`Error calling ${method}:`, error);
+      writeError(
+        `Error calling ${method}: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
     }
   };
 

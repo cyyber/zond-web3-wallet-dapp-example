@@ -59,8 +59,10 @@ interface WalletProviderContext {
   selectedAccount: string | null; // The selected account address.
   response: string | null; // Response.
   errorMessage: string | null; // An error message.
-  connectWallet: (walletUuid: string) => Promise<void>; // Function to connect wallets.
-  disconnectWallet: () => void; // Function to disconnect wallets.
+  connectWallet: (walletUuid: string) => Promise<string[] | void>; // Function to connect wallets.
+  disconnectWallet: () => Promise<"" | void>; // Function to disconnect wallets.
+  writeResponse: (response: string) => void; // Function to write a response.
   clearResponse: () => void;
+  writeError: (errorMessage: string) => void; // Function to write an error message.
   clearError: () => void;
 }

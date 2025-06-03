@@ -26,7 +26,6 @@ export const WalletResponse = () => {
           <CardContent className="space-y-4">
             <div className="break-all max-h-48 overflow-y-auto">{response}</div>
             <Button
-              variant="secondary"
               onClick={() =>
                 window.navigator.clipboard.writeText(response || "")
               }

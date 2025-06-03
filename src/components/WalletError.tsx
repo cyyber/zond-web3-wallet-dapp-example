@@ -28,7 +28,6 @@ export const WalletError = () => {
               {errorMessage}
             </div>
             <Button
-              variant="secondary"
               onClick={() => navigator.clipboard.writeText(errorMessage || "")}
             >
               <Copy /> Copy error

@@ -1,4 +1,4 @@
-import { PlugZap, Wallet } from "lucide-react";
+import { CheckCheck, PlugZap, Wallet } from "lucide-react";
 import { useWalletProvider } from "../hooks/useWalletProvider";
 import {
   Accordion,
@@ -21,7 +21,14 @@ import {
 } from "./ui/card";
 
 export const DetectedWallets = () => {
-  const { wallets, connectWallet, selectedWallet } = useWalletProvider();
+  const {
+    wallets,
+    connectWallet,
+    disconnectWallet,
+    selectedWallet,
+    clearResponse,
+    clearError,
+  } = useWalletProvider();
 
   // Restricted methods invocation
   const personal_sign = async (provider: EIP6963ProviderDetail) => {
@@ -34,13 +41,6 @@ export const DetectedWallets = () => {
       params,
     });
     return signature;
-  };
-
-  const zond_requestAccounts = async (provider: EIP6963ProviderDetail) => {
-    const accounts = await provider.provider.request({
-      method: "zond_requestAccounts",
-    });
-    return accounts;
   };
 
   const zond_sendTransaction = async (provider: EIP6963ProviderDetail) => {
@@ -149,14 +149,6 @@ export const DetectedWallets = () => {
   };
 
   // Unrestricted methods invocation
-  const wallet_revokePermissions = async (provider: EIP6963ProviderDetail) => {
-    const response = await provider.provider.request({
-      method: "wallet_revokePermissions",
-      params: [{ zond_accounts: {} }],
-    });
-    return response;
-  };
-
   const zond_accounts = async (provider: EIP6963ProviderDetail) => {
     const accounts = await provider.provider.request({
       method: "zond_accounts",
@@ -282,53 +274,63 @@ export const DetectedWallets = () => {
     return transactionReceipt;
   };
 
+  const getRpcResponse = async (
+    provider: EIP6963ProviderDetail,
+    method: string
+  ) => {
+    switch (method) {
+      case RESTRICTED_METHODS.PERSONAL_SIGN:
+        return await personal_sign(provider);
+      case RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS:
+        return await connectWallet(provider.info.rdns);
+      case RESTRICTED_METHODS.ZOND_SEND_TRANSACTION:
+        return await zond_sendTransaction(provider);
+      case RESTRICTED_METHODS.ZOND_SIGN_TYPED_DATA_V4:
+        return await zond_signTypedData_v4(provider);
+      case UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS:
+        return disconnectWallet();
+      case UNRESTRICTED_METHODS.ZOND_ACCOUNTS:
+        return await zond_accounts(provider);
+      case UNRESTRICTED_METHODS.ZOND_BLOCK_NUMBER:
+        return await zond_blockNumber(provider);
+      case UNRESTRICTED_METHODS.ZOND_CALL:
+        return await zond_call(provider);
+      case UNRESTRICTED_METHODS.ZOND_CHAIN_ID:
+        return await zond_chainId(provider);
+      case UNRESTRICTED_METHODS.ZOND_ESTIMATE_GAS:
+        return await zond_estimateGas(provider);
+      case UNRESTRICTED_METHODS.ZOND_GAS_PRICE:
+        return await zond_gasPrice(provider);
+      case UNRESTRICTED_METHODS.ZOND_GET_BALANCE:
+        return await zond_getBalance(provider);
+      case UNRESTRICTED_METHODS.ZOND_GET_BLOCK_BY_HASH:
+        return await zond_getBlockByHash(provider);
+      case UNRESTRICTED_METHODS.ZOND_GET_BLOCK_BY_NUMBER:
+        return await zond_getBlockByNumber(provider);
+      case UNRESTRICTED_METHODS.ZOND_GET_CODE:
+        return await zond_getCode(provider);
+      case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_BY_HASH:
+        return await zond_getTransactionByHash(provider);
+      case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_COUNT:
+        return await zond_getTransactionCount(provider);
+      case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_RECEIPT:
+        return await zond_getTransactionReceipt(provider);
+      default:
+        return "Method not implemented for this provider.";
+    }
+  };
+
   const callRpcMethod = async (
     provider: EIP6963ProviderDetail,
     method:
       | (typeof UNRESTRICTED_METHODS)[keyof typeof UNRESTRICTED_METHODS]
       | (typeof RESTRICTED_METHODS)[keyof typeof RESTRICTED_METHODS]
   ) => {
+    clearResponse();
+    clearError();
     try {
-      switch (method) {
-        case RESTRICTED_METHODS.PERSONAL_SIGN:
-          return personal_sign(provider);
-        case RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS:
-          return zond_requestAccounts(provider);
-        case RESTRICTED_METHODS.ZOND_SEND_TRANSACTION:
-          return zond_sendTransaction(provider);
-        case RESTRICTED_METHODS.ZOND_SIGN_TYPED_DATA_V4:
-          return zond_signTypedData_v4(provider);
-        case UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS:
-          return wallet_revokePermissions(provider);
-        case UNRESTRICTED_METHODS.ZOND_ACCOUNTS:
-          return zond_accounts(provider);
-        case UNRESTRICTED_METHODS.ZOND_BLOCK_NUMBER:
-          return zond_blockNumber(provider);
-        case UNRESTRICTED_METHODS.ZOND_CALL:
-          return zond_call(provider);
-        case UNRESTRICTED_METHODS.ZOND_CHAIN_ID:
-          return zond_chainId(provider);
-        case UNRESTRICTED_METHODS.ZOND_ESTIMATE_GAS:
-          return zond_estimateGas(provider);
-        case UNRESTRICTED_METHODS.ZOND_GAS_PRICE:
-          return zond_gasPrice(provider);
-        case UNRESTRICTED_METHODS.ZOND_GET_BALANCE:
-          return zond_getBalance(provider);
-        case UNRESTRICTED_METHODS.ZOND_GET_BLOCK_BY_HASH:
-          return zond_getBlockByHash(provider);
-        case UNRESTRICTED_METHODS.ZOND_GET_BLOCK_BY_NUMBER:
-          return zond_getBlockByNumber(provider);
-        case UNRESTRICTED_METHODS.ZOND_GET_CODE:
-          return zond_getCode(provider);
-        case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_BY_HASH:
-          return zond_getTransactionByHash(provider);
-        case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_COUNT:
-          return zond_getTransactionCount(provider);
-        case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_RECEIPT:
-          return zond_getTransactionReceipt(provider);
-        default:
-          return "Method not implemented for this provider.";
-      }
+      const response = await getRpcResponse(provider, method);
+      console.log(`Response from ${method}:`, response);
     } catch (error) {
       console.error(`Error calling ${method}:`, error);
     }
@@ -364,14 +366,21 @@ export const DetectedWallets = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="flex flex-wrap gap-4">
-                    <Button
-                      size="lg"
-                      className="max-w-min"
-                      onClick={() => connectWallet(provider.info.rdns)}
-                    >
-                      <PlugZap />
-                      <span> Connect {provider.info.name}</span>
-                    </Button>
+                    {provider?.info.name === selectedWallet?.info.name ? (
+                      <div className="flex gap-2">
+                        <CheckCheck size="16" />
+                        <span>Connected to {selectedWallet?.info.name}</span>
+                      </div>
+                    ) : (
+                      <Button
+                        size="lg"
+                        className="max-w-min"
+                        onClick={() => connectWallet(provider.info.rdns)}
+                      >
+                        <PlugZap />
+                        <span> Connect {provider.info.name}</span>
+                      </Button>
+                    )}
                   </CardContent>
                 </Card>
                 <Card>

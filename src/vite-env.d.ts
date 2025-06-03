@@ -57,8 +57,10 @@ interface WalletProviderContext {
   wallets: Record<string, EIP6963ProviderDetail>; // A list of wallets.
   selectedWallet: EIP6963ProviderDetail | null; // The selected wallet.
   selectedAccount: string | null; // The selected account address.
+  response: string | null; // Response.
   errorMessage: string | null; // An error message.
   connectWallet: (walletUuid: string) => Promise<void>; // Function to connect wallets.
   disconnectWallet: () => void; // Function to disconnect wallets.
+  clearResponse: () => void;
   clearError: () => void;
 }

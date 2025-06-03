@@ -10,11 +10,11 @@ import {
 } from "./ui/card";
 
 export const WalletResponse = () => {
-  const { errorMessage } = useWalletProvider();
-  const isError = !!errorMessage;
+  const { response } = useWalletProvider();
+  const hasResponse = !!response;
 
   return (
-    isError && (
+    hasResponse && (
       <div className="flex flex-col gap-2">
         <Card>
           <CardHeader>
@@ -24,10 +24,12 @@ export const WalletResponse = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div>{errorMessage}</div>
+            <div className="break-all">{response}</div>
             <Button
               variant="secondary"
-              onClick={() => window.navigator.clipboard.writeText(errorMessage)}
+              onClick={() =>
+                window.navigator.clipboard.writeText(response || "")
+              }
             >
               <Copy /> Copy response
             </Button>

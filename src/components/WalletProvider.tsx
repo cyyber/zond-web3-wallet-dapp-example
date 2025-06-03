@@ -1,5 +1,9 @@
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { WalletProviderContext } from "../contexts/walletProviderContext";
+import {
+  RESTRICTED_METHODS,
+  UNRESTRICTED_METHODS,
+} from "@/constants/requestConstants";
 
 // Extending the global WindowEventMap interface with the custom eip6963:announceProvider event
 declare global {
@@ -17,6 +21,9 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
   const [selectedAccountByWalletRdns, setSelectedAccountByWalletRdns] =
     useState<SelectedAccountByWallet>({});
+
+  const [response, setResponse] = useState("");
+  const clearResponse = () => setResponse("");
 
   const [errorMessage, setErrorMessage] = useState("");
   const clearError = () => setErrorMessage("");
@@ -54,13 +61,39 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       window.removeEventListener("eip6963:announceProvider", onAnnouncement);
   }, []);
 
+  const disconnectWallet = useCallback(async () => {
+    clearResponse();
+    clearError();
+    if (selectedWalletRdns) {
+      setSelectedAccountByWalletRdns((currentAccounts) => ({
+        ...currentAccounts,
+        [selectedWalletRdns]: null,
+      }));
+
+      const wallet = wallets[selectedWalletRdns];
+      setSelectedWalletRdns(null);
+      localStorage.removeItem("selectedWalletRdns");
+
+      try {
+        await wallet.provider.request({
+          method: UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS,
+          params: [{ zond_accounts: {} }],
+        });
+      } catch (error) {
+        console.error("Failed to revoke permissions:", error);
+      }
+    }
+  }, [selectedWalletRdns, wallets]);
+
   const connectWallet = useCallback(
     async (walletRdns: string) => {
+      await disconnectWallet();
       try {
         const wallet = wallets[walletRdns];
         const accounts = (await wallet.provider.request({
-          method: "zond_requestAccounts",
+          method: RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS,
         })) as string[];
+        setResponse(`[${accounts.join(", ")}]`);
 
         if (accounts?.[0]) {
           setSelectedWalletRdns(wallet.info.rdns);
@@ -86,30 +119,8 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
         );
       }
     },
-    [wallets, selectedAccountByWalletRdns]
+    [disconnectWallet, wallets, selectedAccountByWalletRdns]
   );
-
-  const disconnectWallet = useCallback(async () => {
-    if (selectedWalletRdns) {
-      setSelectedAccountByWalletRdns((currentAccounts) => ({
-        ...currentAccounts,
-        [selectedWalletRdns]: null,
-      }));
-
-      const wallet = wallets[selectedWalletRdns];
-      setSelectedWalletRdns(null);
-      localStorage.removeItem("selectedWalletRdns");
-
-      try {
-        await wallet.provider.request({
-          method: "wallet_revokePermissions",
-          params: [{ zond_accounts: {} }],
-        });
-      } catch (error) {
-        console.error("Failed to revoke permissions:", error);
-      }
-    }
-  }, [selectedWalletRdns, wallets]);
 
   const contextValue: WalletProviderContext = {
     wallets,
@@ -119,6 +130,8 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       selectedWalletRdns === null
         ? null
         : selectedAccountByWalletRdns[selectedWalletRdns],
+    response,
+    clearResponse,
     errorMessage,
     connectWallet,
     disconnectWallet,

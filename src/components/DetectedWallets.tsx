@@ -342,7 +342,9 @@ export const DetectedWallets = () => {
       console.error(`Error calling ${method}:`, error);
       writeError(
         `Error calling ${method}: ${
-          error instanceof Error ? error.message : String(error)
+          typeof error === "string"
+            ? error
+            : JSON.stringify(error, null, 2) || "Unknown error"
         }`
       );
     }

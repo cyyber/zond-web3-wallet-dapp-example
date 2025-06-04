@@ -19,6 +19,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useWalletProvider } from "@/hooks/useWalletProvider";
+import { TEST_ACCOUNT_1, TEST_ACCOUNT_1_SEED } from "@/constants/testAccounts";
 
 export const DetectedWallets = () => {
   const {
@@ -32,14 +33,6 @@ export const DetectedWallets = () => {
     clearError,
   } = useWalletProvider();
 
-  const TEST_ACCOUNT_1 = "Z208318ecd68f26726CE7C54b29CaBA94584969B6";
-  const TEST_ACCOUNT_1_SEED =
-    "harsh altar congo heater chilly spade buy pore money swiss trendy stable decade bosom ironic maxim slab grill chosen text pouch recent eric text injury cheese trek tsar fish rogue tempo differ";
-  // const TEST_ACCOUNT_2 = "Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c";
-  // const TEST_ACCOUNT_2_SEED =
-  //   "stifle button kidnap melon japan here sound pursue bamboo bait plague among disco leper age entire hello aroma till lagoon load dome upward scrub pigsty gosh lick humid dinner supply gall badly";
-
-  // Restricted methods invocation
   const personal_sign = async (provider: EIP6963ProviderDetail) => {
     const params = [
       "0x506c65617365207369676e2074686973206d65737361676520746f20636f6e6669726d20796f7572206964656e746974792e",

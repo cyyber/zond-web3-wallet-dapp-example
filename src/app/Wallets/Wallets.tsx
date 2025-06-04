@@ -1,16 +1,16 @@
 import { ThemeProvider } from "@/contexts/themeProviderContext";
-import { DetectedWallets } from "./DetectedWallets";
-import { SelectedWallet } from "./SelectedWallet";
+import { DetectedWallets } from "./DetectedWallets/DetectedWallets";
+import { SelectedWallet } from "./SelectedWallet/SelectedWallet";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { WalletError } from "./WalletError";
+} from "@/components/ui/card";
+import { WalletError } from "./WalletError/WalletError";
 import { WalletProvider } from "./WalletProvider";
-import { WalletResponse } from "./WalletResponse";
+import { WalletResponse } from "./WalletResponse/WalletResponse";
 
 export const Wallets = () => {
   return (

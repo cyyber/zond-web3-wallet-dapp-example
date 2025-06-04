@@ -1,9 +1,9 @@
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
-import { WalletProviderContext } from "../contexts/walletProviderContext";
 import {
   RESTRICTED_METHODS,
   UNRESTRICTED_METHODS,
 } from "@/constants/requestConstants";
+import { WalletProviderContext } from "@/contexts/walletProviderContext";
 
 // Extending the global WindowEventMap interface with the custom eip6963:announceProvider event
 declare global {

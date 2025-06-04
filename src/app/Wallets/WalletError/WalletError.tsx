@@ -1,13 +1,13 @@
-import { Bug, Copy } from "lucide-react";
-import { useWalletProvider } from "../hooks/useWalletProvider";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "@/components/ui/card";
+import { useWalletProvider } from "@/hooks/useWalletProvider";
+import { Bug, Copy } from "lucide-react";
 
 export const WalletError = () => {
   const { errorMessage } = useWalletProvider();

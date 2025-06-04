@@ -1,4 +1,4 @@
-import { Wallets } from "./components/Wallets";
+import { Wallets } from "./app/Wallets/Wallets";
 
 function App() {
   return <Wallets />;

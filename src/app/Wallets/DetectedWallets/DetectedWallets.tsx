@@ -1,13 +1,12 @@
 import { CheckCheck, Copy, PlugZap, Wallet } from "lucide-react";
-import { useWalletProvider } from "../hooks/useWalletProvider";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion";
-import { Button } from "./ui/button";
-import { Alert, AlertTitle } from "./ui/alert";
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import {
   RESTRICTED_METHODS,
   UNRESTRICTED_METHODS,
@@ -18,7 +17,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "@/components/ui/card";
+import { useWalletProvider } from "@/hooks/useWalletProvider";
 
 export const DetectedWallets = () => {
   const {

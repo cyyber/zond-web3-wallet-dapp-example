@@ -1,13 +1,13 @@
-import { Copy, FileText } from "lucide-react";
-import { useWalletProvider } from "../hooks/useWalletProvider";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "@/components/ui/card";
+import { useWalletProvider } from "@/hooks/useWalletProvider";
+import { Copy, FileText } from "lucide-react";
 
 export const WalletResponse = () => {
   const { response } = useWalletProvider();

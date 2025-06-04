@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,14 +7,15 @@ import {
 } from "@/components/ui/card";
 import { TEST_ACCOUNT_1, TEST_ACCOUNT_1_SEED } from "@/constants/testAccounts";
 import { useWalletProvider } from "@/hooks/useWalletProvider";
-import { CheckCheck, Copy, PlugZap } from "lucide-react";
+import { CheckCheck, Copy } from "lucide-react";
+import { ConnectButton } from "./ConnectButton/ConnectButton";
 
 type ConnectWalletProps = {
   provider: EIP6963ProviderDetail;
 };
 
 export const ConnectWallet = ({ provider }: ConnectWalletProps) => {
-  const { connectWallet, selectedWallet } = useWalletProvider();
+  const { selectedWallet } = useWalletProvider();
 
   return (
     <Card>
@@ -61,14 +61,7 @@ export const ConnectWallet = ({ provider }: ConnectWalletProps) => {
             </div>
           </div>
         ) : (
-          <Button
-            size="lg"
-            className="max-w-min"
-            onClick={() => connectWallet(provider.info.rdns)}
-          >
-            <PlugZap />
-            <span> Connect {provider.info.name}</span>
-          </Button>
+          <ConnectButton provider={provider} />
         )}
       </CardContent>
     </Card>

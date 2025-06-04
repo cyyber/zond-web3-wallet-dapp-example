@@ -1,16 +1,7 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   RESTRICTED_METHODS,
   UNRESTRICTED_METHODS,
 } from "@/constants/requestConstants";
-import { TEST_ACCOUNT_1, TEST_ACCOUNT_1_SEED } from "@/constants/testAccounts";
 import {
   personal_sign,
   zond_sendTransaction,
@@ -32,7 +23,8 @@ import {
   zond_getTransactionReceipt,
 } from "@/functions/unrestrictedMethods";
 import { useWalletProvider } from "@/hooks/useWalletProvider";
-import { CheckCheck, Copy, PlugZap } from "lucide-react";
+import { ConnectWallet } from "./ConnectWallet/ConnectWallet";
+import { MethodsList } from "./MethodsList/MethodsList";
 
 type WalletContentProps = { provider: EIP6963ProviderDetail };
 
@@ -40,7 +32,6 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
   const {
     connectWallet,
     disconnectWallet,
-    selectedWallet,
     writeResponse,
     clearResponse,
     writeError,
@@ -121,102 +112,29 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
     }
   };
 
+  const callMethod = (
+    method:
+      | (typeof RESTRICTED_METHODS)[keyof typeof RESTRICTED_METHODS]
+      | (typeof UNRESTRICTED_METHODS)[keyof typeof UNRESTRICTED_METHODS]
+  ) => callRpcMethod(provider, method);
+
   return (
     <div className="w-full space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Connect wallet</CardTitle>
-          <CardDescription>
-            Connect this dApp with the wallet to interact with it
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-4">
-          {provider?.info.name === selectedWallet?.info.name ? (
-            <div className="space-y-4">
-              <div className="flex gap-2 text-constructive">
-                <CheckCheck size="16" />
-                <span>Connected to {selectedWallet?.info.name}</span>
-              </div>
-              <div className="space-y-2">
-                <div>Test Account 1</div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold">{TEST_ACCOUNT_1}</span>
-                    <span>
-                      <Copy
-                        className="cursor-pointer"
-                        onClick={() =>
-                          navigator.clipboard.writeText(TEST_ACCOUNT_1)
-                        }
-                      />
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span>{TEST_ACCOUNT_1_SEED}</span>
-                    <span>
-                      <Copy
-                        className="cursor-pointer"
-                        onClick={() =>
-                          navigator.clipboard.writeText(TEST_ACCOUNT_1_SEED)
-                        }
-                      />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <Button
-              size="lg"
-              className="max-w-min"
-              onClick={() => connectWallet(provider.info.rdns)}
-            >
-              <PlugZap />
-              <span> Connect {provider.info.name}</span>
-            </Button>
-          )}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Restricted methods</CardTitle>
-          <CardDescription>
-            The methods that require user's approval to execute
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-4">
-          {Object.values(RESTRICTED_METHODS).map((method, index) => (
-            <Button
-              key={method}
-              variant="outline"
-              onClick={() => callRpcMethod(provider, method)}
-              disabled={provider.info.name !== selectedWallet?.info.name}
-            >
-              {index + 1}. {method}
-            </Button>
-          ))}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Unrestricted methods</CardTitle>
-          <CardDescription>
-            The methods that run in the background without user's approval
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-4">
-          {Object.values(UNRESTRICTED_METHODS).map((method, index) => (
-            <Button
-              key={method}
-              variant="outline"
-              onClick={() => callRpcMethod(provider, method)}
-              disabled={provider.info.name !== selectedWallet?.info.name}
-            >
-              {index + 1}. {method}
-            </Button>
-          ))}
-        </CardContent>
-      </Card>
+      <ConnectWallet provider={provider} />
+      <MethodsList
+        provider={provider}
+        title="Restricted methods"
+        description="The methods that require user's approval to execute"
+        isRestricted={true}
+        callMethod={callMethod}
+      />
+      <MethodsList
+        provider={provider}
+        title="Unrestricted methods"
+        description="The methods that can be called without user's approval"
+        isRestricted={false}
+        callMethod={callMethod}
+      />
     </div>
   );
 };

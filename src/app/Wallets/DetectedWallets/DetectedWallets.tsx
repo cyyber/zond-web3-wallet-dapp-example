@@ -1,4 +1,3 @@
-import { CheckCheck, Copy, PlugZap, Wallet } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -6,11 +5,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertTitle } from "@/components/ui/alert";
-import {
-  RESTRICTED_METHODS,
-  UNRESTRICTED_METHODS,
-} from "@/constants/requestConstants";
 import {
   Card,
   CardContent,
@@ -18,7 +12,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useWalletProvider } from "@/hooks/useWalletProvider";
+import {
+  RESTRICTED_METHODS,
+  UNRESTRICTED_METHODS,
+} from "@/constants/requestConstants";
 import { TEST_ACCOUNT_1, TEST_ACCOUNT_1_SEED } from "@/constants/testAccounts";
 import {
   personal_sign,
@@ -40,6 +37,9 @@ import {
   zond_getTransactionCount,
   zond_getTransactionReceipt,
 } from "@/functions/unrestrictedMethods";
+import { useWalletProvider } from "@/hooks/useWalletProvider";
+import { CheckCheck, Copy, PlugZap } from "lucide-react";
+import { NoWalletsDetected } from "./NoWalletsDetected/NoWalletsDetected";
 
 export const DetectedWallets = () => {
   const {
@@ -261,12 +261,7 @@ export const DetectedWallets = () => {
           </AccordionItem>
         ))
       ) : (
-        <Alert variant="destructive" className="max-w-md">
-          <Wallet />
-          <AlertTitle>
-            No wallets detected. Please install a web3 wallet extension!
-          </AlertTitle>
-        </Alert>
+        <NoWalletsDetected />
       )}
     </Accordion>
   );

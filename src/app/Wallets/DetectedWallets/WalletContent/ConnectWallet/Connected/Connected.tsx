@@ -1,9 +1,17 @@
-import { TEST_ACCOUNT_1, TEST_ACCOUNT_1_SEED } from "@/constants/testAccounts";
 import { useWalletProvider } from "@/hooks/useWalletProvider";
-import { CheckCheck, Copy } from "lucide-react";
+import { CheckCheck } from "lucide-react";
+import { TestAccount } from "./TestAccount/TestAccount";
+import {
+  TEST_ACCOUNT_1,
+  TEST_ACCOUNT_1_SEED,
+  TEST_ACCOUNT_2,
+  TEST_ACCOUNT_2_SEED,
+} from "@/constants/testAccounts";
 
 export const Connected = () => {
   const { selectedWallet } = useWalletProvider();
+
+  const isZondWeb3Wallet = selectedWallet?.info.name === "ZondWeb3Wallet";
 
   return (
     <div className="space-y-4">
@@ -11,31 +19,20 @@ export const Connected = () => {
         <CheckCheck size="16" />
         <span>Connected to {selectedWallet?.info.name}</span>
       </div>
-      <div className="space-y-2">
-        <div>Test Account 1</div>
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="font-bold">{TEST_ACCOUNT_1}</span>
-            <span>
-              <Copy
-                className="cursor-pointer"
-                onClick={() => navigator.clipboard.writeText(TEST_ACCOUNT_1)}
-              />
-            </span>
-          </div>
-          <div className="flex items-start gap-2">
-            <span>{TEST_ACCOUNT_1_SEED}</span>
-            <span>
-              <Copy
-                className="cursor-pointer"
-                onClick={() =>
-                  navigator.clipboard.writeText(TEST_ACCOUNT_1_SEED)
-                }
-              />
-            </span>
-          </div>
+      {isZondWeb3Wallet && (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <TestAccount
+            title="Test account 1"
+            account={TEST_ACCOUNT_1}
+            seed={TEST_ACCOUNT_1_SEED}
+          />
+          <TestAccount
+            title="Test account 2"
+            account={TEST_ACCOUNT_2}
+            seed={TEST_ACCOUNT_2_SEED}
+          />
         </div>
-      </div>
+      )}
     </div>
   );
 };

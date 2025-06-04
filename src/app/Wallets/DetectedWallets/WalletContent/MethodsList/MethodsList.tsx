@@ -16,7 +16,7 @@ type MethodsListProps = {
   provider: EIP6963ProviderDetail;
   title: string;
   description: string;
-  isRestricted?: boolean;
+  isRestricted: boolean;
   callMethod: (
     method:
       | (typeof RESTRICTED_METHODS)[keyof typeof RESTRICTED_METHODS]
@@ -28,7 +28,7 @@ export const MethodsList = ({
   provider,
   title,
   description,
-  isRestricted = true,
+  isRestricted,
   callMethod,
 }: MethodsListProps) => {
   const { selectedWallet } = useWalletProvider();

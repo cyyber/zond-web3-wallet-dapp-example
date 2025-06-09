@@ -27,10 +27,36 @@ The methods when called, asks for user approval before executing. A request scre
 
 | No. | Method                                          |
 | --- | ----------------------------------------------- |
-| 1   | [zond_requestAccounts](#1-zond_requestaccounts) |
-| 2   | [zond_sendTransaction](#2-zond_sendTransaction) |
+| 1   | [personal_sign](#1-personal_sign)               |
+| 2   | [zond_requestAccounts](#2-zond_requestaccounts) |
+| 3   | [zond_sendTransaction](#3-zond_sendTransaction) |
 
-#### 1. zond_requestAccounts
+#### 1. personal_sign
+
+A method that presents a plain text signature challenge to the user and returns the signed response and the public key for verification. The parameters are hex-encoded UTF-8 challenge string and the address of the requesting account.
+
+- ##### Request
+
+> ```typescript
+> const accounts = await provider.request({
+>   method: "personal_sign",
+>   params: [
+>     "0x506c65617365207369676e2074686973206d65737361676520746f20636f6e6669726d20796f7572206964656e746974792e",
+>     "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "signature": "0x0087c28d899155115254bbd...",
+>   "publicKey": "0x04bfcabf8c1b1a5a7e25f9b..."
+> }
+> ```
+
+#### 2. zond_requestAccounts
 
 A method that prompts the user to connect their Zond account(s) with the dApp.
 
@@ -52,7 +78,7 @@ A method that prompts the user to connect their Zond account(s) with the dApp.
 > ]
 > ```
 
-#### 2. zond_sendTransaction
+#### 3. zond_sendTransaction
 
 A method that prompts the user to make a transaction like ZND transfer, contract deployment and contract interaction.
 

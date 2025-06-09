@@ -4,11 +4,12 @@
 
 A dApp web application for demonstrating the connectivity(based on EIP-6963) to the Zond Web3 Wallet web extension.
 
-The application renders 3 sections:
+The application renders the following sections:
 
-- **Detected Wallets:** Displays all the wallets(supporting EIP-6963) installed in the browser. The wallet's icon and name is displayed. To connect to a wallet, click on the desired wallet.
-- **Selected Wallet:** On succesfully connecting to a wallet, the wallet name, connected account address, uuid and rdns is displayed in this section.
-- **Wallet Error:** On rejecting the connection request, or if any errors are thrown, it is displayed in this section.
+- **Wallets Detected:** Displays all the wallets(supporting EIP-6963) installed in the browser in an expandable form. The wallet's icon and name is displayed. To connect to a wallet, click on the connect button of the desired wallet. On connecting to a wallet, all the restricted methods(which requires user's approval to execute) and unrestricted methods(which doesn't require user's approval) will be listed on the screen.
+- **Selected Wallet:** This section will be visible only when the wallet is connected. On successfully connecting to a wallet, the wallet name, connected account address, uuid and rdns are displayed in this section.
+- **Wallet Response:** This section will be visible only when the wallet is connected. On successfully completing a request, the response is displayed here.
+- **Wallet Error:** This section will be visible only when the wallet is connected. For a failed or unsuccessful request, the error is displayed here.
 
 ## :keyboard: Run locally
 

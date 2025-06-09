@@ -166,12 +166,13 @@ The methods when called, silently gives back response without needing any intera
 | 2   | [zond_accounts](#2-zond_accounts)                            |
 | 3   | [zond_blockNumber](#3-zond_blockNumber)                      |
 | 4   | [zond_call](#4-zond_call)                                    |
-| 5   | [zond_estimateGas](#5-zond_estimateGas)                      |
-| 6   | [zond_getBalance](#6-zond_getBalance)                        |
-| 7   | [zond_getBlockByNumber](#7-zond_getBlockByNumber)            |
-| 8   | [zond_getCode](#8-zond_getCode)                              |
-| 9   | [zond_getTransactionByHash](#9-zond_getTransactionByHash)    |
-| 10  | [zond_getTransactionReceipt](#10-zond_getTransactionReceipt) |
+| 5   | [zond_chainId](#5-zond_chainId)                              |
+| 6   | [zond_estimateGas](#6-zond_estimateGas)                      |
+| 7   | [zond_getBalance](#7-zond_getBalance)                        |
+| 8   | [zond_getBlockByNumber](#8-zond_getBlockByNumber)            |
+| 9   | [zond_getCode](#9-zond_getCode)                              |
+| 10  | [zond_getTransactionByHash](#10-zond_getTransactionByHash)   |
+| 11  | [zond_getTransactionReceipt](#11-zond_getTransactionReceipt) |
 
 #### 1. wallet_revokePermissions
 
@@ -259,7 +260,26 @@ A method for creating a new message call immediately.
 > "0x"
 > ```
 
-#### 5. zond_estimateGas
+#### 5. zond_chainId
+
+A method for returning the chain ID of the current network.
+
+- ##### Request
+
+> ```typescript
+> const chainId = await provider.request({
+>   method: "zond_chainId",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x7e7e"
+> ```
+
+#### 6. zond_estimateGas
 
 A method for calculating the estimate of how much gas is necessary for the transaction.
 
@@ -284,7 +304,7 @@ A method for calculating the estimate of how much gas is necessary for the trans
 > "0x5208"
 > ```
 
-#### 6. zond_getBalance
+#### 7. zond_getBalance
 
 A method for returning the balance of the given account.
 
@@ -303,7 +323,7 @@ A method for returning the balance of the given account.
 > "0x6cfe56f3795885980005"
 > ```
 
-#### 7. zond_getBlockByNumber
+#### 8. zond_getBlockByNumber
 
 A method that returns the block information by number.
 
@@ -329,7 +349,7 @@ A method that returns the block information by number.
 > }
 > ```
 
-#### 8. zond_getCode
+#### 9. zond_getCode
 
 A method for returning the code at a given address.
 
@@ -348,7 +368,7 @@ A method for returning the code at a given address.
 > "0x60806040526004361060485763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416633fa4f2458114604d57806355241077146071575b600080fd5b348015605857600080fd5b50605f6088565b60408051918252519081900360200190f35b348015607c57600080fd5b506086600435608e565b005b60005481565b60008190556040805182815290517f199cd93e851e4c78c437891155e2112093f8f15394aa89dab09e38d6ca0727879181900360200190a1505600a165627a7a723058209d8929142720a69bde2ab3bfa2da6217674b984899b62753979743c0470a2ea70029"
 > ```
 
-#### 9. zond_getTransactionByHash
+#### 10. zond_getTransactionByHash
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -375,7 +395,7 @@ A method for returning the information about a transaction requested by transact
 > }
 > ```
 
-#### 10. zond_getTransactionReceipt
+#### 11. zond_getTransactionReceipt
 
 A method for returning the receipt of a transaction by transaction hash.
 

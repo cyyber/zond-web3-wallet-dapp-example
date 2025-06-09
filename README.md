@@ -39,7 +39,7 @@ A method that presents a plain text signature challenge to the user and returns 
 - ##### Request
 
 > ```typescript
-> const accounts = await provider.request({
+> const signedData = await provider.request({
 >   method: "personal_sign",
 >   params: [
 >     "0x506c65617365207369676e2074686973206d65737361676520746f20636f6e6669726d20796f7572206964656e746974792e",
@@ -114,7 +114,7 @@ A method that presents a data message for the user to sign in a structured and r
 - ##### Request
 
 > ```typescript
-> const txHash = await provider.request({
+> const signedData = await provider.request({
 >   method: "zond_signTypedData_v4",
 >   params: [
 >     "Z208318ecd68f26726CE7C54b29CaBA94584969B6"

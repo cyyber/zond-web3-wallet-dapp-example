@@ -25,11 +25,12 @@ Communication between a dApp and Zond Web3 Wallet happens via JSON-RPC API reque
 
 The methods when called, asks for user approval before executing. A request screen will be presented with an option to either approve or reject the request.
 
-| No. | Method                                          |
-| --- | ----------------------------------------------- |
-| 1   | [personal_sign](#1-personal_sign)               |
-| 2   | [zond_requestAccounts](#2-zond_requestaccounts) |
-| 3   | [zond_sendTransaction](#3-zond_sendTransaction) |
+| No. | Method                                            |
+| --- | ------------------------------------------------- |
+| 1   | [personal_sign](#1-personal_sign)                 |
+| 2   | [zond_requestAccounts](#2-zond_requestaccounts)   |
+| 3   | [zond_sendTransaction](#3-zond_sendTransaction)   |
+| 4   | [zond_signTypedData_v4](#4-zond_signTypedData_v4) |
 
 #### 1. personal_sign
 
@@ -104,6 +105,55 @@ A method that prompts the user to make a transaction like ZND transfer, contract
 
 > ```json
 > "0x3e306b5a5a37532e1734503f7d2427a86f2c992fbe471f5be403b9f734e661c5"
+> ```
+
+#### 4. zond_signTypedData_v4
+
+A method that presents a data message for the user to sign in a structured and readable format and returns the signature and the public key.
+
+- ##### Request
+
+> ```typescript
+> const txHash = await provider.request({
+>   method: "zond_signTypedData_v4",
+>   params: [
+>     "Z208318ecd68f26726CE7C54b29CaBA94584969B6"
+>     {
+>       types: {
+>           EIP712Domain: [...],
+>           Person: [...],
+>           Mail: [...],
+>       },
+>       primaryType: "Mail",
+>       domain: {
+>           name: "Ether Mail",
+>           version: "1",
+>           chainId: 1,
+>           verifyingContract: "ZDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF",
+>       },
+>       message: {
+>           from: {
+>               name: "Last",
+>               wallet: "ZCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
+>           },
+>           to: {
+>               name: "Genesis",
+>               wallet: "ZbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+>           },
+>           contents: "Hello, Genesis!",
+>       },
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "signature": "0x0087c28d899155115254bbd...",
+>   "publicKey": "0x04bfcabf8c1b1a5a7e25f9b..."
+> }
 > ```
 
 ### Unrestricted Methods

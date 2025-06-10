@@ -170,10 +170,11 @@ The methods when called, silently gives back response without needing any intera
 | 6   | [zond_estimateGas](#6-zond_estimateGas)                      |
 | 7   | [zond_gasPrice](#7-zond_gasPrice)                            |
 | 8   | [zond_getBalance](#8-zond_getBalance)                        |
-| 9   | [zond_getBlockByNumber](#9-zond_getBlockByNumber)            |
-| 10  | [zond_getCode](#10-zond_getCode)                             |
-| 11  | [zond_getTransactionByHash](#11-zond_getTransactionByHash)   |
-| 12  | [zond_getTransactionReceipt](#12-zond_getTransactionReceipt) |
+| 9   | [zond_getBlockByHash](#9-zond_getBlockByHash)                |
+| 10  | [zond_getBlockByNumber](#10-zond_getBlockByNumber)           |
+| 11  | [zond_getCode](#11-zond_getCode)                             |
+| 12  | [zond_getTransactionByHash](#12-zond_getTransactionByHash)   |
+| 13  | [zond_getTransactionReceipt](#13-zond_getTransactionReceipt) |
 
 #### 1. wallet_revokePermissions
 
@@ -343,7 +344,36 @@ A method for returning the balance of the given account.
 > "0x6cfe56f3795885980005"
 > ```
 
-#### 9. zond_getBlockByNumber
+#### 9. zond_getBlockByHash
+
+A method for returning information about a block by hash.
+
+- ##### Request
+
+> ```typescript
+> const blockInformation = await provider.request({
+>   method: "zond_getBlockByHash",
+>   params: [
+>     "0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
+>     false,
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "baseFeePerGas":"0x7",
+>   "extraData":"0xd882020085677a6f6e6488676f312e32322e30856c696e7578",
+>   "gasLimit":"0x1312d00",
+>   "gasUsed":"0x0",
+>   "hash":"0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
+>   ...
+> }
+> ```
+
+#### 10. zond_getBlockByNumber
 
 A method that returns the block information by number.
 
@@ -369,7 +399,7 @@ A method that returns the block information by number.
 > }
 > ```
 
-#### 10. zond_getCode
+#### 11. zond_getCode
 
 A method for returning the code at a given address.
 
@@ -388,7 +418,7 @@ A method for returning the code at a given address.
 > "0x60806040526004361060485763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416633fa4f2458114604d57806355241077146071575b600080fd5b348015605857600080fd5b50605f6088565b60408051918252519081900360200190f35b348015607c57600080fd5b506086600435608e565b005b60005481565b60008190556040805182815290517f199cd93e851e4c78c437891155e2112093f8f15394aa89dab09e38d6ca0727879181900360200190a1505600a165627a7a723058209d8929142720a69bde2ab3bfa2da6217674b984899b62753979743c0470a2ea70029"
 > ```
 
-#### 11. zond_getTransactionByHash
+#### 12. zond_getTransactionByHash
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -415,7 +445,7 @@ A method for returning the information about a transaction requested by transact
 > }
 > ```
 
-#### 12. zond_getTransactionReceipt
+#### 13. zond_getTransactionReceipt
 
 A method for returning the receipt of a transaction by transaction hash.
 

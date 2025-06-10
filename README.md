@@ -174,7 +174,8 @@ The methods when called, silently gives back response without needing any intera
 | 10  | [zond_getBlockByNumber](#10-zond_getBlockByNumber)           |
 | 11  | [zond_getCode](#11-zond_getCode)                             |
 | 12  | [zond_getTransactionByHash](#12-zond_getTransactionByHash)   |
-| 13  | [zond_getTransactionReceipt](#13-zond_getTransactionReceipt) |
+| 13  | [zond_getTransactionCount](#13-zond_getTransactionCount)     |
+| 14  | [zond_getTransactionReceipt](#14-zond_getTransactionReceipt) |
 
 #### 1. wallet_revokePermissions
 
@@ -445,7 +446,26 @@ A method for returning the information about a transaction requested by transact
 > }
 > ```
 
-#### 13. zond_getTransactionReceipt
+#### 13. zond_getTransactionCount
+
+A method for returning the code at a given address.
+
+- ##### Request
+
+> ```typescript
+> const transactionCount = await provider.request({
+>   method: "zond_getTransactionCount",
+>   params: ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c", "latest"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x1"
+> ```
+
+#### 14. zond_getTransactionReceipt
 
 A method for returning the receipt of a transaction by transaction hash.
 

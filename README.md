@@ -163,19 +163,20 @@ The methods when called, silently gives back response without needing any intera
 | No. | Method                                                       |
 | --- | ------------------------------------------------------------ |
 | 1   | [wallet_revokePermissions](#1-wallet_revokePermissions)      |
-| 2   | [zond_accounts](#2-zond_accounts)                            |
-| 3   | [zond_blockNumber](#3-zond_blockNumber)                      |
-| 4   | [zond_call](#4-zond_call)                                    |
-| 5   | [zond_chainId](#5-zond_chainId)                              |
-| 6   | [zond_estimateGas](#6-zond_estimateGas)                      |
-| 7   | [zond_gasPrice](#7-zond_gasPrice)                            |
-| 8   | [zond_getBalance](#8-zond_getBalance)                        |
-| 9   | [zond_getBlockByHash](#9-zond_getBlockByHash)                |
-| 10  | [zond_getBlockByNumber](#10-zond_getBlockByNumber)           |
-| 11  | [zond_getCode](#11-zond_getCode)                             |
-| 12  | [zond_getTransactionByHash](#12-zond_getTransactionByHash)   |
-| 13  | [zond_getTransactionCount](#13-zond_getTransactionCount)     |
-| 14  | [zond_getTransactionReceipt](#14-zond_getTransactionReceipt) |
+| 2   | [web3_clientVersion](#2-web3_clientVersion)                  |
+| 3   | [zond_accounts](#3-zond_accounts)                            |
+| 4   | [zond_blockNumber](#4-zond_blockNumber)                      |
+| 5   | [zond_call](#5-zond_call)                                    |
+| 6   | [zond_chainId](#6-zond_chainId)                              |
+| 7   | [zond_estimateGas](#7-zond_estimateGas)                      |
+| 8   | [zond_gasPrice](#8-zond_gasPrice)                            |
+| 9   | [zond_getBalance](#9-zond_getBalance)                        |
+| 10  | [zond_getBlockByHash](#10-zond_getBlockByHash)               |
+| 11  | [zond_getBlockByNumber](#11-zond_getBlockByNumber)           |
+| 12  | [zond_getCode](#12-zond_getCode)                             |
+| 13  | [zond_getTransactionByHash](#13-zond_getTransactionByHash)   |
+| 14  | [zond_getTransactionCount](#14-zond_getTransactionCount)     |
+| 15  | [zond_getTransactionReceipt](#15-zond_getTransactionReceipt) |
 
 #### 1. wallet_revokePermissions
 
@@ -200,7 +201,26 @@ A method for revoking the previously approved permissions for the dApp.
 > null
 > ```
 
-#### 2. zond_accounts
+#### 2. web3_clientVersion
+
+A method for returning the current Zond client version.
+
+- ##### Request
+
+> ```typescript
+> const currentVersion = await provider.request({
+>   method: "web3_clientVersion",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "Gzond/v0.2.1-stable-c50ef86d/linux-amd64/go1.22.12"
+> ```
+
+#### 3. zond_accounts
 
 A method that returns the list of accounts that the user has approved to connect.
 
@@ -219,7 +239,7 @@ A method that returns the list of accounts that the user has approved to connect
 > ["Z20B714091cF2a62DADda2847803e3f1B9D2D3779"]
 > ```
 
-#### 3. zond_blockNumber
+#### 4. zond_blockNumber
 
 A method that returns the number of most recent block.
 
@@ -238,7 +258,7 @@ A method that returns the number of most recent block.
 > "0x3345"
 > ```
 
-#### 4. zond_call
+#### 5. zond_call
 
 A method for creating a new message call immediately.
 
@@ -263,7 +283,7 @@ A method for creating a new message call immediately.
 > "0x"
 > ```
 
-#### 5. zond_chainId
+#### 6. zond_chainId
 
 A method for returning the chain ID of the current network.
 
@@ -282,7 +302,7 @@ A method for returning the chain ID of the current network.
 > "0x7e7e"
 > ```
 
-#### 6. zond_estimateGas
+#### 7. zond_estimateGas
 
 A method for calculating the estimate of how much gas is necessary for the transaction.
 
@@ -307,7 +327,7 @@ A method for calculating the estimate of how much gas is necessary for the trans
 > "0x5208"
 > ```
 
-#### 7. zond_gasPrice
+#### 8. zond_gasPrice
 
 A method for returning the current price per gas.
 
@@ -326,7 +346,7 @@ A method for returning the current price per gas.
 > "0x3b9aca07"
 > ```
 
-#### 8. zond_getBalance
+#### 9. zond_getBalance
 
 A method for returning the balance of the given account.
 
@@ -345,7 +365,7 @@ A method for returning the balance of the given account.
 > "0x6cfe56f3795885980005"
 > ```
 
-#### 9. zond_getBlockByHash
+#### 10. zond_getBlockByHash
 
 A method for returning information about a block by hash.
 
@@ -374,7 +394,7 @@ A method for returning information about a block by hash.
 > }
 > ```
 
-#### 10. zond_getBlockByNumber
+#### 11. zond_getBlockByNumber
 
 A method that returns the block information by number.
 
@@ -400,7 +420,7 @@ A method that returns the block information by number.
 > }
 > ```
 
-#### 11. zond_getCode
+#### 12. zond_getCode
 
 A method for returning the code at a given address.
 
@@ -419,7 +439,7 @@ A method for returning the code at a given address.
 > "0x60806040526004361060485763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416633fa4f2458114604d57806355241077146071575b600080fd5b348015605857600080fd5b50605f6088565b60408051918252519081900360200190f35b348015607c57600080fd5b506086600435608e565b005b60005481565b60008190556040805182815290517f199cd93e851e4c78c437891155e2112093f8f15394aa89dab09e38d6ca0727879181900360200190a1505600a165627a7a723058209d8929142720a69bde2ab3bfa2da6217674b984899b62753979743c0470a2ea70029"
 > ```
 
-#### 12. zond_getTransactionByHash
+#### 13. zond_getTransactionByHash
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -446,7 +466,7 @@ A method for returning the information about a transaction requested by transact
 > }
 > ```
 
-#### 13. zond_getTransactionCount
+#### 14. zond_getTransactionCount
 
 A method for returning the code at a given address.
 
@@ -465,7 +485,7 @@ A method for returning the code at a given address.
 > "0x1"
 > ```
 
-#### 14. zond_getTransactionReceipt
+#### 15. zond_getTransactionReceipt
 
 A method for returning the receipt of a transaction by transaction hash.
 

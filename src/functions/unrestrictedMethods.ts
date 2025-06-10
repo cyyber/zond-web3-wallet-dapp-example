@@ -1,6 +1,14 @@
 import { UNRESTRICTED_METHODS } from "@/constants/requestConstants";
 
 // Unrestricted methods invocation
+export const web3_clientVersion = async (provider: EIP6963ProviderDetail) => {
+  const currentVersion = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.WEB_3_CLIENT_VERSION,
+    params: [],
+  });
+  return currentVersion;
+};
+
 export const zond_accounts = async (provider: EIP6963ProviderDetail) => {
   const accounts = await provider.provider.request({
     method: UNRESTRICTED_METHODS.ZOND_ACCOUNTS,

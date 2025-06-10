@@ -1,3 +1,5 @@
+import { RESTRICTED_METHODS } from "@/constants/requestConstants";
+
 // Restricted methods invocation
 export const personal_sign = async (provider: EIP6963ProviderDetail) => {
   const params = [
@@ -5,7 +7,7 @@ export const personal_sign = async (provider: EIP6963ProviderDetail) => {
     "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
   ];
   const signature = await provider.provider.request({
-    method: "personal_sign",
+    method: RESTRICTED_METHODS.PERSONAL_SIGN,
     params,
   });
   return signature;
@@ -37,7 +39,7 @@ export const zond_sendTransaction = async (provider: EIP6963ProviderDetail) => {
   //   type: "0x2",
   // };
   const transactionReceipt = await provider.provider.request({
-    method: "zond_sendTransaction",
+    method: RESTRICTED_METHODS.ZOND_SEND_TRANSACTION,
     params: [requestForContractDeployment],
   });
   return transactionReceipt;
@@ -112,7 +114,7 @@ export const zond_signTypedData_v4 = async (
     },
   };
   const signature = await provider.provider.request({
-    method: "zond_signTypedData_v4",
+    method: RESTRICTED_METHODS.ZOND_SIGN_TYPED_DATA_V4,
     params: [from, msgParams],
   });
   return signature;

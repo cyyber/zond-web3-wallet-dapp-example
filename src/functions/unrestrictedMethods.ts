@@ -1,7 +1,9 @@
+import { UNRESTRICTED_METHODS } from "@/constants/requestConstants";
+
 // Unrestricted methods invocation
 export const zond_accounts = async (provider: EIP6963ProviderDetail) => {
   const accounts = await provider.provider.request({
-    method: "zond_accounts",
+    method: UNRESTRICTED_METHODS.ZOND_ACCOUNTS,
     params: [],
   });
   return accounts;
@@ -9,7 +11,7 @@ export const zond_accounts = async (provider: EIP6963ProviderDetail) => {
 
 export const zond_blockNumber = async (provider: EIP6963ProviderDetail) => {
   const blockNumber = await provider.provider.request({
-    method: "zond_blockNumber",
+    method: UNRESTRICTED_METHODS.ZOND_BLOCK_NUMBER,
     params: [],
   });
   return blockNumber;
@@ -17,7 +19,7 @@ export const zond_blockNumber = async (provider: EIP6963ProviderDetail) => {
 
 export const zond_call = async (provider: EIP6963ProviderDetail) => {
   const returnData = await provider.provider.request({
-    method: "zond_call",
+    method: UNRESTRICTED_METHODS.ZOND_CALL,
     params: [
       {
         from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
@@ -35,7 +37,7 @@ export const zond_call = async (provider: EIP6963ProviderDetail) => {
 
 export const zond_chainId = async (provider: EIP6963ProviderDetail) => {
   const chainId = await provider.provider.request({
-    method: "zond_chainId",
+    method: UNRESTRICTED_METHODS.ZOND_CHAIN_ID,
     params: [],
   });
   return chainId;
@@ -43,7 +45,7 @@ export const zond_chainId = async (provider: EIP6963ProviderDetail) => {
 
 export const zond_estimateGas = async (provider: EIP6963ProviderDetail) => {
   const gasEstimate = await provider.provider.request({
-    method: "zond_estimateGas",
+    method: UNRESTRICTED_METHODS.ZOND_ESTIMATE_GAS,
     params: [
       {
         from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
@@ -57,7 +59,7 @@ export const zond_estimateGas = async (provider: EIP6963ProviderDetail) => {
 
 export const zond_gasPrice = async (provider: EIP6963ProviderDetail) => {
   const gasPrice = await provider.provider.request({
-    method: "zond_gasPrice",
+    method: UNRESTRICTED_METHODS.ZOND_GAS_PRICE,
     params: [],
   });
   return gasPrice;
@@ -65,7 +67,7 @@ export const zond_gasPrice = async (provider: EIP6963ProviderDetail) => {
 
 export const zond_getBalance = async (provider: EIP6963ProviderDetail) => {
   const balance = await provider.provider.request({
-    method: "zond_getBalance",
+    method: UNRESTRICTED_METHODS.ZOND_GET_BALANCE,
     params: ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c", "latest"],
   });
   return balance;
@@ -73,7 +75,7 @@ export const zond_getBalance = async (provider: EIP6963ProviderDetail) => {
 
 export const zond_getBlockByHash = async (provider: EIP6963ProviderDetail) => {
   const blockInformation = await provider.provider.request({
-    method: "zond_getBlockByHash",
+    method: UNRESTRICTED_METHODS.ZOND_GET_BLOCK_BY_HASH,
     params: [
       "0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
       false,
@@ -86,7 +88,7 @@ export const zond_getBlockByNumber = async (
   provider: EIP6963ProviderDetail
 ) => {
   const blockInformation = await provider.provider.request({
-    method: "zond_getBlockByNumber",
+    method: UNRESTRICTED_METHODS.ZOND_GET_BLOCK_BY_NUMBER,
     params: ["0x1", false],
   });
   return blockInformation;
@@ -94,7 +96,7 @@ export const zond_getBlockByNumber = async (
 
 export const zond_getCode = async (provider: EIP6963ProviderDetail) => {
   const code = await provider.provider.request({
-    method: "zond_getCode",
+    method: UNRESTRICTED_METHODS.ZOND_GET_CODE,
     params: ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c", "latest"],
   });
   return code;
@@ -104,7 +106,7 @@ export const zond_getTransactionByHash = async (
   provider: EIP6963ProviderDetail
 ) => {
   const transaction = await provider.provider.request({
-    method: "zond_getTransactionByHash",
+    method: UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_BY_HASH,
     params: [
       "0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
     ],
@@ -116,7 +118,7 @@ export const zond_getTransactionCount = async (
   provider: EIP6963ProviderDetail
 ) => {
   const transactionCount = await provider.provider.request({
-    method: "zond_getTransactionCount",
+    method: UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_COUNT,
     params: ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c", "latest"],
   });
   return transactionCount;
@@ -126,7 +128,7 @@ export const zond_getTransactionReceipt = async (
   provider: EIP6963ProviderDetail
 ) => {
   const transactionReceipt = await provider.provider.request({
-    method: "zond_getTransactionReceipt",
+    method: UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_RECEIPT,
     params: [
       "0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
     ],

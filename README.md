@@ -160,24 +160,25 @@ A method that presents a data message for the user to sign in a structured and r
 
 The methods when called, silently gives back response without needing any interaction from the user.
 
-| No. | Method                                                                         |
-| --- | ------------------------------------------------------------------------------ |
-| 1   | [wallet_revokePermissions](#1-wallet_revokePermissions)                        |
-| 2   | [web3_clientVersion](#2-web3_clientVersion)                                    |
-| 3   | [zond_accounts](#3-zond_accounts)                                              |
-| 4   | [zond_blockNumber](#4-zond_blockNumber)                                        |
-| 5   | [zond_call](#5-zond_call)                                                      |
-| 6   | [zond_chainId](#6-zond_chainId)                                                |
-| 7   | [zond_estimateGas](#7-zond_estimateGas)                                        |
-| 8   | [zond_gasPrice](#8-zond_gasPrice)                                              |
-| 9   | [zond_getBalance](#9-zond_getBalance)                                          |
-| 10  | [zond_getBlockByHash](#10-zond_getBlockByHash)                                 |
-| 11  | [zond_getBlockByNumber](#11-zond_getBlockByNumber)                             |
-| 12  | [zond_getBlockTransactionCountByHash](#12-zond_getBlockTransactionCountByHash) |
-| 13  | [zond_getCode](#13-zond_getCode)                                               |
-| 14  | [zond_getTransactionByHash](#14-zond_getTransactionByHash)                     |
-| 15  | [zond_getTransactionCount](#15-zond_getTransactionCount)                       |
-| 16  | [zond_getTransactionReceipt](#16-zond_getTransactionReceipt)                   |
+| No. | Method                                                                             |
+| --- | ---------------------------------------------------------------------------------- |
+| 1   | [wallet_revokePermissions](#1-wallet_revokePermissions)                            |
+| 2   | [web3_clientVersion](#2-web3_clientVersion)                                        |
+| 3   | [zond_accounts](#3-zond_accounts)                                                  |
+| 4   | [zond_blockNumber](#4-zond_blockNumber)                                            |
+| 5   | [zond_call](#5-zond_call)                                                          |
+| 6   | [zond_chainId](#6-zond_chainId)                                                    |
+| 7   | [zond_estimateGas](#7-zond_estimateGas)                                            |
+| 8   | [zond_gasPrice](#8-zond_gasPrice)                                                  |
+| 9   | [zond_getBalance](#9-zond_getBalance)                                              |
+| 10  | [zond_getBlockByHash](#10-zond_getBlockByHash)                                     |
+| 11  | [zond_getBlockByNumber](#11-zond_getBlockByNumber)                                 |
+| 12  | [zond_getBlockTransactionCountByHash](#12-zond_getBlockTransactionCountByHash)     |
+| 13  | [zond_getBlockTransactionCountByNumber](#13-zond_getBlockTransactionCountByNumber) |
+| 14  | [zond_getCode](#14-zond_getCode)                                                   |
+| 15  | [zond_getTransactionByHash](#15-zond_getTransactionByHash)                         |
+| 16  | [zond_getTransactionCount](#16-zond_getTransactionCount)                           |
+| 17  | [zond_getTransactionReceipt](#17-zond_getTransactionReceipt)                       |
 
 #### 1. wallet_revokePermissions
 
@@ -442,7 +443,26 @@ A method for returning the number of transactions in a block from a block matchi
 > "0x8"
 > ```
 
-#### 13. zond_getCode
+#### 13. zond_getBlockTransactionCountByNumber
+
+A method for returning the number of transactions in a block matching the given block number.
+
+- ##### Request
+
+> ```typescript
+> const transactionCount = await provider.request({
+>   method: "zond_getBlockTransactionCountByNumber",
+>   params: ["0x17187"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x8"
+> ```
+
+#### 14. zond_getCode
 
 A method for returning the code at a given address.
 
@@ -461,7 +481,7 @@ A method for returning the code at a given address.
 > "0x60806040526004361060485763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416633fa4f2458114604d57806355241077146071575b600080fd5b348015605857600080fd5b50605f6088565b60408051918252519081900360200190f35b348015607c57600080fd5b506086600435608e565b005b60005481565b60008190556040805182815290517f199cd93e851e4c78c437891155e2112093f8f15394aa89dab09e38d6ca0727879181900360200190a1505600a165627a7a723058209d8929142720a69bde2ab3bfa2da6217674b984899b62753979743c0470a2ea70029"
 > ```
 
-#### 14. zond_getTransactionByHash
+#### 15. zond_getTransactionByHash
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -488,7 +508,7 @@ A method for returning the information about a transaction requested by transact
 > }
 > ```
 
-#### 15. zond_getTransactionCount
+#### 16. zond_getTransactionCount
 
 A method for returning the code at a given address.
 
@@ -507,7 +527,7 @@ A method for returning the code at a given address.
 > "0x1"
 > ```
 
-#### 16. zond_getTransactionReceipt
+#### 17. zond_getTransactionReceipt
 
 A method for returning the receipt of a transaction by transaction hash.
 

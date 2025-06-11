@@ -52,8 +52,8 @@ A method that presents a plain text signature challenge to the user and returns 
 
 > ```json
 > {
->   "signature": "0x0087c28d899155115254bbd...",
->   "publicKey": "0x04bfcabf8c1b1a5a7e25f9b..."
+>   "signature": "0x0087c28d899155115254bbd....",
+>   "publicKey": "0x04bfcabf8c1b1a5a7e25f9b...."
 > }
 > ```
 
@@ -120,9 +120,9 @@ A method that presents a data message for the user to sign in a structured and r
 >     "Z208318ecd68f26726CE7C54b29CaBA94584969B6"
 >     {
 >       types: {
->           EIP712Domain: [...],
->           Person: [...],
->           Mail: [...],
+>           EIP712Domain: [....],
+>           Person: [....],
+>           Mail: [....],
 >       },
 >       primaryType: "Mail",
 >       domain: {
@@ -151,8 +151,8 @@ A method that presents a data message for the user to sign in a structured and r
 
 > ```json
 > {
->   "signature": "0x0087c28d899155115254bbd...",
->   "publicKey": "0x04bfcabf8c1b1a5a7e25f9b..."
+>   "signature": "0x0087c28d899155115254bbd....",
+>   "publicKey": "0x04bfcabf8c1b1a5a7e25f9b...."
 > }
 > ```
 
@@ -390,7 +390,7 @@ A method for returning information about a block by hash.
 >   "gasLimit":"0x1312d00",
 >   "gasUsed":"0x0",
 >   "hash":"0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
->   ...
+>   ....
 > }
 > ```
 
@@ -415,7 +415,7 @@ A method that returns the block information by number.
 >   "hash": "0xd5f1812548be429cbdc6376b29611fc49e06f1359758c4ceaaa3b393e2239f9c",
 >   "mixHash": "0x24900fb3da77674a861c428429dce0762707ecb6052325bbd9b3c64e74b5af9d",
 >   "parentHash": "0x1f68ac259155e2f38211ddad0f0a15394d55417b185a93923e2abe71bb7a4d6d",
->   "nonce": "0x378da40ff335..."
+>   "nonce": "0x378da40ff335...."
 >   ....
 > }
 > ```

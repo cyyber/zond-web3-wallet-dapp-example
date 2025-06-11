@@ -102,6 +102,18 @@ export const zond_getBlockByNumber = async (
   return blockInformation;
 };
 
+export const zond_getBlockTransactionCountByHash = async (
+  provider: EIP6963ProviderDetail
+) => {
+  const transactionCount = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_GET_BLOCK_TRANSACTION_COUNT_BY_HASH,
+    params: [
+      "0x762881f501a0dd33e1ca3a3a3db42671292c9b33ddaa2108b8958bab6414f4dd",
+    ],
+  });
+  return transactionCount;
+};
+
 export const zond_getCode = async (provider: EIP6963ProviderDetail) => {
   const code = await provider.provider.request({
     method: UNRESTRICTED_METHODS.ZOND_GET_CODE,

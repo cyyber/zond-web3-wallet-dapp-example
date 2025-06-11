@@ -14,6 +14,7 @@ import {
   zond_call,
   zond_chainId,
   zond_estimateGas,
+  zond_feeHistory,
   zond_gasPrice,
   zond_getBalance,
   zond_getBlockByHash,
@@ -68,6 +69,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_chainId(provider);
       case UNRESTRICTED_METHODS.ZOND_ESTIMATE_GAS:
         return await zond_estimateGas(provider);
+      case UNRESTRICTED_METHODS.ZOND_FEE_HISTORY:
+        return await zond_feeHistory(provider);
       case UNRESTRICTED_METHODS.ZOND_GAS_PRICE:
         return await zond_gasPrice(provider);
       case UNRESTRICTED_METHODS.ZOND_GET_BALANCE:

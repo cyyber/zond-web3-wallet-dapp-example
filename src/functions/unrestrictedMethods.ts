@@ -65,6 +65,14 @@ export const zond_estimateGas = async (provider: EIP6963ProviderDetail) => {
   return gasEstimate;
 };
 
+export const zond_feeHistory = async (provider: EIP6963ProviderDetail) => {
+  const feeHistory = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_FEE_HISTORY,
+    params: ["0x3", "latest", [10, 50]],
+  });
+  return feeHistory;
+};
+
 export const zond_gasPrice = async (provider: EIP6963ProviderDetail) => {
   const gasPrice = await provider.provider.request({
     method: UNRESTRICTED_METHODS.ZOND_GAS_PRICE,

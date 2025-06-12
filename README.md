@@ -183,6 +183,7 @@ The methods when called, silently gives back response without needing any intera
 | 19  | [zond_getTransactionByHash](#19-zond_getTransactionByHash)                         |
 | 20  | [zond_getTransactionCount](#20-zond_getTransactionCount)                           |
 | 21  | [zond_getTransactionReceipt](#21-zond_getTransactionReceipt)                       |
+| 22  | [zond_syncing](#22-zond_syncing)                                                   |
 
 #### 1. wallet_revokePermissions
 
@@ -681,4 +682,23 @@ A method for returning the receipt of a transaction by transaction hash.
 >   "from": "Z20B714091cF2a62DADda2847803e3f1B9D2D3779"
 >   ....
 > }
+> ```
+
+#### 22. zond_syncing
+
+A method that returns an object with data about the sync status or false.
+
+- ##### Request
+
+> ```typescript
+> const syncingStatus = await provider.request({
+>   method: "zond_syncing",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> false
 > ```

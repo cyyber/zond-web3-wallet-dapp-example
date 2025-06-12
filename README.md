@@ -178,9 +178,10 @@ The methods when called, silently gives back response without needing any intera
 | 14  | [zond_getBlockTransactionCountByNumber](#14-zond_getBlockTransactionCountByNumber) |
 | 15  | [zond_getCode](#15-zond_getCode)                                                   |
 | 16  | [zond_getLogs](#16-zond_getLogs)                                                   |
-| 17  | [zond_getTransactionByHash](#17-zond_getTransactionByHash)                         |
-| 18  | [zond_getTransactionCount](#18-zond_getTransactionCount)                           |
-| 19  | [zond_getTransactionReceipt](#19-zond_getTransactionReceipt)                       |
+| 17  | [zond_getProof](#17-zond_getProof)                                                 |
+| 18  | [zond_getTransactionByHash](#18-zond_getTransactionByHash)                         |
+| 19  | [zond_getTransactionCount](#19-zond_getTransactionCount)                           |
+| 20  | [zond_getTransactionReceipt](#20-zond_getTransactionReceipt)                       |
 
 #### 1. wallet_revokePermissions
 
@@ -558,7 +559,37 @@ A method for returning an array of all logs matching the specified filter.
 > ]
 > ```
 
-#### 17. zond_getTransactionByHash
+#### 17. zond_getProof
+
+A method that returns the merkle proof for a given account and optionally some storage keys.
+
+- ##### Request
+
+> ```typescript
+> const accountProof = await provider.request({
+>   method: "zond_getProof",
+>   params: ["Z20D20b8026B8F02540246f58120ddAAf35AECD9B", [], "latest"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "accountProof": [
+>     "0xf90191a05b49406cc....",
+>     "0xf851808080a0eeafb....",
+>     "0xf874a02082e4c4652...."
+>   ],
+>   "balance": "0x1a77e254760c9d13ccacd",
+>   "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+>   "nonce": "0xb",
+>   "storageHash": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+>   "storageProof": []
+> }
+> ```
+
+#### 18. zond_getTransactionByHash
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -585,7 +616,7 @@ A method for returning the information about a transaction requested by transact
 > }
 > ```
 
-#### 18. zond_getTransactionCount
+#### 19. zond_getTransactionCount
 
 A method for returning the code at a given address.
 
@@ -604,7 +635,7 @@ A method for returning the code at a given address.
 > "0x1"
 > ```
 
-#### 19. zond_getTransactionReceipt
+#### 20. zond_getTransactionReceipt
 
 A method for returning the receipt of a transaction by transaction hash.
 

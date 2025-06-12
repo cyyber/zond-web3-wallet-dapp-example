@@ -155,6 +155,14 @@ export const zond_getLogs = async (provider: EIP6963ProviderDetail) => {
   return log;
 };
 
+export const zond_getProof = async (provider: EIP6963ProviderDetail) => {
+  const accountProof = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_GET_PROOF,
+    params: ["Z20D20b8026B8F02540246f58120ddAAf35AECD9B", [], "latest"],
+  });
+  return accountProof;
+};
+
 export const zond_getTransactionByHash = async (
   provider: EIP6963ProviderDetail
 ) => {

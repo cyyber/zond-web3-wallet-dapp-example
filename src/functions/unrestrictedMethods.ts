@@ -140,6 +140,21 @@ export const zond_getCode = async (provider: EIP6963ProviderDetail) => {
   return code;
 };
 
+export const zond_getLogs = async (provider: EIP6963ProviderDetail) => {
+  const log = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_GET_LOGS,
+    params: [
+      {
+        fromBlock: "0x1234AB",
+        toBlock: "latest",
+        address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        topics: [],
+      },
+    ],
+  });
+  return log;
+};
+
 export const zond_getTransactionByHash = async (
   provider: EIP6963ProviderDetail
 ) => {

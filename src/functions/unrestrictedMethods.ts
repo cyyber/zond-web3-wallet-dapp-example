@@ -163,6 +163,14 @@ export const zond_getProof = async (provider: EIP6963ProviderDetail) => {
   return accountProof;
 };
 
+export const zond_getStorageAt = async (provider: EIP6963ProviderDetail) => {
+  const storageAt = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_GET_STORAGE_AT,
+    params: ["Z20D20b8026B8F02540246f58120ddAAf35AECD9B", "0x0", "latest"],
+  });
+  return storageAt;
+};
+
 export const zond_getTransactionByHash = async (
   provider: EIP6963ProviderDetail
 ) => {

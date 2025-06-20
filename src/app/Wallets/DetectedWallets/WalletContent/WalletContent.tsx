@@ -28,6 +28,7 @@ import {
   zond_getTransactionByHash,
   zond_getTransactionCount,
   zond_getTransactionReceipt,
+  zond_subscribe,
   zond_syncing,
 } from "@/functions/unrestrictedMethods";
 import { useWalletProvider } from "@/hooks/useWalletProvider";
@@ -101,6 +102,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_getTransactionCount(provider);
       case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_RECEIPT:
         return await zond_getTransactionReceipt(provider);
+      case UNRESTRICTED_METHODS.ZOND_SUBSCRIBE:
+        return await zond_subscribe(provider);
       case UNRESTRICTED_METHODS.ZOND_SYNCING:
         return await zond_syncing(provider);
       default:

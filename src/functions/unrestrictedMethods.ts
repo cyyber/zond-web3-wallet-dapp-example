@@ -205,6 +205,14 @@ export const zond_getTransactionReceipt = async (
   return transactionReceipt;
 };
 
+export const zond_subscribe = async (provider: EIP6963ProviderDetail) => {
+  const subscriptionId = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_SUBSCRIBE,
+    params: ["newHeads"],
+  });
+  return subscriptionId;
+};
+
 export const zond_syncing = async (provider: EIP6963ProviderDetail) => {
   const syncingStatus = await provider.provider.request({
     method: UNRESTRICTED_METHODS.ZOND_SYNCING,

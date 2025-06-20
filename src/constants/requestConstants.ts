@@ -23,6 +23,7 @@ export const UNRESTRICTED_METHODS = Object.freeze({
   ZOND_GET_TRANSACTION_BY_HASH: "zond_getTransactionByHash",
   ZOND_GET_TRANSACTION_COUNT: "zond_getTransactionCount",
   ZOND_GET_TRANSACTION_RECEIPT: "zond_getTransactionReceipt",
+  ZOND_SUBSCRIBE: "zond_subscribe",
   ZOND_SYNCING: "zond_syncing",
 });
 

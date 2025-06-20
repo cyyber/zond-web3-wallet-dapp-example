@@ -183,7 +183,8 @@ The methods when called, silently gives back response without needing any intera
 | 19  | [zond_getTransactionByHash](#19-zond_getTransactionByHash)                         |
 | 20  | [zond_getTransactionCount](#20-zond_getTransactionCount)                           |
 | 21  | [zond_getTransactionReceipt](#21-zond_getTransactionReceipt)                       |
-| 22  | [zond_syncing](#22-zond_syncing)                                                   |
+| 22  | [zond_subscribe](#22-zond_subscribe)                                               |
+| 23  | [zond_syncing](#23-zond_syncing)                                                   |
 
 #### 1. wallet_revokePermissions
 
@@ -684,7 +685,34 @@ A method for returning the receipt of a transaction by transaction hash.
 > }
 > ```
 
-#### 22. zond_syncing
+#### 22. zond_subscribe
+
+A method that subscribes to specific Ethereum events, returning a subscription ID used to receive notifications. A unique subscription ID that can be used to unsubscribe or identify incoming notifications will be returned.
+
+- ##### Request
+
+> ```typescript
+> const subscriptionId = await provider.request({
+>   method: "zond_syncing",
+>   params: [
+>     "logs",
+>     {
+>       address: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+>       topics: [
+>         "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a57b7edb8d6",
+>       ],
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0xbb0ecff80c39d75faac664a6dff7c43a"
+> ```
+
+#### 23. zond_syncing
 
 A method that returns an object with data about the sync status or false.
 

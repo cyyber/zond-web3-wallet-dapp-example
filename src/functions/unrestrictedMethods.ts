@@ -220,3 +220,11 @@ export const zond_syncing = async (provider: EIP6963ProviderDetail) => {
   });
   return syncingStatus;
 };
+
+export const zond_unsubscribe = async (provider: EIP6963ProviderDetail) => {
+  const unsubscribed = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_UNSUBSCRIBE,
+    params: ["0xda4de5b265bc34b0bacaf5da395e7fce"],
+  });
+  return unsubscribed;
+};

@@ -185,6 +185,7 @@ The methods when called, silently gives back response without needing any intera
 | 21  | [zond_getTransactionReceipt](#21-zond_getTransactionReceipt)                       |
 | 22  | [zond_subscribe](#22-zond_subscribe)                                               |
 | 23  | [zond_syncing](#23-zond_syncing)                                                   |
+| 24  | [zond_unsubscribe](#24-zond_unsubscribe)                                           |
 
 #### 1. wallet_revokePermissions
 
@@ -729,4 +730,23 @@ A method that returns an object with data about the sync status or false.
 
 > ```json
 > false
+> ```
+
+#### 24. zond_unsubscribe
+
+A method that unsubscribes from a specific Ethereum event, using the subscription ID provided by zond_subscribe method.
+
+- ##### Request
+
+> ```typescript
+> const unsubscribed = await provider.request({
+>   method: "zond_unsubscribe",
+>   params: ["0xbb0ecff80c39d75faac664a6dff7c43a"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> true
 > ```

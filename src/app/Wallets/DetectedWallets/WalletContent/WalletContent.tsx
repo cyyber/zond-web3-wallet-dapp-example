@@ -30,6 +30,7 @@ import {
   zond_getTransactionReceipt,
   zond_subscribe,
   zond_syncing,
+  zond_unsubscribe,
 } from "@/functions/unrestrictedMethods";
 import { useWalletProvider } from "@/hooks/useWalletProvider";
 import { ConnectWallet } from "./ConnectWallet/ConnectWallet";
@@ -106,6 +107,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_subscribe(provider);
       case UNRESTRICTED_METHODS.ZOND_SYNCING:
         return await zond_syncing(provider);
+      case UNRESTRICTED_METHODS.ZOND_UNSUBSCRIBE:
+        return await zond_unsubscribe(provider);
       default:
         return "Method not implemented for this provider.";
     }

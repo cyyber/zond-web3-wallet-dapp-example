@@ -33,6 +33,7 @@ import {
   zond_newPendingTransactionFilter,
   zond_subscribe,
   zond_syncing,
+  zond_uninstallFilter,
   zond_unsubscribe,
 } from "@/functions/unrestrictedMethods";
 import { useWalletProvider } from "@/hooks/useWalletProvider";
@@ -116,6 +117,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_subscribe(provider);
       case UNRESTRICTED_METHODS.ZOND_SYNCING:
         return await zond_syncing(provider);
+      case UNRESTRICTED_METHODS.ZOND_UNINSTALL_FILTER:
+        return await zond_uninstallFilter(provider);
       case UNRESTRICTED_METHODS.ZOND_UNSUBSCRIBE:
         return await zond_unsubscribe(provider);
       default:

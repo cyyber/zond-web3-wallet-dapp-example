@@ -202,6 +202,16 @@ export const zond_getTransactionByBlockHashAndIndex = async (
   return transactionInformation;
 };
 
+export const zond_getTransactionByBlockNumberAndIndex = async (
+  provider: EIP6963ProviderDetail
+) => {
+  const transactionInformation = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_BY_BLOCK_NUMBER_AND_INDEX,
+    params: ["0x1f06a", "0x2"],
+  });
+  return transactionInformation;
+};
+
 export const zond_getTransactionByHash = async (
   provider: EIP6963ProviderDetail
 ) => {

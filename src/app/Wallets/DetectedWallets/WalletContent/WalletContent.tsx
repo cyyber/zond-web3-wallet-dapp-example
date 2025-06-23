@@ -28,6 +28,7 @@ import {
   zond_getProof,
   zond_getStorageAt,
   zond_getTransactionByBlockHashAndIndex,
+  zond_getTransactionByBlockNumberAndIndex,
   zond_getTransactionByHash,
   zond_getTransactionCount,
   zond_getTransactionReceipt,
@@ -110,6 +111,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_getStorageAt(provider);
       case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_BY_BLOCK_HASH_AND_INDEX:
         return await zond_getTransactionByBlockHashAndIndex(provider);
+      case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_BY_BLOCK_NUMBER_AND_INDEX:
+        return await zond_getTransactionByBlockNumberAndIndex(provider);
       case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_BY_HASH:
         return await zond_getTransactionByHash(provider);
       case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_COUNT:

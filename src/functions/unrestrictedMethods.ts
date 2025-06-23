@@ -205,6 +205,14 @@ export const zond_getTransactionReceipt = async (
   return transactionReceipt;
 };
 
+export const zond_newBlockFilter = async (provider: EIP6963ProviderDetail) => {
+  const filterIdentifier = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_NEW_BLOCK_FILTER,
+    params: [],
+  });
+  return filterIdentifier;
+};
+
 export const zond_newFilter = async (provider: EIP6963ProviderDetail) => {
   const filterIdentifier = await provider.provider.request({
     method: UNRESTRICTED_METHODS.ZOND_NEW_FILTER,

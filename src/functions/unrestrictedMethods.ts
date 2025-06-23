@@ -205,6 +205,21 @@ export const zond_getTransactionReceipt = async (
   return transactionReceipt;
 };
 
+export const zond_newFilter = async (provider: EIP6963ProviderDetail) => {
+  const filterIdentifier = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_NEW_FILTER,
+    params: [
+      {
+        fromBlock: "latest",
+        toBlock: "latest",
+        address: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+        topics: [],
+      },
+    ],
+  });
+  return filterIdentifier;
+};
+
 export const zond_subscribe = async (provider: EIP6963ProviderDetail) => {
   const subscriptionId = await provider.provider.request({
     method: UNRESTRICTED_METHODS.ZOND_SUBSCRIBE,

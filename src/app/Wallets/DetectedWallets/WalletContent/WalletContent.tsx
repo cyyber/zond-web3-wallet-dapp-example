@@ -28,6 +28,7 @@ import {
   zond_getTransactionByHash,
   zond_getTransactionCount,
   zond_getTransactionReceipt,
+  zond_newFilter,
   zond_subscribe,
   zond_syncing,
   zond_unsubscribe,
@@ -103,6 +104,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_getTransactionCount(provider);
       case UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_RECEIPT:
         return await zond_getTransactionReceipt(provider);
+      case UNRESTRICTED_METHODS.ZOND_NEW_FILTER:
+        return await zond_newFilter(provider);
       case UNRESTRICTED_METHODS.ZOND_SUBSCRIBE:
         return await zond_subscribe(provider);
       case UNRESTRICTED_METHODS.ZOND_SYNCING:

@@ -228,6 +228,16 @@ export const zond_newFilter = async (provider: EIP6963ProviderDetail) => {
   return filterIdentifier;
 };
 
+export const zond_newPendingTransactionFilter = async (
+  provider: EIP6963ProviderDetail
+) => {
+  const filterIdentifier = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.ZOND_NEW_PENDING_TRANSACTION_FILTER,
+    params: [],
+  });
+  return filterIdentifier;
+};
+
 export const zond_subscribe = async (provider: EIP6963ProviderDetail) => {
   const subscriptionId = await provider.provider.request({
     method: UNRESTRICTED_METHODS.ZOND_SUBSCRIBE,

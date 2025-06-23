@@ -30,6 +30,7 @@ import {
   zond_getTransactionReceipt,
   zond_newBlockFilter,
   zond_newFilter,
+  zond_newPendingTransactionFilter,
   zond_subscribe,
   zond_syncing,
   zond_unsubscribe,
@@ -109,6 +110,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_newBlockFilter(provider);
       case UNRESTRICTED_METHODS.ZOND_NEW_FILTER:
         return await zond_newFilter(provider);
+      case UNRESTRICTED_METHODS.ZOND_NEW_PENDING_TRANSACTION_FILTER:
+        return await zond_newPendingTransactionFilter(provider);
       case UNRESTRICTED_METHODS.ZOND_SUBSCRIBE:
         return await zond_subscribe(provider);
       case UNRESTRICTED_METHODS.ZOND_SYNCING:

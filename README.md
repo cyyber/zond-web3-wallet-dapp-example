@@ -177,15 +177,16 @@ The methods when called, silently gives back response without needing any intera
 | 13  | [zond_getBlockTransactionCountByHash](#13-zond_getBlockTransactionCountByHash)     |
 | 14  | [zond_getBlockTransactionCountByNumber](#14-zond_getBlockTransactionCountByNumber) |
 | 15  | [zond_getCode](#15-zond_getCode)                                                   |
-| 16  | [zond_getLogs](#16-zond_getLogs)                                                   |
-| 17  | [zond_getProof](#17-zond_getProof)                                                 |
-| 18  | [zond_getStorageAt](#18-zond_getStorageAt)                                         |
-| 19  | [zond_getTransactionByHash](#19-zond_getTransactionByHash)                         |
-| 20  | [zond_getTransactionCount](#20-zond_getTransactionCount)                           |
-| 21  | [zond_getTransactionReceipt](#21-zond_getTransactionReceipt)                       |
-| 22  | [zond_subscribe](#22-zond_subscribe)                                               |
-| 23  | [zond_syncing](#23-zond_syncing)                                                   |
-| 24  | [zond_unsubscribe](#24-zond_unsubscribe)                                           |
+| 16  | [zond_getFilterChanges](#16-zond_getFilterChanges)                                 |
+| 17  | [zond_getLogs](#17-zond_getLogs)                                                   |
+| 18  | [zond_getProof](#18-zond_getProof)                                                 |
+| 19  | [zond_getStorageAt](#19-zond_getStorageAt)                                         |
+| 20  | [zond_getTransactionByHash](#20-zond_getTransactionByHash)                         |
+| 21  | [zond_getTransactionCount](#21-zond_getTransactionCount)                           |
+| 22  | [zond_getTransactionReceipt](#22-zond_getTransactionReceipt)                       |
+| 23  | [zond_subscribe](#23-zond_subscribe)                                               |
+| 24  | [zond_syncing](#24-zond_syncing)                                                   |
+| 25  | [zond_unsubscribe](#25-zond_unsubscribe)                                           |
 
 #### 1. wallet_revokePermissions
 
@@ -516,7 +517,47 @@ A method for returning the code at a given address.
 > "0x60806040526004361060485763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416633fa4f2458114604d57806355241077146071575b600080fd5b348015605857600080fd5b50605f6088565b60408051918252519081900360200190f35b348015607c57600080fd5b506086600435608e565b005b60005481565b60008190556040805182815290517f199cd93e851e4c78c437891155e2112093f8f15394aa89dab09e38d6ca0727879181900360200190a1505600a165627a7a723058209d8929142720a69bde2ab3bfa2da6217674b984899b62753979743c0470a2ea70029"
 > ```
 
-#### 16. zond_getLogs
+#### 16. zond_getFilterChanges
+
+A method for polling the filter with the given ID (created using zond_newFilter). It returns an array of logs which occurred since last poll.
+
+- ##### Request
+
+> ```typescript
+> const logObjects = await provider.request({
+>   method: "zond_getFilterChanges",
+>   params: ["0x5d71077f43bcd46f25b74f2409d2f164"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> [
+>   {
+>     "logIndex": "0x0",
+>     "removed": false,
+>     "blockNumber": "0x233",
+>     "blockHash": "0xfc139f5e2edee9e9c888d8df9a2d2226133a9bd87c88ccbd9c930d3d4c9f9ef5",
+>     "topics": [
+>       "0x04474795f5b996ff80cb47c148d4c5ccdbe09ef27551820caa9c2f8ed149cce3"
+>     ],
+>     ....
+>   },
+>   {
+>     "logIndex": "0x0",
+>     "removed": false,
+>     "blockNumber": "0x238",
+>     "blockHash": "0x98b0ec0f9fea0018a644959accbe69cd046a8582e89402e1ab0ada91cad644ed",
+>     "topics": [
+>       "0x04474795f5b996ff80cb47c148d4c5ccdbe09ef27551820caa9c2f8ed149cce3"
+>     ],
+>     ....
+>   }
+> ]
+> ```
+
+#### 17. zond_getLogs
 
 A method for returning an array of all logs matching the specified filter.
 
@@ -563,7 +604,7 @@ A method for returning an array of all logs matching the specified filter.
 > ]
 > ```
 
-#### 17. zond_getProof
+#### 18. zond_getProof
 
 A method that returns the merkle proof for a given account and optionally some storage keys.
 
@@ -593,7 +634,7 @@ A method that returns the merkle proof for a given account and optionally some s
 > }
 > ```
 
-#### 18. zond_getStorageAt
+#### 19. zond_getStorageAt
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -612,7 +653,7 @@ A method for returning the information about a transaction requested by transact
 > "0x0000000000000000000000000000000000000000000000000000000000000000"
 > ```
 
-#### 19. zond_getTransactionByHash
+#### 20. zond_getTransactionByHash
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -639,7 +680,7 @@ A method for returning the information about a transaction requested by transact
 > }
 > ```
 
-#### 20. zond_getTransactionCount
+#### 21. zond_getTransactionCount
 
 A method for returning the code at a given address.
 
@@ -658,7 +699,7 @@ A method for returning the code at a given address.
 > "0x1"
 > ```
 
-#### 21. zond_getTransactionReceipt
+#### 22. zond_getTransactionReceipt
 
 A method for returning the receipt of a transaction by transaction hash.
 
@@ -686,7 +727,7 @@ A method for returning the receipt of a transaction by transaction hash.
 > }
 > ```
 
-#### 22. zond_subscribe
+#### 23. zond_subscribe
 
 A method that subscribes to specific Ethereum events, returning a subscription ID used to receive notifications. A unique subscription ID that can be used to unsubscribe or identify incoming notifications will be returned.
 
@@ -713,7 +754,7 @@ A method that subscribes to specific Ethereum events, returning a subscription I
 > "0xbb0ecff80c39d75faac664a6dff7c43a"
 > ```
 
-#### 23. zond_syncing
+#### 24. zond_syncing
 
 A method that returns an object with data about the sync status or false.
 
@@ -732,7 +773,7 @@ A method that returns an object with data about the sync status or false.
 > false
 > ```
 
-#### 24. zond_unsubscribe
+#### 25. zond_unsubscribe
 
 A method that unsubscribes from a specific Ethereum event, using the subscription ID provided by zond_subscribe method.
 

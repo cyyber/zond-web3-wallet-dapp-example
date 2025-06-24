@@ -187,9 +187,10 @@ The methods when called, silently gives back response without needing any intera
 | 23  | [zond_getTransactionByHash](#23-zond_getTransactionByHash)                               |
 | 24  | [zond_getTransactionCount](#24-zond_getTransactionCount)                                 |
 | 25  | [zond_getTransactionReceipt](#25-zond_getTransactionReceipt)                             |
-| 26  | [zond_subscribe](#26-zond_subscribe)                                                     |
-| 27  | [zond_syncing](#27-zond_syncing)                                                         |
-| 28  | [zond_unsubscribe](#28-zond_unsubscribe)                                                 |
+| 26  | [zond_newBlockFilter](#26-zond_newBlockFilter)                                           |
+| 27  | [zond_subscribe](#27-zond_subscribe)                                                     |
+| 28  | [zond_syncing](#28-zond_syncing)                                                         |
+| 29  | [zond_unsubscribe](#29-zond_unsubscribe)                                                 |
 
 #### 1. wallet_revokePermissions
 
@@ -826,7 +827,26 @@ A method for returning the receipt of a transaction by transaction hash.
 > }
 > ```
 
-#### 26. zond_subscribe
+#### 26. zond_newBlockFilter
+
+A method that creates a filter in the node, to notify when a new block arrives.
+
+- ##### Request
+
+> ```typescript
+> const filterIdentifier = await provider.request({
+>   method: "zond_newBlockFilter",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x01"
+> ```
+
+#### 27. zond_subscribe
 
 A method that subscribes to specific Ethereum events, returning a subscription ID used to receive notifications. A unique subscription ID that can be used to unsubscribe or identify incoming notifications will be returned.
 
@@ -853,7 +873,7 @@ A method that subscribes to specific Ethereum events, returning a subscription I
 > "0xbb0ecff80c39d75faac664a6dff7c43a"
 > ```
 
-#### 27. zond_syncing
+#### 28. zond_syncing
 
 A method that returns an object with data about the sync status or false.
 
@@ -872,7 +892,7 @@ A method that returns an object with data about the sync status or false.
 > false
 > ```
 
-#### 28. zond_unsubscribe
+#### 29. zond_unsubscribe
 
 A method that unsubscribes from a specific Ethereum event, using the subscription ID provided by zond_subscribe method.
 

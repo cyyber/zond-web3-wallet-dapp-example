@@ -296,11 +296,11 @@ export const zond_syncing = async (provider: EIP6963ProviderDetail) => {
 };
 
 export const zond_uninstallFilter = async (provider: EIP6963ProviderDetail) => {
-  const success = await provider.provider.request({
+  const isSuccess = await provider.provider.request({
     method: UNRESTRICTED_METHODS.ZOND_UNINSTALL_FILTER,
     params: ["0x19ecc4e804cb0fa1827358325b53312"],
   });
-  return success;
+  return isSuccess;
 };
 
 export const zond_unsubscribe = async (provider: EIP6963ProviderDetail) => {

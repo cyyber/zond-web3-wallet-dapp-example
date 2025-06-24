@@ -192,7 +192,8 @@ The methods when called, silently gives back response without needing any intera
 | 28  | [zond_newPendingTransactionFilter](#28-zond_newPendingTransactionFilter)                 |
 | 29  | [zond_subscribe](#29-zond_subscribe)                                                     |
 | 30  | [zond_syncing](#30-zond_syncing)                                                         |
-| 31  | [zond_unsubscribe](#31-zond_unsubscribe)                                                 |
+| 31  | [zond_uninstallFilter](#31-zond_uninstallFilter)                                         |
+| 32  | [zond_unsubscribe](#32-zond_unsubscribe)                                                 |
 
 #### 1. wallet_revokePermissions
 
@@ -939,7 +940,26 @@ A method that returns an object with data about the sync status or false.
 > false
 > ```
 
-#### 31. zond_unsubscribe
+#### 31. zond_uninstallFilter
+
+A method for uninstalling a filter with given id.
+
+- ##### Request
+
+> ```typescript
+> const isSuccess = await provider.request({
+>   method: "zond_uninstallFilter",
+>   params: ["0x19ecc4e804cb0fa1827358325b53312"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> true
+> ```
+
+#### 32. zond_unsubscribe
 
 A method that unsubscribes from a specific Ethereum event, using the subscription ID provided by zond_subscribe method.
 

@@ -190,10 +190,11 @@ The methods when called, silently gives back response without needing any intera
 | 26  | [zond_newBlockFilter](#26-zond_newBlockFilter)                                           |
 | 27  | [zond_newFilter](#27-zond_newFilter)                                                     |
 | 28  | [zond_newPendingTransactionFilter](#28-zond_newPendingTransactionFilter)                 |
-| 29  | [zond_subscribe](#29-zond_subscribe)                                                     |
-| 30  | [zond_syncing](#30-zond_syncing)                                                         |
-| 31  | [zond_uninstallFilter](#31-zond_uninstallFilter)                                         |
-| 32  | [zond_unsubscribe](#32-zond_unsubscribe)                                                 |
+| 29  | [zond_sendRawTransaction](#29-zond_sendRawTransaction)                                   |
+| 30  | [zond_subscribe](#30-zond_subscribe)                                                     |
+| 31  | [zond_syncing](#31-zond_syncing)                                                         |
+| 32  | [zond_uninstallFilter](#32-zond_uninstallFilter)                                         |
+| 33  | [zond_unsubscribe](#33-zond_unsubscribe)                                                 |
 
 #### 1. wallet_revokePermissions
 
@@ -894,7 +895,26 @@ A method that creates a filter in the node, to notify when new pending transacti
 > "0x4b81b2048ece0cf9eb61dba71b5df8d1"
 > ```
 
-#### 29. zond_subscribe
+#### 29. zond_sendRawTransaction
+
+A method that sends a raw transaction to the blockchain.
+
+- ##### Request
+
+> ```typescript
+> const transactionHash = await provider.request({
+>   method: "zond_sendRawTransaction",
+>   params: ["0xf869018203e882520894f17...."],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x02f91c4a827e7e0c847735940084...."
+> ```
+
+#### 30. zond_subscribe
 
 A method that subscribes to specific Ethereum events, returning a subscription ID used to receive notifications. A unique subscription ID that can be used to unsubscribe or identify incoming notifications will be returned.
 
@@ -921,7 +941,7 @@ A method that subscribes to specific Ethereum events, returning a subscription I
 > "0xbb0ecff80c39d75faac664a6dff7c43a"
 > ```
 
-#### 30. zond_syncing
+#### 31. zond_syncing
 
 A method that returns an object with data about the sync status or false.
 
@@ -940,7 +960,7 @@ A method that returns an object with data about the sync status or false.
 > false
 > ```
 
-#### 31. zond_uninstallFilter
+#### 32. zond_uninstallFilter
 
 A method for uninstalling a filter with given id.
 
@@ -959,7 +979,7 @@ A method for uninstalling a filter with given id.
 > true
 > ```
 
-#### 32. zond_unsubscribe
+#### 33. zond_unsubscribe
 
 A method that unsubscribes from a specific Ethereum event, using the subscription ID provided by zond_subscribe method.
 

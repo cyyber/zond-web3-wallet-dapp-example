@@ -4,6 +4,7 @@ import {
 } from "@/constants/requestConstants";
 import {
   personal_sign,
+  wallet_addZondChain,
   zond_sendTransaction,
   zond_signTypedData_v4,
 } from "@/functions/restrictedMethods";
@@ -64,6 +65,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
     switch (method) {
       case RESTRICTED_METHODS.PERSONAL_SIGN:
         return await personal_sign(provider);
+      case RESTRICTED_METHODS.WALLET_ADD_ZOND_CHAIN:
+        return await wallet_addZondChain(provider);
       case RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS:
         return await connectWallet(provider.info.rdns);
       case RESTRICTED_METHODS.ZOND_SEND_TRANSACTION:

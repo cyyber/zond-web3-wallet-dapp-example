@@ -28,9 +28,10 @@ The methods when called, asks for user approval before executing. A request scre
 | No. | Method                                            |
 | --- | ------------------------------------------------- |
 | 1   | [personal_sign](#1-personal_sign)                 |
-| 2   | [zond_requestAccounts](#2-zond_requestaccounts)   |
-| 3   | [zond_sendTransaction](#3-zond_sendTransaction)   |
-| 4   | [zond_signTypedData_v4](#4-zond_signTypedData_v4) |
+| 2   | [wallet_addZondChain](#2-wallet_addZondChain)     |
+| 3   | [zond_requestAccounts](#3-zond_requestaccounts)   |
+| 4   | [zond_sendTransaction](#4-zond_sendTransaction)   |
+| 5   | [zond_signTypedData_v4](#5-zond_signTypedData_v4) |
 
 #### 1. personal_sign
 
@@ -57,7 +58,44 @@ A method that presents a plain text signature challenge to the user and returns 
 > }
 > ```
 
-#### 2. zond_requestAccounts
+#### 2. wallet_addZondChain
+
+A method that opens a confirmation asking the user to add the blockchain to the zond web3 wallet. The caller must specify the blockchain data.
+
+- ##### Request
+
+> ```typescript
+> const response = await provider.request({
+>   method: "wallet_addZondChain",
+>   params: [
+>     {
+>       chainId: "0x44",
+>       chainName: "Test chain name",
+>       rpcUrls: ["https://testDefaultRpcUrl1", "https://testDefaultRpcUrl2"],
+>       blockExplorerUrls: ["https://testDefaultExplorerUrl1"],
+>       iconUrls: [
+>         "https://testDefaultIconUrl1",
+>         "https://testDefaultIconUrl2",
+>         "icons/qrl/default.png",
+>         "https://testDefaultIconUrl3",
+>       ],
+>       nativeCurrency: {
+>         name: "Test native currency",
+>         symbol: "TSTSMB",
+>         decimals: 18,
+>       },
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> null
+> ```
+
+#### 3. zond_requestAccounts
 
 A method that prompts the user to connect their Zond account(s) with the dApp.
 
@@ -79,7 +117,7 @@ A method that prompts the user to connect their Zond account(s) with the dApp.
 > ]
 > ```
 
-#### 3. zond_sendTransaction
+#### 4. zond_sendTransaction
 
 A method that prompts the user to make a transaction like ZND transfer, contract deployment and contract interaction.
 
@@ -107,7 +145,7 @@ A method that prompts the user to make a transaction like ZND transfer, contract
 > "0x3e306b5a5a37532e1734503f7d2427a86f2c992fbe471f5be403b9f734e661c5"
 > ```
 
-#### 4. zond_signTypedData_v4
+#### 5. zond_signTypedData_v4
 
 A method that presents a data message for the user to sign in a structured and readable format and returns the signature and the public key.
 

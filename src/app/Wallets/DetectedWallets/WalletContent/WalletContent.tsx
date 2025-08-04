@@ -9,6 +9,7 @@ import {
   zond_signTypedData_v4,
 } from "@/functions/restrictedMethods";
 import {
+  wallet_switchZondChain,
   web3_clientVersion,
   zond_accounts,
   zond_blockNumber,
@@ -75,6 +76,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_signTypedData_v4(provider);
       case UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS:
         return await disconnectWallet();
+      case UNRESTRICTED_METHODS.WALLET_SWITCH_ZOND_CHAIN:
+        return await wallet_switchZondChain(provider);
       case UNRESTRICTED_METHODS.WEB_3_CLIENT_VERSION:
         return await web3_clientVersion(provider);
       case UNRESTRICTED_METHODS.ZOND_ACCOUNTS:

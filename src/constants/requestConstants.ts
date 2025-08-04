@@ -1,6 +1,7 @@
 // List of methods that can be called by the dApp without user interaction
 export const UNRESTRICTED_METHODS = Object.freeze({
   WALLET_REVOKE_PERMISSIONS: "wallet_revokePermissions",
+  WALLET_SWITCH_ZOND_CHAIN: "wallet_switchZondChain",
   WEB_3_CLIENT_VERSION: "web3_clientVersion",
   ZOND_ACCOUNTS: "zond_accounts",
   ZOND_BLOCK_NUMBER: "zond_blockNumber",

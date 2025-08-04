@@ -1,6 +1,20 @@
 import { UNRESTRICTED_METHODS } from "@/constants/requestConstants";
 
 // Unrestricted methods invocation
+export const wallet_switchZondChain = async (
+  provider: EIP6963ProviderDetail
+) => {
+  const result = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.WALLET_SWITCH_ZOND_CHAIN,
+    params: [
+      {
+        chainId: "0x7e7e",
+      },
+    ],
+  });
+  return result;
+};
+
 export const web3_clientVersion = async (provider: EIP6963ProviderDetail) => {
   const currentVersion = await provider.provider.request({
     method: UNRESTRICTED_METHODS.WEB_3_CLIENT_VERSION,

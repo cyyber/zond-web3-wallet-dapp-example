@@ -5,11 +5,11 @@ import {
 import {
   personal_sign,
   wallet_addZondChain,
+  wallet_switchZondChain,
   zond_sendTransaction,
   zond_signTypedData_v4,
 } from "@/functions/restrictedMethods";
 import {
-  wallet_switchZondChain,
   web3_clientVersion,
   zond_accounts,
   zond_blockNumber,
@@ -68,6 +68,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await personal_sign(provider);
       case RESTRICTED_METHODS.WALLET_ADD_ZOND_CHAIN:
         return await wallet_addZondChain(provider);
+      case RESTRICTED_METHODS.WALLET_SWITCH_ZOND_CHAIN:
+        return await wallet_switchZondChain(provider);
       case RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS:
         return await connectWallet(provider.info.rdns);
       case RESTRICTED_METHODS.ZOND_SEND_TRANSACTION:
@@ -76,8 +78,6 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_signTypedData_v4(provider);
       case UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS:
         return await disconnectWallet();
-      case UNRESTRICTED_METHODS.WALLET_SWITCH_ZOND_CHAIN:
-        return await wallet_switchZondChain(provider);
       case UNRESTRICTED_METHODS.WEB_3_CLIENT_VERSION:
         return await web3_clientVersion(provider);
       case UNRESTRICTED_METHODS.ZOND_ACCOUNTS:

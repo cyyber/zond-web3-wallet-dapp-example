@@ -10,6 +10,9 @@ import {
   zond_signTypedData_v4,
 } from "@/functions/restrictedMethods";
 import {
+  wallet_getPermissions,
+  wallet_requestPermissions,
+  wallet_revokePermissions,
   web3_clientVersion,
   zond_accounts,
   zond_blockNumber,
@@ -52,7 +55,6 @@ type WalletContentProps = { provider: EIP6963ProviderDetail };
 export const WalletContent = ({ provider }: WalletContentProps) => {
   const {
     connectWallet,
-    disconnectWallet,
     writeResponse,
     clearResponse,
     writeError,
@@ -76,8 +78,12 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_sendTransaction(provider);
       case RESTRICTED_METHODS.ZOND_SIGN_TYPED_DATA_V4:
         return await zond_signTypedData_v4(provider);
+      case UNRESTRICTED_METHODS.WALLET_GET_PERMISSIONS:
+        return await wallet_getPermissions(provider);
+      case UNRESTRICTED_METHODS.WALLET_REQUEST_PERMISSIONS:
+        return await wallet_requestPermissions(provider);
       case UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS:
-        return await disconnectWallet();
+        return await wallet_revokePermissions(provider);
       case UNRESTRICTED_METHODS.WEB_3_CLIENT_VERSION:
         return await web3_clientVersion(provider);
       case UNRESTRICTED_METHODS.ZOND_ACCOUNTS:

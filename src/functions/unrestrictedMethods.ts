@@ -1,6 +1,36 @@
 import { UNRESTRICTED_METHODS } from "@/constants/requestConstants";
 
 // Unrestricted methods invocation
+export const wallet_getPermissions = async (
+  provider: EIP6963ProviderDetail
+) => {
+  const result = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.WALLET_GET_PERMISSIONS,
+    params: [],
+  });
+  return result;
+};
+
+export const wallet_requestPermissions = async (
+  provider: EIP6963ProviderDetail
+) => {
+  const result = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.WALLET_REQUEST_PERMISSIONS,
+    params: [{ zond_accounts: {} }],
+  });
+  return result;
+};
+
+export const wallet_revokePermissions = async (
+  provider: EIP6963ProviderDetail
+) => {
+  const result = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS,
+    params: [{ zond_accounts: {} }],
+  });
+  return result;
+};
+
 export const web3_clientVersion = async (provider: EIP6963ProviderDetail) => {
   const currentVersion = await provider.provider.request({
     method: UNRESTRICTED_METHODS.WEB_3_CLIENT_VERSION,

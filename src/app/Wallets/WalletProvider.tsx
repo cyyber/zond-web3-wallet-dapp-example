@@ -1,9 +1,7 @@
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
-import {
-  RESTRICTED_METHODS,
-  UNRESTRICTED_METHODS,
-} from "@/constants/requestConstants";
+import { RESTRICTED_METHODS } from "@/constants/requestConstants";
 import { WalletProviderContext } from "@/contexts/walletProviderContext";
+import { wallet_revokePermissions } from "@/functions/unrestrictedMethods";
 
 // Extending the global WindowEventMap interface with the custom eip6963:announceProvider event
 declare global {
@@ -77,10 +75,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       localStorage.removeItem("selectedWalletRdns");
 
       try {
-        await wallet.provider.request({
-          method: UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS,
-          params: [{ zond_accounts: {} }],
-        });
+        await wallet_revokePermissions(wallet);
         return "";
       } catch (error) {
         console.error("Failed to revoke permissions:", error);

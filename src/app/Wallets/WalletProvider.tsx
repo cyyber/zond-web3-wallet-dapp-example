@@ -1,7 +1,7 @@
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
-import { RESTRICTED_METHODS } from "@/constants/requestConstants";
 import { WalletProviderContext } from "@/contexts/walletProviderContext";
 import { wallet_revokePermissions } from "@/functions/unrestrictedMethods";
+import { zond_requestAccounts } from "@/functions/restrictedMethods";
 
 // Extending the global WindowEventMap interface with the custom eip6963:announceProvider event
 declare global {
@@ -88,9 +88,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       await disconnectWallet();
       try {
         const wallet = wallets[walletRdns];
-        const accounts = (await wallet.provider.request({
-          method: RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS,
-        })) as string[];
+        const accounts = (await zond_requestAccounts(wallet)) as string[];
 
         if (accounts?.[0]) {
           setSelectedWalletRdns(wallet.info.rdns);

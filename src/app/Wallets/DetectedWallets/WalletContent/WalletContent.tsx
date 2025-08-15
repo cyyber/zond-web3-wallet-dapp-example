@@ -6,6 +6,7 @@ import {
   personal_sign,
   wallet_addZondChain,
   wallet_switchZondChain,
+  zond_requestAccounts,
   zond_sendTransaction,
   zond_signTypedData_v4,
 } from "@/functions/restrictedMethods";
@@ -53,13 +54,8 @@ import { MethodsList } from "./MethodsList/MethodsList";
 type WalletContentProps = { provider: EIP6963ProviderDetail };
 
 export const WalletContent = ({ provider }: WalletContentProps) => {
-  const {
-    connectWallet,
-    writeResponse,
-    clearResponse,
-    writeError,
-    clearError,
-  } = useWalletProvider();
+  const { writeResponse, clearResponse, writeError, clearError } =
+    useWalletProvider();
 
   const getRpcResponse = async (
     provider: EIP6963ProviderDetail,
@@ -73,7 +69,7 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
       case RESTRICTED_METHODS.WALLET_SWITCH_ZOND_CHAIN:
         return await wallet_switchZondChain(provider);
       case RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS:
-        return await connectWallet(provider.info.rdns);
+        return await zond_requestAccounts(provider);
       case RESTRICTED_METHODS.ZOND_SEND_TRANSACTION:
         return await zond_sendTransaction(provider);
       case RESTRICTED_METHODS.ZOND_SIGN_TYPED_DATA_V4:

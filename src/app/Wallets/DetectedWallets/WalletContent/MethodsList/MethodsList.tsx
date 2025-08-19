@@ -47,7 +47,9 @@ export const MethodsList = ({
             key={method}
             variant="outline"
             onClick={() => callMethod(method)}
-            disabled={provider.info.name !== selectedWallet?.info.name}
+            disabled={
+              isRestricted && provider.info.name !== selectedWallet?.info.name
+            }
           >
             {index + 1}. {method}
           </Button>

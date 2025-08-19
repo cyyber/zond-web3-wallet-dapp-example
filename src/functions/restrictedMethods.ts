@@ -39,6 +39,16 @@ export const wallet_addZondChain = async (provider: EIP6963ProviderDetail) => {
   return result;
 };
 
+export const wallet_requestPermissions = async (
+  provider: EIP6963ProviderDetail
+) => {
+  const result = await provider.provider.request({
+    method: RESTRICTED_METHODS.WALLET_REQUEST_PERMISSIONS,
+    params: [{ zond_accounts: {} }],
+  });
+  return result;
+};
+
 export const wallet_switchZondChain = async (
   provider: EIP6963ProviderDetail
 ) => {

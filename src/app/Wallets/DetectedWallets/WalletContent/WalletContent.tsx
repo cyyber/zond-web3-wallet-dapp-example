@@ -5,6 +5,7 @@ import {
 import {
   personal_sign,
   wallet_addZondChain,
+  wallet_requestPermissions,
   wallet_switchZondChain,
   zond_requestAccounts,
   zond_sendTransaction,
@@ -12,7 +13,6 @@ import {
 } from "@/functions/restrictedMethods";
 import {
   wallet_getPermissions,
-  wallet_requestPermissions,
   wallet_revokePermissions,
   web3_clientVersion,
   zond_accounts,
@@ -66,6 +66,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await personal_sign(provider);
       case RESTRICTED_METHODS.WALLET_ADD_ZOND_CHAIN:
         return await wallet_addZondChain(provider);
+      case RESTRICTED_METHODS.WALLET_REQUEST_PERMISSIONS:
+        return await wallet_requestPermissions(provider);
       case RESTRICTED_METHODS.WALLET_SWITCH_ZOND_CHAIN:
         return await wallet_switchZondChain(provider);
       case RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS:
@@ -76,8 +78,6 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_signTypedData_v4(provider);
       case UNRESTRICTED_METHODS.WALLET_GET_PERMISSIONS:
         return await wallet_getPermissions(provider);
-      case UNRESTRICTED_METHODS.WALLET_REQUEST_PERMISSIONS:
-        return await wallet_requestPermissions(provider);
       case UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS:
         return await wallet_revokePermissions(provider);
       case UNRESTRICTED_METHODS.WEB_3_CLIENT_VERSION:

@@ -16,6 +16,8 @@ type ConnectWalletProps = {
 export const ConnectWallet = ({ provider }: ConnectWalletProps) => {
   const { selectedWallet } = useWalletProvider();
 
+  const isConnected = provider?.info?.name === selectedWallet?.info?.name;
+
   return (
     <Card>
       <CardHeader>
@@ -25,11 +27,8 @@ export const ConnectWallet = ({ provider }: ConnectWalletProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-wrap gap-4">
-        {provider?.info.name === selectedWallet?.info.name ? (
-          <Connected />
-        ) : (
-          <ConnectButton provider={provider} />
-        )}
+        <ConnectButton provider={provider} />
+        {isConnected && <Connected />}
       </CardContent>
     </Card>
   );

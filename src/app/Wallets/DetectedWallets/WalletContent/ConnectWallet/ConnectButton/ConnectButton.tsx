@@ -7,7 +7,9 @@ type ConnectButtonProps = {
 };
 
 export const ConnectButton = ({ provider }: ConnectButtonProps) => {
-  const { connectWallet } = useWalletProvider();
+  const { connectWallet, selectedWallet } = useWalletProvider();
+
+  const isConnected = provider?.info?.name === selectedWallet?.info?.name;
 
   return (
     <Button
@@ -16,7 +18,9 @@ export const ConnectButton = ({ provider }: ConnectButtonProps) => {
       onClick={() => connectWallet(provider.info.rdns)}
     >
       <PlugZap />
-      <span> Connect {provider.info.name}</span>
+      <span>
+        {isConnected ? "Reconnect" : "Connect"} {provider.info.name}
+      </span>
     </Button>
   );
 };

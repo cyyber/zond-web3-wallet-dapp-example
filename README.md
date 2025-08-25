@@ -122,7 +122,7 @@ A method for switching the blockchain to the requested chain ID.
 
 #### 4. wallet_watchAsset
 
-A method that prompts the user to add an ERC20 token to the wallet.
+A method that prompts the user to add an ZRC20 token to the wallet.
 
 - ##### Request
 
@@ -131,7 +131,7 @@ A method that prompts the user to add an ERC20 token to the wallet.
 >   method: "wallet_watchAsset",
 >   params: [
 >     {
->       type: "ERC20",
+>       type: "ZRC20",
 >       options: {
 >         address: "Zdf3636e4493d317514de576afbc2bfb6d91d065f",
 >         symbol: "FOO",

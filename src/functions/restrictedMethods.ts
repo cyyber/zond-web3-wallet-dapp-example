@@ -63,6 +63,24 @@ export const wallet_switchZondChain = async (
   return result;
 };
 
+export const wallet_watchAsset = async (provider: EIP6963ProviderDetail) => {
+  const result = await provider.provider.request({
+    method: RESTRICTED_METHODS.WALLET_WATCH_ASSET,
+    params: [
+      {
+        type: "ERC20",
+        options: {
+          address: "Zdf3636e4493d317514de576afbc2bfb6d91d065f",
+          symbol: "FOO",
+          decimals: 18,
+          image: "icons/qrl/default.png",
+        },
+      },
+    ],
+  });
+  return result;
+};
+
 export const zond_requestAccounts = async (provider: EIP6963ProviderDetail) => {
   const result = await provider.provider.request({
     method: RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS,

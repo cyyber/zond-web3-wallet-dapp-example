@@ -30,9 +30,10 @@ The methods when called, asks for user approval before executing. A request scre
 | 1   | [personal_sign](#1-personal_sign)                   |
 | 2   | [wallet_addZondChain](#2-wallet_addZondChain)       |
 | 3   | [wallet_switchZondChain](#3-wallet_switchZondChain) |
-| 4   | [zond_requestAccounts](#4-zond_requestaccounts)     |
-| 5   | [zond_sendTransaction](#5-zond_sendTransaction)     |
-| 6   | [zond_signTypedData_v4](#6-zond_signTypedData_v4)   |
+| 4   | [wallet_watchAsset](#4-wallet_watchAsset)           |
+| 5   | [zond_requestAccounts](#5-zond_requestaccounts)     |
+| 6   | [zond_sendTransaction](#6-zond_sendTransaction)     |
+| 7   | [zond_signTypedData_v4](#7-zond_signTypedData_v4)   |
 
 #### 1. personal_sign
 
@@ -119,7 +120,36 @@ A method for switching the blockchain to the requested chain ID.
 > null
 > ```
 
-#### 4. zond_requestAccounts
+#### 4. wallet_watchAsset
+
+A method that prompts the user to add an ERC20 token to the wallet.
+
+- ##### Request
+
+> ```typescript
+> const accounts = await provider.request({
+>   method: "wallet_watchAsset",
+>   params: [
+>     {
+>       type: "ERC20",
+>       options: {
+>         address: "Zdf3636e4493d317514de576afbc2bfb6d91d065f",
+>         symbol: "FOO",
+>         decimals: 18,
+>         image: "icons/qrl/default.png",
+>       },
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> true
+> ```
+
+#### 5. zond_requestaccounts
 
 A method that prompts the user to connect their Zond account(s) with the dApp.
 
@@ -141,7 +171,7 @@ A method that prompts the user to connect their Zond account(s) with the dApp.
 > ]
 > ```
 
-#### 5. zond_sendTransaction
+#### 6. zond_sendTransaction
 
 A method that prompts the user to make a transaction like ZND transfer, contract deployment and contract interaction.
 
@@ -169,7 +199,7 @@ A method that prompts the user to make a transaction like ZND transfer, contract
 > "0x3e306b5a5a37532e1734503f7d2427a86f2c992fbe471f5be403b9f734e661c5"
 > ```
 
-#### 6. zond_signTypedData_v4
+#### 7. zond_signTypedData_v4
 
 A method that presents a data message for the user to sign in a structured and readable format and returns the signature and the public key.
 

@@ -7,6 +7,7 @@ import {
   wallet_addZondChain,
   wallet_requestPermissions,
   wallet_switchZondChain,
+  wallet_watchAsset,
   zond_requestAccounts,
   zond_sendTransaction,
   zond_signTypedData_v4,
@@ -70,6 +71,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await wallet_requestPermissions(provider);
       case RESTRICTED_METHODS.WALLET_SWITCH_ZOND_CHAIN:
         return await wallet_switchZondChain(provider);
+      case RESTRICTED_METHODS.WALLET_WATCH_ASSET:
+        return await wallet_watchAsset(provider);
       case RESTRICTED_METHODS.ZOND_REQUEST_ACCOUNTS:
         return await zond_requestAccounts(provider);
       case RESTRICTED_METHODS.ZOND_SEND_TRANSACTION:

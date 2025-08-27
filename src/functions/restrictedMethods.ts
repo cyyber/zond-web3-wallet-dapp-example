@@ -71,7 +71,7 @@ export const wallet_watchAsset = async (provider: EIP6963ProviderDetail) => {
         type: "ZRC20",
         options: {
           address: "Zdf3636e4493d317514de576afbc2bfb6d91d065f",
-          symbol: "FOO",
+          symbol: "TOK",
           decimals: 18,
           image: "icons/qrl/default.png",
         },

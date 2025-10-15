@@ -5,6 +5,7 @@ import {
 import {
   personal_sign,
   wallet_addZondChain,
+  wallet_getCapabilities,
   wallet_requestPermissions,
   wallet_switchZondChain,
   wallet_watchAsset,
@@ -67,6 +68,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await personal_sign(provider);
       case RESTRICTED_METHODS.WALLET_ADD_ZOND_CHAIN:
         return await wallet_addZondChain(provider);
+      case RESTRICTED_METHODS.WALLET_GET_CAPABILITIES:
+        return await wallet_getCapabilities(provider);
       case RESTRICTED_METHODS.WALLET_REQUEST_PERMISSIONS:
         return await wallet_requestPermissions(provider);
       case RESTRICTED_METHODS.WALLET_SWITCH_ZOND_CHAIN:

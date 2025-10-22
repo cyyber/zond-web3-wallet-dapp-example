@@ -31,11 +31,12 @@ The methods when called, asks for user approval before executing. A request scre
 | 2   | [wallet_addZondChain](#2-wallet_addZondChain)             |
 | 3   | [wallet_getCapabilities](#3-wallet_getCapabilities)       |
 | 4   | [wallet_requestPermissions](#4-wallet_requestPermissions) |
-| 5   | [wallet_switchZondChain](#5-wallet_switchZondChain)       |
-| 6   | [wallet_watchAsset](#6-wallet_watchAsset)                 |
-| 7   | [zond_requestAccounts](#7-zond_requestaccounts)           |
-| 8   | [zond_sendTransaction](#8-zond_sendTransaction)           |
-| 9   | [zond_signTypedData_v4](#9-zond_signTypedData_v4)         |
+| 5   | [wallet_sendCalls](#5-wallet_sendCalls)                   |
+| 6   | [wallet_switchZondChain](#6-wallet_switchZondChain)       |
+| 7   | [wallet_watchAsset](#7-wallet_watchAsset)                 |
+| 8   | [zond_requestAccounts](#8-zond_requestaccounts)           |
+| 9   | [zond_sendTransaction](#9-zond_sendTransaction)           |
+| 10  | [zond_signTypedData_v4](#10-zond_signTypedData_v4)        |
 
 #### 1. personal_sign
 
@@ -158,7 +159,45 @@ A method for requesting additional permissions from the user.
 > ]
 > ```
 
-#### 5. wallet_switchZondChain
+#### 5. wallet_sendCalls
+
+A method for sending a batch of calls to the blockchain. A batch ID will be returned as the response.
+
+- ##### Request
+
+> ```typescript
+> await provider.request({
+>   method: "wallet_sendCalls",
+>   params: [
+>     {
+>       version: "2.0.0",
+>       from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+>       chainId: "0x1",
+>       atomicRequired: true,
+>       calls: [
+>         {
+>           to: "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
+>           value: "0xde0b6b3a7640000",
+>         },
+>         {
+>           to: "Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c",
+>           value: "0x8ac7230489e80000",
+>         },
+>       ],
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "id": "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"
+> }
+> ```
+
+#### 6. wallet_switchZondChain
 
 A method for switching the blockchain to the requested chain ID.
 
@@ -181,7 +220,7 @@ A method for switching the blockchain to the requested chain ID.
 > null
 > ```
 
-#### 6. wallet_watchAsset
+#### 7. wallet_watchAsset
 
 A method that prompts the user to add an ZRC20 token to the wallet.
 
@@ -210,7 +249,7 @@ A method that prompts the user to add an ZRC20 token to the wallet.
 > true
 > ```
 
-#### 7. zond_requestaccounts
+#### 8. zond_requestaccounts
 
 A method that prompts the user to connect their Zond account(s) with the dApp.
 
@@ -232,7 +271,7 @@ A method that prompts the user to connect their Zond account(s) with the dApp.
 > ]
 > ```
 
-#### 8. zond_sendTransaction
+#### 9. zond_sendTransaction
 
 A method that prompts the user to make a transaction like ZND transfer, contract deployment and contract interaction.
 
@@ -260,7 +299,7 @@ A method that prompts the user to make a transaction like ZND transfer, contract
 > "0x3e306b5a5a37532e1734503f7d2427a86f2c992fbe471f5be403b9f734e661c5"
 > ```
 
-#### 9. zond_signTypedData_v4
+#### 10. zond_signTypedData_v4
 
 A method that presents a data message for the user to sign in a structured and readable format and returns the signature and the public key.
 

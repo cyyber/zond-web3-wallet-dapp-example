@@ -59,6 +59,31 @@ export const wallet_requestPermissions = async (
   return result;
 };
 
+export const wallet_sendCalls = async (provider: EIP6963ProviderDetail) => {
+  const result = await provider.provider.request({
+    method: RESTRICTED_METHODS.WALLET_SEND_CALLS,
+    params: [
+      {
+        version: "2.0.0",
+        from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+        chainId: "0x1",
+        atomicRequired: true,
+        calls: [
+          {
+            to: "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
+            value: "0xde0b6b3a7640000",
+          },
+          {
+            to: "Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c",
+            value: "0x8ac7230489e80000",
+          },
+        ],
+      },
+    ],
+  });
+  return result;
+};
+
 export const wallet_switchZondChain = async (
   provider: EIP6963ProviderDetail
 ) => {
@@ -100,14 +125,15 @@ export const zond_requestAccounts = async (provider: EIP6963ProviderDetail) => {
 };
 
 export const zond_sendTransaction = async (provider: EIP6963ProviderDetail) => {
-  const requestForContractDeployment = {
-    data: "0x608060405234801561001057600080fd5b5061010e806100206000396000f3fe6080604052600436106100295760003560e01c806306661abd1461002e57806360fe47b11461003c578063d09de08a14610057575b600080fd5b61003a61003a565b005b61004561009a565b60405161005291906100ce565b60405180910390f35b61005f6100a0565b60405161006c91906100ce565b60405180910390f35b60008054905090565b60005481565b60008054905090565b6000819050919050565b6100928161007f565b82525050565b60006020820190506100ad6000830184610089565b92915050565b6000819050919050565b6100c6816100b3565b82525050565b60006020820190506100e160008301846100bd565b9291505056fea26469706673582212202e7f728e9bfb79346c7c0c1570a776bd0b2e6f38e18738c9f76cc6fa0cf92adf64736f6c63430008000033",
-    from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
-    gas: "0x1cbb3",
-    type: "0x2",
-    value: "0x0",
-  };
-  // // Example request for a contract interaction
+  // Example request for a contract deployment
+  // const requestForContractDeployment = {
+  //   data: "0x608060405234801561001057600080fd5b5061010e806100206000396000f3fe6080604052600436106100295760003560e01c806306661abd1461002e57806360fe47b11461003c578063d09de08a14610057575b600080fd5b61003a61003a565b005b61004561009a565b60405161005291906100ce565b60405180910390f35b61005f6100a0565b60405161006c91906100ce565b60405180910390f35b60008054905090565b60005481565b60008054905090565b6000819050919050565b6100928161007f565b82525050565b60006020820190506100ad6000830184610089565b92915050565b6000819050919050565b6100c6816100b3565b82525050565b60006020820190506100e160008301846100bd565b9291505056fea26469706673582212202e7f728e9bfb79346c7c0c1570a776bd0b2e6f38e18738c9f76cc6fa0cf92adf64736f6c63430008000033",
+  //   from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+  //   gas: "0x1cbb3",
+  //   type: "0x2",
+  //   value: "0x0",
+  // };
+  // Example request for a contract interaction
   // const requestForContractInteraction = {
   //   from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
   //   to: "Z3ca82a624ee8f3d5ee808ffeb7d7a1a06dd73b61",
@@ -116,17 +142,17 @@ export const zond_sendTransaction = async (provider: EIP6963ProviderDetail) => {
   //   gas: "0x1cbb3",
   //   type: "0x2",
   // };
-  // // Example request for a ZND transfer
-  // const requestForZndTransfer = {
-  //   from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
-  //   to: "Z20EE9760786AD48aB90E326c5cd78c6269Ba10AB",
-  //   value: "0xde0b6b3a7640000",
-  //   gas: "0x1cbb3",
-  //   type: "0x2",
-  // };
+  // Example request for a ZND transfer
+  const requestForZndTransfer = {
+    from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+    to: "Z20EE9760786AD48aB90E326c5cd78c6269Ba10AB",
+    value: "0x8ac7230489e80000",
+    gas: "0x1cbb3",
+    type: "0x2",
+  };
   const transactionReceipt = await provider.provider.request({
     method: RESTRICTED_METHODS.ZOND_SEND_TRANSACTION,
-    params: [requestForContractDeployment],
+    params: [requestForZndTransfer],
   });
   return transactionReceipt;
 };

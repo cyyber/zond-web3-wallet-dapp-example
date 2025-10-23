@@ -1,6 +1,18 @@
 import { UNRESTRICTED_METHODS } from "@/constants/requestConstants";
 
 // Unrestricted methods invocation
+export const wallet_getCallsStatus = async (
+  provider: EIP6963ProviderDetail
+) => {
+  const result = await provider.provider.request({
+    method: UNRESTRICTED_METHODS.WALLET_GET_CALL_STATUS,
+    params: [
+      "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527123",
+    ],
+  });
+  return result;
+};
+
 export const wallet_getPermissions = async (
   provider: EIP6963ProviderDetail
 ) => {

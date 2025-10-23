@@ -15,6 +15,7 @@ import {
   zond_signTypedData_v4,
 } from "@/functions/restrictedMethods";
 import {
+  wallet_getCallsStatus,
   wallet_getPermissions,
   wallet_revokePermissions,
   web3_clientVersion,
@@ -85,6 +86,8 @@ export const WalletContent = ({ provider }: WalletContentProps) => {
         return await zond_sendTransaction(provider);
       case RESTRICTED_METHODS.ZOND_SIGN_TYPED_DATA_V4:
         return await zond_signTypedData_v4(provider);
+      case UNRESTRICTED_METHODS.WALLET_GET_CALL_STATUS:
+        return await wallet_getCallsStatus(provider);
       case UNRESTRICTED_METHODS.WALLET_GET_PERMISSIONS:
         return await wallet_getPermissions(provider);
       case UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS:

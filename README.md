@@ -354,42 +354,88 @@ The methods when called, silently gives back response without needing any intera
 
 | No. | Method                                                                                   |
 | --- | ---------------------------------------------------------------------------------------- |
-| 1   | [wallet_getPermissions](#1-wallet_getPermissions)                                        |
-| 2   | [wallet_revokePermissions](#2-wallet_revokePermissions)                                  |
-| 3   | [web3_clientVersion](#3-web3_clientVersion)                                              |
-| 4   | [zond_accounts](#4-zond_accounts)                                                        |
-| 5   | [zond_blockNumber](#5-zond_blockNumber)                                                  |
-| 6   | [zond_call](#6-zond_call)                                                                |
-| 7   | [zond_chainId](#7-zond_chainId)                                                          |
-| 8   | [zond_estimateGas](#8-zond_estimateGas)                                                  |
-| 9   | [zond_feeHistory](#9-zond_feeHistory)                                                    |
-| 10  | [zond_gasPrice](#10-zond_gasPrice)                                                       |
-| 11  | [zond_getBalance](#11-zond_getBalance)                                                   |
-| 12  | [zond_getBlockByHash](#12-zond_getBlockByHash)                                           |
-| 13  | [zond_getBlockByNumber](#13-zond_getBlockByNumber)                                       |
-| 14  | [zond_getBlockTransactionCountByHash](#14-zond_getBlockTransactionCountByHash)           |
-| 15  | [zond_getBlockTransactionCountByNumber](#15-zond_getBlockTransactionCountByNumber)       |
-| 16  | [zond_getCode](#16-zond_getCode)                                                         |
-| 17  | [zond_getFilterChanges](#17-zond_getFilterChanges)                                       |
-| 18  | [zond_getFilterLogs](#18-zond_getFilterLogs)                                             |
-| 19  | [zond_getLogs](#19-zond_getLogs)                                                         |
-| 20  | [zond_getProof](#20-zond_getProof)                                                       |
-| 21  | [zond_getStorageAt](#21-zond_getStorageAt)                                               |
-| 22  | [zond_getTransactionByBlockHashAndIndex](#22-zond_getTransactionByBlockHashAndIndex)     |
-| 23  | [zond_getTransactionByBlockNumberAndIndex](#23-zond_getTransactionByBlockNumberAndIndex) |
-| 24  | [zond_getTransactionByHash](#24-zond_getTransactionByHash)                               |
-| 25  | [zond_getTransactionCount](#25-zond_getTransactionCount)                                 |
-| 26  | [zond_getTransactionReceipt](#26-zond_getTransactionReceipt)                             |
-| 27  | [zond_newBlockFilter](#27-zond_newBlockFilter)                                           |
-| 28  | [zond_newFilter](#28-zond_newFilter)                                                     |
-| 29  | [zond_newPendingTransactionFilter](#29-zond_newPendingTransactionFilter)                 |
-| 30  | [zond_sendRawTransaction](#30-zond_sendRawTransaction)                                   |
-| 31  | [zond_subscribe](#31-zond_subscribe)                                                     |
-| 32  | [zond_syncing](#32-zond_syncing)                                                         |
-| 33  | [zond_uninstallFilter](#33-zond_uninstallFilter)                                         |
-| 34  | [zond_unsubscribe](#34-zond_unsubscribe)                                                 |
+| 1   | [wallet_getCallsStatus](#1-wallet_getCallsStatus)                                        |
+| 2   | [wallet_getPermissions](#2-wallet_getPermissions)                                        |
+| 3   | [wallet_revokePermissions](#3-wallet_revokePermissions)                                  |
+| 4   | [web3_clientVersion](#4-web3_clientVersion)                                              |
+| 5   | [zond_accounts](#5-zond_accounts)                                                        |
+| 6   | [zond_blockNumber](#6-zond_blockNumber)                                                  |
+| 7   | [zond_call](#7-zond_call)                                                                |
+| 8   | [zond_chainId](#8-zond_chainId)                                                          |
+| 9   | [zond_estimateGas](#9-zond_estimateGas)                                                  |
+| 10  | [zond_feeHistory](#10-zond_feeHistory)                                                   |
+| 11  | [zond_gasPrice](#11-zond_gasPrice)                                                       |
+| 12  | [zond_getBalance](#12-zond_getBalance)                                                   |
+| 13  | [zond_getBlockByHash](#13-zond_getBlockByHash)                                           |
+| 14  | [zond_getBlockByNumber](#14-zond_getBlockByNumber)                                       |
+| 15  | [zond_getBlockTransactionCountByHash](#15-zond_getBlockTransactionCountByHash)           |
+| 16  | [zond_getBlockTransactionCountByNumber](#16-zond_getBlockTransactionCountByNumber)       |
+| 17  | [zond_getCode](#17-zond_getCode)                                                         |
+| 18  | [zond_getFilterChanges](#18-zond_getFilterChanges)                                       |
+| 19  | [zond_getFilterLogs](#19-zond_getFilterLogs)                                             |
+| 20  | [zond_getLogs](#20-zond_getLogs)                                                         |
+| 21  | [zond_getProof](#21-zond_getProof)                                                       |
+| 22  | [zond_getStorageAt](#22-zond_getStorageAt)                                               |
+| 23  | [zond_getTransactionByBlockHashAndIndex](#23-zond_getTransactionByBlockHashAndIndex)     |
+| 24  | [zond_getTransactionByBlockNumberAndIndex](#24-zond_getTransactionByBlockNumberAndIndex) |
+| 25  | [zond_getTransactionByHash](#25-zond_getTransactionByHash)                               |
+| 26  | [zond_getTransactionCount](#26-zond_getTransactionCount)                                 |
+| 27  | [zond_getTransactionReceipt](#27-zond_getTransactionReceipt)                             |
+| 28  | [zond_newBlockFilter](#28-zond_newBlockFilter)                                           |
+| 29  | [zond_newFilter](#29-zond_newFilter)                                                     |
+| 30  | [zond_newPendingTransactionFilter](#30-zond_newPendingTransactionFilter)                 |
+| 31  | [zond_sendRawTransaction](#31-zond_sendRawTransaction)                                   |
+| 32  | [zond_subscribe](#32-zond_subscribe)                                                     |
+| 33  | [zond_syncing](#33-zond_syncing)                                                         |
+| 34  | [zond_uninstallFilter](#34-zond_uninstallFilter)                                         |
+| 35  | [zond_unsubscribe](#35-zond_unsubscribe)                                                 |
 
-#### 1. wallet_getPermissions
+#### 1. wallet_getCallsStatus
+
+A method for checking the status of the batch ID generated using wallet_sendCalls.
+
+- ##### Request
+
+> ```typescript
+> await provider.request({
+>   method: "wallet_getCallsStatus",
+>   params: [
+>     "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527123",
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "version": "2.0.0",
+>   "chainId": "0x1",
+>   "id": "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527123",
+>   "status": 200,
+>   "atomic": true,
+>   "receipts": [
+>     {
+>       "logs": [
+>         {
+>           "address": "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+>           "topics": [
+>             "0x5a2a90727cc9d000dd060b1132a5c977c9702bb3a52afe360c9c22f0e9451a68"
+>           ],
+>           "data": "0xabcd"
+>         }
+>       ],
+>       "status": "0x1",
+>       "blockHash": "0xf19bbafd9fd0124ec110b848e8de4ab4f62bf60c189524e54213285e7f540d4a",
+>       "blockNumber": "0xabcd",
+>       "gasUsed": "0xdef",
+>       "transactionHash": "0x9b7bb827c2e5e3c1a0a44dc53e573aa0b3af3bd1f9f5ed03071b100bb039eaff"
+>     }
+>   ]
+> }
+> ```
+
+#### 2. wallet_getPermissions
 
 A method for requesting additional permissions from the user.
 
@@ -423,7 +469,7 @@ A method for requesting additional permissions from the user.
 > ]
 > ```
 
-#### 2. wallet_revokePermissions
+#### 3. wallet_revokePermissions
 
 A method for revoking the previously approved permissions for the dApp.
 
@@ -446,7 +492,7 @@ A method for revoking the previously approved permissions for the dApp.
 > null
 > ```
 
-#### 3. web3_clientVersion
+#### 4. web3_clientVersion
 
 A method for returning the current Zond client version.
 
@@ -465,7 +511,7 @@ A method for returning the current Zond client version.
 > "Gzond/v0.2.1-stable-c50ef86d/linux-amd64/go1.22.12"
 > ```
 
-#### 4. zond_accounts
+#### 5. zond_accounts
 
 A method that returns the list of accounts that the user has approved to connect.
 
@@ -484,7 +530,7 @@ A method that returns the list of accounts that the user has approved to connect
 > ["Z20B714091cF2a62DADda2847803e3f1B9D2D3779"]
 > ```
 
-#### 5. zond_blockNumber
+#### 6. zond_blockNumber
 
 A method that returns the number of most recent block.
 
@@ -503,7 +549,7 @@ A method that returns the number of most recent block.
 > "0x3345"
 > ```
 
-#### 6. zond_call
+#### 7. zond_call
 
 A method for creating a new message call immediately.
 
@@ -528,7 +574,7 @@ A method for creating a new message call immediately.
 > "0x"
 > ```
 
-#### 7. zond_chainId
+#### 8. zond_chainId
 
 A method for returning the chain ID of the current network.
 
@@ -547,7 +593,7 @@ A method for returning the chain ID of the current network.
 > "0x7e7e"
 > ```
 
-#### 8. zond_estimateGas
+#### 9. zond_estimateGas
 
 A method for calculating the estimate of how much gas is necessary for the transaction.
 
@@ -572,7 +618,7 @@ A method for calculating the estimate of how much gas is necessary for the trans
 > "0x5208"
 > ```
 
-#### 9. zond_feeHistory
+#### 10. zond_feeHistory
 
 A method that returns the transaction base fee per gas and effective priority fee per gas for a given block range.
 
@@ -600,7 +646,7 @@ A method that returns the transaction base fee per gas and effective priority fe
 > }
 > ```
 
-#### 10. zond_gasPrice
+#### 11. zond_gasPrice
 
 A method for returning the current price per gas.
 
@@ -619,7 +665,7 @@ A method for returning the current price per gas.
 > "0x3b9aca07"
 > ```
 
-#### 11. zond_getBalance
+#### 12. zond_getBalance
 
 A method for returning the balance of the given account.
 
@@ -638,7 +684,7 @@ A method for returning the balance of the given account.
 > "0x6cfe56f3795885980005"
 > ```
 
-#### 12. zond_getBlockByHash
+#### 13. zond_getBlockByHash
 
 A method for returning information about a block by hash.
 
@@ -667,7 +713,7 @@ A method for returning information about a block by hash.
 > }
 > ```
 
-#### 13. zond_getBlockByNumber
+#### 14. zond_getBlockByNumber
 
 A method that returns the block information by number.
 
@@ -693,7 +739,7 @@ A method that returns the block information by number.
 > }
 > ```
 
-#### 14. zond_getBlockTransactionCountByHash
+#### 15. zond_getBlockTransactionCountByHash
 
 A method for returning the number of transactions in a block from a block matching the given block hash.
 
@@ -714,7 +760,7 @@ A method for returning the number of transactions in a block from a block matchi
 > "0x8"
 > ```
 
-#### 15. zond_getBlockTransactionCountByNumber
+#### 16. zond_getBlockTransactionCountByNumber
 
 A method for returning the number of transactions in a block matching the given block number.
 
@@ -733,7 +779,7 @@ A method for returning the number of transactions in a block matching the given 
 > "0x8"
 > ```
 
-#### 16. zond_getCode
+#### 17. zond_getCode
 
 A method for returning the code at a given address.
 
@@ -752,7 +798,7 @@ A method for returning the code at a given address.
 > "0x60806040526004361060485763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416633fa4f2458114604d57806355241077146071575b600080fd5b348015605857600080fd5b50605f6088565b60408051918252519081900360200190f35b348015607c57600080fd5b506086600435608e565b005b60005481565b60008190556040805182815290517f199cd93e851e4c78c437891155e2112093f8f15394aa89dab09e38d6ca0727879181900360200190a1505600a165627a7a723058209d8929142720a69bde2ab3bfa2da6217674b984899b62753979743c0470a2ea70029"
 > ```
 
-#### 17. zond_getFilterChanges
+#### 18. zond_getFilterChanges
 
 A method for polling the filter with the given ID (created using zond_newFilter). It returns an array of logs which occurred since last poll.
 
@@ -792,7 +838,7 @@ A method for polling the filter with the given ID (created using zond_newFilter)
 > ]
 > ```
 
-#### 18. zond_getFilterLogs
+#### 19. zond_getFilterLogs
 
 A method for returning an array of all logs matching the filter with the given ID (created using zond_newFilter).
 
@@ -832,7 +878,7 @@ A method for returning an array of all logs matching the filter with the given I
 > ]
 > ```
 
-#### 19. zond_getLogs
+#### 20. zond_getLogs
 
 A method for returning an array of all logs matching the specified filter.
 
@@ -879,7 +925,7 @@ A method for returning an array of all logs matching the specified filter.
 > ]
 > ```
 
-#### 20. zond_getProof
+#### 21. zond_getProof
 
 A method that returns the merkle proof for a given account and optionally some storage keys.
 
@@ -909,7 +955,7 @@ A method that returns the merkle proof for a given account and optionally some s
 > }
 > ```
 
-#### 21. zond_getStorageAt
+#### 22. zond_getStorageAt
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -928,7 +974,7 @@ A method for returning the information about a transaction requested by transact
 > "0x0000000000000000000000000000000000000000000000000000000000000000"
 > ```
 
-#### 22. zond_getTransactionByBlockHashAndIndex
+#### 23. zond_getTransactionByBlockHashAndIndex
 
 A method for returning information about a transaction by block hash and transaction index position.
 
@@ -956,7 +1002,7 @@ A method for returning information about a transaction by block hash and transac
 > }
 > ```
 
-#### 23. zond_getTransactionByBlockNumberAndIndex
+#### 24. zond_getTransactionByBlockNumberAndIndex
 
 A method for returning information about a transaction by block number and transaction index position.
 
@@ -984,7 +1030,7 @@ A method for returning information about a transaction by block number and trans
 > }
 > ```
 
-#### 24. zond_getTransactionByHash
+#### 25. zond_getTransactionByHash
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -1011,7 +1057,7 @@ A method for returning the information about a transaction requested by transact
 > }
 > ```
 
-#### 25. zond_getTransactionCount
+#### 26. zond_getTransactionCount
 
 A method for returning the code at a given address.
 
@@ -1030,7 +1076,7 @@ A method for returning the code at a given address.
 > "0x1"
 > ```
 
-#### 26. zond_getTransactionReceipt
+#### 27. zond_getTransactionReceipt
 
 A method for returning the receipt of a transaction by transaction hash.
 
@@ -1058,7 +1104,7 @@ A method for returning the receipt of a transaction by transaction hash.
 > }
 > ```
 
-#### 27. zond_newBlockFilter
+#### 28. zond_newBlockFilter
 
 A method that creates a filter in the node, to notify when a new block arrives.
 
@@ -1077,7 +1123,7 @@ A method that creates a filter in the node, to notify when a new block arrives.
 > "0x01"
 > ```
 
-#### 28. zond_newFilter
+#### 29. zond_newFilter
 
 A method that creates a filter object, based on filter options, to notify when the state changes (logs).
 
@@ -1103,7 +1149,7 @@ A method that creates a filter object, based on filter options, to notify when t
 > "0x67c04257976e0fa66c592cd5cf6bcfa8"
 > ```
 
-#### 29. zond_newPendingTransactionFilter
+#### 30. zond_newPendingTransactionFilter
 
 A method that creates a filter in the node, to notify when new pending transactions arrive.
 
@@ -1122,7 +1168,7 @@ A method that creates a filter in the node, to notify when new pending transacti
 > "0x4b81b2048ece0cf9eb61dba71b5df8d1"
 > ```
 
-#### 30. zond_sendRawTransaction
+#### 31. zond_sendRawTransaction
 
 A method that sends a raw transaction to the blockchain.
 
@@ -1141,7 +1187,7 @@ A method that sends a raw transaction to the blockchain.
 > "0x02f91c4a827e7e0c847735940084...."
 > ```
 
-#### 31. zond_subscribe
+#### 32. zond_subscribe
 
 A method that subscribes to specific Ethereum events, returning a subscription ID used to receive notifications. A unique subscription ID that can be used to unsubscribe or identify incoming notifications will be returned.
 
@@ -1168,7 +1214,7 @@ A method that subscribes to specific Ethereum events, returning a subscription I
 > "0xbb0ecff80c39d75faac664a6dff7c43a"
 > ```
 
-#### 32. zond_syncing
+#### 33. zond_syncing
 
 A method that returns an object with data about the sync status or false.
 
@@ -1187,7 +1233,7 @@ A method that returns an object with data about the sync status or false.
 > false
 > ```
 
-#### 33. zond_uninstallFilter
+#### 34. zond_uninstallFilter
 
 A method for uninstalling a filter with given id.
 
@@ -1206,7 +1252,7 @@ A method for uninstalling a filter with given id.
 > true
 > ```
 
-#### 34. zond_unsubscribe
+#### 35. zond_unsubscribe
 
 A method that unsubscribes from a specific Ethereum event, using the subscription ID provided by zond_subscribe method.
 

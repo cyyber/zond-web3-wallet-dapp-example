@@ -1,5 +1,6 @@
 // List of methods that can be called by the dApp without user interaction
 export const UNRESTRICTED_METHODS = Object.freeze({
+  WALLET_GET_CALL_STATUS: "wallet_getCallsStatus",
   WALLET_GET_PERMISSIONS: "wallet_getPermissions",
   WALLET_REVOKE_PERMISSIONS: "wallet_revokePermissions",
   WEB_3_CLIENT_VERSION: "web3_clientVersion",

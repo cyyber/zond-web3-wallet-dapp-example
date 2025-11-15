@@ -1,5 +1,7 @@
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
-import { WalletProviderContext } from "../contexts/walletProviderContext";
+import { WalletProviderContext } from "@/contexts/walletProviderContext";
+import { wallet_revokePermissions } from "@/functions/unrestrictedMethods";
+import { zond_requestAccounts } from "@/functions/restrictedMethods";
 
 // Extending the global WindowEventMap interface with the custom eip6963:announceProvider event
 declare global {
@@ -18,9 +20,13 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [selectedAccountByWalletRdns, setSelectedAccountByWalletRdns] =
     useState<SelectedAccountByWallet>({});
 
+  const [response, setResponse] = useState("");
+  const writeResponse = (newResponse: string) => setResponse(newResponse);
+  const clearResponse = () => setResponse("");
+
   const [errorMessage, setErrorMessage] = useState("");
+  const writeError = (newError: string) => setErrorMessage(newError);
   const clearError = () => setErrorMessage("");
-  const setError = (error: string) => setErrorMessage(error);
 
   useEffect(() => {
     const savedSelectedWalletRdns = localStorage.getItem("selectedWalletRdns");
@@ -55,13 +61,34 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       window.removeEventListener("eip6963:announceProvider", onAnnouncement);
   }, []);
 
+  const disconnectWallet = useCallback(async () => {
+    clearResponse();
+    clearError();
+    if (selectedWalletRdns) {
+      setSelectedAccountByWalletRdns((currentAccounts) => ({
+        ...currentAccounts,
+        [selectedWalletRdns]: null,
+      }));
+
+      const wallet = wallets[selectedWalletRdns];
+      setSelectedWalletRdns(null);
+      localStorage.removeItem("selectedWalletRdns");
+
+      try {
+        await wallet_revokePermissions(wallet);
+        return "";
+      } catch (error) {
+        console.error("Failed to revoke permissions:", error);
+      }
+    }
+  }, [selectedWalletRdns, wallets]);
+
   const connectWallet = useCallback(
     async (walletRdns: string) => {
+      await disconnectWallet();
       try {
         const wallet = wallets[walletRdns];
-        const accounts = (await wallet.provider.request({
-          method: "zond_requestAccounts",
-        })) as string[];
+        const accounts = (await zond_requestAccounts(wallet)) as string[];
 
         if (accounts?.[0]) {
           setSelectedWalletRdns(wallet.info.rdns);
@@ -79,38 +106,17 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
             })
           );
         }
+        return accounts;
       } catch (error) {
         console.error("Failed to connect to provider:", error);
         const walletError: WalletError = error as WalletError;
-        setError(
-          `Code: ${walletError.code} \nError Message: ${walletError.message}`
+        writeError(
+          `Code: ${walletError.code}, \nMessage: ${walletError.message}`
         );
       }
     },
-    [wallets, selectedAccountByWalletRdns]
+    [disconnectWallet, wallets, selectedAccountByWalletRdns]
   );
-
-  const disconnectWallet = useCallback(async () => {
-    if (selectedWalletRdns) {
-      setSelectedAccountByWalletRdns((currentAccounts) => ({
-        ...currentAccounts,
-        [selectedWalletRdns]: null,
-      }));
-
-      const wallet = wallets[selectedWalletRdns];
-      setSelectedWalletRdns(null);
-      localStorage.removeItem("selectedWalletRdns");
-
-      try {
-        await wallet.provider.request({
-          method: "wallet_revokePermissions",
-          params: [{ zond_accounts: {} }],
-        });
-      } catch (error) {
-        console.error("Failed to revoke permissions:", error);
-      }
-    }
-  }, [selectedWalletRdns, wallets]);
 
   const contextValue: WalletProviderContext = {
     wallets,
@@ -120,9 +126,13 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       selectedWalletRdns === null
         ? null
         : selectedAccountByWalletRdns[selectedWalletRdns],
+    response,
+    writeResponse,
+    clearResponse,
     errorMessage,
     connectWallet,
     disconnectWallet,
+    writeError,
     clearError,
   };
 

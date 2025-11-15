@@ -1,7 +1,17 @@
-import { Wallets } from "./components/Wallets";
+import { WalletProvider } from "./app/Wallets/WalletProvider";
+import { Wallets } from "./app/Wallets/Wallets";
+import { ThemeProvider } from "./contexts/themeProviderContext";
 
 function App() {
-  return <Wallets />;
+  return (
+    <ThemeProvider>
+      <WalletProvider>
+        <div className="flex w-full justify-center">
+          <Wallets />
+        </div>
+      </WalletProvider>
+    </ThemeProvider>
+  );
 }
 
 export default App;

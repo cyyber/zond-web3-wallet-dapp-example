@@ -4,11 +4,12 @@
 
 A dApp web application for demonstrating the connectivity(based on EIP-6963) to the Zond Web3 Wallet web extension.
 
-The application renders 3 sections:
+The application renders the following sections:
 
-- **Detected Wallets:** Displays all the wallets(supporting EIP-6963) installed in the browser. The wallet's icon and name is displayed. To connect to a wallet, click on the desired wallet.
-- **Selected Wallet:** On succesfully connecting to a wallet, the wallet name, connected account address, uuid and rdns is displayed in this section.
-- **Wallet Error:** On rejecting the connection request, or if any errors are thrown, it is displayed in this section.
+- **Wallets Detected:** Displays all the wallets(supporting EIP-6963) installed in the browser in an expandable form. The wallet's icon and name is displayed. To connect to a wallet, click on the connect button of the desired wallet. On connecting to a wallet, all the restricted methods(which requires user's approval to execute) and unrestricted methods(which doesn't require user's approval) will be listed on the screen.
+- **Selected Wallet:** This section will be visible only when the wallet is connected. On successfully connecting to a wallet, the wallet name, connected account address, uuid and rdns are displayed in this section.
+- **Wallet Response:** This section will be visible only when the wallet is connected. On successfully completing a request, the response is displayed here.
+- **Wallet Error:** This section will be visible only when the wallet is connected. For a failed or unsuccessful request, the error is displayed here.
 
 ## :keyboard: Run locally
 
@@ -24,12 +25,231 @@ Communication between a dApp and Zond Web3 Wallet happens via JSON-RPC API reque
 
 The methods when called, asks for user approval before executing. A request screen will be presented with an option to either approve or reject the request.
 
-| No. | Method                                          |
-| --- | ----------------------------------------------- |
-| 1   | [zond_requestAccounts](#1-zond_requestaccounts) |
-| 2   | [zond_sendTransaction](#2-zond_sendTransaction) |
+| No. | Method                                                    |
+| --- | --------------------------------------------------------- |
+| 1   | [personal_sign](#1-personal_sign)                         |
+| 2   | [wallet_addZondChain](#2-wallet_addZondChain)             |
+| 3   | [wallet_getCapabilities](#3-wallet_getCapabilities)       |
+| 4   | [wallet_requestPermissions](#4-wallet_requestPermissions) |
+| 5   | [wallet_sendCalls](#5-wallet_sendCalls)                   |
+| 6   | [wallet_switchZondChain](#6-wallet_switchZondChain)       |
+| 7   | [wallet_watchAsset](#7-wallet_watchAsset)                 |
+| 8   | [zond_requestAccounts](#8-zond_requestaccounts)           |
+| 9   | [zond_sendTransaction](#9-zond_sendTransaction)           |
+| 10  | [zond_signTypedData_v4](#10-zond_signTypedData_v4)        |
 
-#### 1. zond_requestAccounts
+#### 1. personal_sign
+
+A method that presents a plain text signature challenge to the user and returns the signed response and the public key for verification. The parameters are hex-encoded UTF-8 challenge string and the address of the requesting account.
+
+- ##### Request
+
+> ```typescript
+> const signedData = await provider.request({
+>   method: "personal_sign",
+>   params: [
+>     "0x506c65617365207369676e2074686973206d65737361676520746f20636f6e6669726d20796f7572206964656e746974792e",
+>     "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "signature": "0x0087c28d899155115254bbd....",
+>   "publicKey": "0x04bfcabf8c1b1a5a7e25f9b...."
+> }
+> ```
+
+#### 2. wallet_addZondChain
+
+A method that opens a confirmation asking the user to add the blockchain to the zond web3 wallet. The caller must specify the blockchain data.
+
+- ##### Request
+
+> ```typescript
+> const response = await provider.request({
+>   method: "wallet_addZondChain",
+>   params: [
+>     {
+>       chainId: "0x44",
+>       chainName: "Test chain name",
+>       rpcUrls: ["https://testDefaultRpcUrl1", "https://testDefaultRpcUrl2"],
+>       blockExplorerUrls: ["https://testDefaultExplorerUrl1"],
+>       iconUrls: [
+>         "https://testDefaultIconUrl1",
+>         "https://testDefaultIconUrl2",
+>         "icons/qrl/default.png",
+>         "https://testDefaultIconUrl3",
+>       ],
+>       nativeCurrency: {
+>         name: "Test native currency",
+>         symbol: "TSTSMB",
+>         decimals: 18,
+>       },
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> null
+> ```
+
+#### 3. wallet_getCapabilities
+
+A method for getting the capabilities of the wallet.
+
+- ##### Request
+
+> ```typescript
+> await provider.request({
+>   method: "wallet_getCapabilities",
+>   params: ["Z208318ecd68f26726CE7C54b29CaBA94584969B6", ["0x7e7e"]],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "0x7e7e": {
+>     "atomic": {
+>       "status": "ready"
+>     }
+>   }
+> }
+> ```
+
+#### 4. wallet_requestPermissions
+
+A method for requesting additional permissions from the user.
+
+- ##### Request
+
+> ```typescript
+> await provider.request({
+>   method: "wallet_requestPermissions",
+>   params: [
+>     {
+>       zond_accounts: {},
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> [
+>   {
+>     "parentCapability": "zond_accounts",
+>     "invoker": "https://local-dapp-example.io",
+>     "caveats": [
+>       {
+>         "type": "restrictReturnedAccounts",
+>         "value": ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c"]
+>       }
+>     ]
+>   }
+> ]
+> ```
+
+#### 5. wallet_sendCalls
+
+A method for sending a batch of calls to the blockchain. A batch ID will be returned as the response.
+
+- ##### Request
+
+> ```typescript
+> await provider.request({
+>   method: "wallet_sendCalls",
+>   params: [
+>     {
+>       version: "2.0.0",
+>       from: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+>       chainId: "0x1",
+>       atomicRequired: true,
+>       calls: [
+>         {
+>           to: "Z20D20b8026B8F02540246f58120ddAAf35AECD9B",
+>           value: "0xde0b6b3a7640000",
+>         },
+>         {
+>           to: "Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c",
+>           value: "0x8ac7230489e80000",
+>         },
+>       ],
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "id": "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"
+> }
+> ```
+
+#### 6. wallet_switchZondChain
+
+A method for switching the blockchain to the requested chain ID.
+
+- ##### Request
+
+> ```typescript
+> await provider.request({
+>   method: "wallet_switchZondChain",
+>   params: [
+>     {
+>       chainId: "0x7e7e",
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> null
+> ```
+
+#### 7. wallet_watchAsset
+
+A method that prompts the user to add an ZRC20 token to the wallet.
+
+- ##### Request
+
+> ```typescript
+> const accounts = await provider.request({
+>   method: "wallet_watchAsset",
+>   params: [
+>     {
+>       type: "ZRC20",
+>       options: {
+>         address: "Zdf3636e4493d317514de576afbc2bfb6d91d065f",
+>         symbol: "FOO",
+>         decimals: 18,
+>         image: "icons/qrl/default.png",
+>       },
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> true
+> ```
+
+#### 8. zond_requestaccounts
 
 A method that prompts the user to connect their Zond account(s) with the dApp.
 
@@ -51,7 +271,7 @@ A method that prompts the user to connect their Zond account(s) with the dApp.
 > ]
 > ```
 
-#### 2. zond_sendTransaction
+#### 9. zond_sendTransaction
 
 A method that prompts the user to make a transaction like ZND transfer, contract deployment and contract interaction.
 
@@ -79,24 +299,219 @@ A method that prompts the user to make a transaction like ZND transfer, contract
 > "0x3e306b5a5a37532e1734503f7d2427a86f2c992fbe471f5be403b9f734e661c5"
 > ```
 
+#### 10. zond_signTypedData_v4
+
+A method that presents a data message for the user to sign in a structured and readable format and returns the signature and the public key.
+
+- ##### Request
+
+> ```typescript
+> const signedData = await provider.request({
+>   method: "zond_signTypedData_v4",
+>   params: [
+>     "Z208318ecd68f26726CE7C54b29CaBA94584969B6"
+>     {
+>       types: {
+>           EIP712Domain: [....],
+>           Person: [....],
+>           Mail: [....],
+>       },
+>       primaryType: "Mail",
+>       domain: {
+>           name: "Ether Mail",
+>           version: "1",
+>           chainId: 1,
+>           verifyingContract: "ZDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF",
+>       },
+>       message: {
+>           from: {
+>               name: "Last",
+>               wallet: "ZCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
+>           },
+>           to: {
+>               name: "Genesis",
+>               wallet: "ZbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+>           },
+>           contents: "Hello, Genesis!",
+>       },
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "signature": "0x0087c28d899155115254bbd....",
+>   "publicKey": "0x04bfcabf8c1b1a5a7e25f9b...."
+> }
+> ```
+
 ### Unrestricted Methods
 
 The methods when called, silently gives back response without needing any interaction from the user.
 
-| No. | Method                                                      |
-| --- | ----------------------------------------------------------- |
-| 1   | [zond_accounts](#1-zond_accounts)                           |
-| 2   | [zond_blockNumber](#2-zond_blockNumber)                     |
-| 3   | [zond_call](#3-zond_call)                                   |
-| 4   | [zond_estimateGas](#4-zond_estimateGas)                     |
-| 5   | [zond_getBalance](#5-zond_getBalance)                       |
-| 6   | [zond_getBlockByNumber](#6-zond_getBlockByNumber)           |
-| 7   | [zond_getCode](#7-zond_getCode)                             |
-| 8   | [zond_getTransactionByHash](#8-zond_getTransactionByHash)   |
-| 9   | [zond_getTransactionReceipt](#9-zond_getTransactionReceipt) |
-| 10  | [wallet_revokePermissions](#10-wallet_revokePermissions)    |
+| No. | Method                                                                                   |
+| --- | ---------------------------------------------------------------------------------------- |
+| 1   | [wallet_getCallsStatus](#1-wallet_getCallsStatus)                                        |
+| 2   | [wallet_getPermissions](#2-wallet_getPermissions)                                        |
+| 3   | [wallet_revokePermissions](#3-wallet_revokePermissions)                                  |
+| 4   | [web3_clientVersion](#4-web3_clientVersion)                                              |
+| 5   | [zond_accounts](#5-zond_accounts)                                                        |
+| 6   | [zond_blockNumber](#6-zond_blockNumber)                                                  |
+| 7   | [zond_call](#7-zond_call)                                                                |
+| 8   | [zond_chainId](#8-zond_chainId)                                                          |
+| 9   | [zond_estimateGas](#9-zond_estimateGas)                                                  |
+| 10  | [zond_feeHistory](#10-zond_feeHistory)                                                   |
+| 11  | [zond_gasPrice](#11-zond_gasPrice)                                                       |
+| 12  | [zond_getBalance](#12-zond_getBalance)                                                   |
+| 13  | [zond_getBlockByHash](#13-zond_getBlockByHash)                                           |
+| 14  | [zond_getBlockByNumber](#14-zond_getBlockByNumber)                                       |
+| 15  | [zond_getBlockTransactionCountByHash](#15-zond_getBlockTransactionCountByHash)           |
+| 16  | [zond_getBlockTransactionCountByNumber](#16-zond_getBlockTransactionCountByNumber)       |
+| 17  | [zond_getCode](#17-zond_getCode)                                                         |
+| 18  | [zond_getFilterChanges](#18-zond_getFilterChanges)                                       |
+| 19  | [zond_getFilterLogs](#19-zond_getFilterLogs)                                             |
+| 20  | [zond_getLogs](#20-zond_getLogs)                                                         |
+| 21  | [zond_getProof](#21-zond_getProof)                                                       |
+| 22  | [zond_getStorageAt](#22-zond_getStorageAt)                                               |
+| 23  | [zond_getTransactionByBlockHashAndIndex](#23-zond_getTransactionByBlockHashAndIndex)     |
+| 24  | [zond_getTransactionByBlockNumberAndIndex](#24-zond_getTransactionByBlockNumberAndIndex) |
+| 25  | [zond_getTransactionByHash](#25-zond_getTransactionByHash)                               |
+| 26  | [zond_getTransactionCount](#26-zond_getTransactionCount)                                 |
+| 27  | [zond_getTransactionReceipt](#27-zond_getTransactionReceipt)                             |
+| 28  | [zond_newBlockFilter](#28-zond_newBlockFilter)                                           |
+| 29  | [zond_newFilter](#29-zond_newFilter)                                                     |
+| 30  | [zond_newPendingTransactionFilter](#30-zond_newPendingTransactionFilter)                 |
+| 31  | [zond_sendRawTransaction](#31-zond_sendRawTransaction)                                   |
+| 32  | [zond_subscribe](#32-zond_subscribe)                                                     |
+| 33  | [zond_syncing](#33-zond_syncing)                                                         |
+| 34  | [zond_uninstallFilter](#34-zond_uninstallFilter)                                         |
+| 35  | [zond_unsubscribe](#35-zond_unsubscribe)                                                 |
 
-#### 1. zond_accounts
+#### 1. wallet_getCallsStatus
+
+A method for checking the status of the batch ID generated using wallet_sendCalls.
+
+- ##### Request
+
+> ```typescript
+> await provider.request({
+>   method: "wallet_getCallsStatus",
+>   params: [
+>     "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527123",
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "version": "2.0.0",
+>   "chainId": "0x1",
+>   "id": "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527123",
+>   "status": 200,
+>   "atomic": true,
+>   "receipts": [
+>     {
+>       "logs": [
+>         {
+>           "address": "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+>           "topics": [
+>             "0x5a2a90727cc9d000dd060b1132a5c977c9702bb3a52afe360c9c22f0e9451a68"
+>           ],
+>           "data": "0xabcd"
+>         }
+>       ],
+>       "status": "0x1",
+>       "blockHash": "0xf19bbafd9fd0124ec110b848e8de4ab4f62bf60c189524e54213285e7f540d4a",
+>       "blockNumber": "0xabcd",
+>       "gasUsed": "0xdef",
+>       "transactionHash": "0x9b7bb827c2e5e3c1a0a44dc53e573aa0b3af3bd1f9f5ed03071b100bb039eaff"
+>     }
+>   ]
+> }
+> ```
+
+#### 2. wallet_getPermissions
+
+A method for requesting additional permissions from the user.
+
+- ##### Request
+
+> ```typescript
+> await provider.request({
+>   method: "wallet_getPermissions",
+>   params: [
+>     {
+>       zond_accounts: {},
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> [
+>   {
+>     "parentCapability": "zond_accounts",
+>     "invoker": "https://local-dapp-example.io",
+>     "caveats": [
+>       {
+>         "type": "restrictReturnedAccounts",
+>         "value": ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c"]
+>       }
+>     ]
+>   }
+> ]
+> ```
+
+#### 3. wallet_revokePermissions
+
+A method for revoking the previously approved permissions for the dApp.
+
+- ##### Request
+
+> ```typescript
+> await provider.request({
+>   method: "wallet_revokePermissions",
+>   params: [
+>     {
+>       zond_accounts: {},
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> null
+> ```
+
+#### 4. web3_clientVersion
+
+A method for returning the current Zond client version.
+
+- ##### Request
+
+> ```typescript
+> const currentVersion = await provider.request({
+>   method: "web3_clientVersion",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "Gzond/v0.2.1-stable-c50ef86d/linux-amd64/go1.22.12"
+> ```
+
+#### 5. zond_accounts
 
 A method that returns the list of accounts that the user has approved to connect.
 
@@ -115,7 +530,7 @@ A method that returns the list of accounts that the user has approved to connect
 > ["Z20B714091cF2a62DADda2847803e3f1B9D2D3779"]
 > ```
 
-#### 2. zond_blockNumber
+#### 6. zond_blockNumber
 
 A method that returns the number of most recent block.
 
@@ -134,7 +549,7 @@ A method that returns the number of most recent block.
 > "0x3345"
 > ```
 
-#### 3. zond_call
+#### 7. zond_call
 
 A method for creating a new message call immediately.
 
@@ -159,7 +574,26 @@ A method for creating a new message call immediately.
 > "0x"
 > ```
 
-#### 4. zond_estimateGas
+#### 8. zond_chainId
+
+A method for returning the chain ID of the current network.
+
+- ##### Request
+
+> ```typescript
+> const chainId = await provider.request({
+>   method: "zond_chainId",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x7e7e"
+> ```
+
+#### 9. zond_estimateGas
 
 A method for calculating the estimate of how much gas is necessary for the transaction.
 
@@ -184,7 +618,54 @@ A method for calculating the estimate of how much gas is necessary for the trans
 > "0x5208"
 > ```
 
-#### 5. zond_getBalance
+#### 10. zond_feeHistory
+
+A method that returns the transaction base fee per gas and effective priority fee per gas for a given block range.
+
+- ##### Request
+
+> ```typescript
+> const feeHistory = await provider.request({
+>   method: "zond_feeHistory",
+>   params: ["0x3", "latest", [10, 50]],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "oldestBlock": "0x17185",
+>   "reward": [
+>     ["0x0", "0x0"],
+>     ["0x0", "0x0"],
+>     ["0x0", "0x0"]
+>   ],
+>   "baseFeePerGas": ["0x7", "0x7", "0x7", "0x7"],
+>   "gasUsedRatio": [0, 0, 0]
+> }
+> ```
+
+#### 11. zond_gasPrice
+
+A method for returning the current price per gas.
+
+- ##### Request
+
+> ```typescript
+> const gas = await provider.request({
+>   method: "zond_gasPrice",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x3b9aca07"
+> ```
+
+#### 12. zond_getBalance
 
 A method for returning the balance of the given account.
 
@@ -203,7 +684,36 @@ A method for returning the balance of the given account.
 > "0x6cfe56f3795885980005"
 > ```
 
-#### 6. zond_getBlockByNumber
+#### 13. zond_getBlockByHash
+
+A method for returning information about a block by hash.
+
+- ##### Request
+
+> ```typescript
+> const blockInformation = await provider.request({
+>   method: "zond_getBlockByHash",
+>   params: [
+>     "0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
+>     false,
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "baseFeePerGas":"0x7",
+>   "extraData":"0xd882020085677a6f6e6488676f312e32322e30856c696e7578",
+>   "gasLimit":"0x1312d00",
+>   "gasUsed":"0x0",
+>   "hash":"0x7daca88be141b9c778aa2d55ae81eab7766e97a9b2549e975680a6f20dd46fde",
+>   ....
+> }
+> ```
+
+#### 14. zond_getBlockByNumber
 
 A method that returns the block information by number.
 
@@ -224,12 +734,52 @@ A method that returns the block information by number.
 >   "hash": "0xd5f1812548be429cbdc6376b29611fc49e06f1359758c4ceaaa3b393e2239f9c",
 >   "mixHash": "0x24900fb3da77674a861c428429dce0762707ecb6052325bbd9b3c64e74b5af9d",
 >   "parentHash": "0x1f68ac259155e2f38211ddad0f0a15394d55417b185a93923e2abe71bb7a4d6d",
->   "nonce": "0x378da40ff335..."
+>   "nonce": "0x378da40ff335...."
 >   ....
 > }
 > ```
 
-#### 7. zond_getCode
+#### 15. zond_getBlockTransactionCountByHash
+
+A method for returning the number of transactions in a block from a block matching the given block hash.
+
+- ##### Request
+
+> ```typescript
+> const transactionCount = await provider.request({
+>   method: "zond_getBlockTransactionCountByHash",
+>   params: [
+>     "0x762881f501a0dd33e1ca3a3a3db42671292c9b33ddaa2108b8958bab6414f4dd",
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x8"
+> ```
+
+#### 16. zond_getBlockTransactionCountByNumber
+
+A method for returning the number of transactions in a block matching the given block number.
+
+- ##### Request
+
+> ```typescript
+> const transactionCount = await provider.request({
+>   method: "zond_getBlockTransactionCountByNumber",
+>   params: ["0x17187"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x8"
+> ```
+
+#### 17. zond_getCode
 
 A method for returning the code at a given address.
 
@@ -248,7 +798,239 @@ A method for returning the code at a given address.
 > "0x60806040526004361060485763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416633fa4f2458114604d57806355241077146071575b600080fd5b348015605857600080fd5b50605f6088565b60408051918252519081900360200190f35b348015607c57600080fd5b506086600435608e565b005b60005481565b60008190556040805182815290517f199cd93e851e4c78c437891155e2112093f8f15394aa89dab09e38d6ca0727879181900360200190a1505600a165627a7a723058209d8929142720a69bde2ab3bfa2da6217674b984899b62753979743c0470a2ea70029"
 > ```
 
-#### 8. zond_getTransactionByHash
+#### 18. zond_getFilterChanges
+
+A method for polling the filter with the given ID (created using zond_newFilter). It returns an array of logs which occurred since last poll.
+
+- ##### Request
+
+> ```typescript
+> const logObjects = await provider.request({
+>   method: "zond_getFilterChanges",
+>   params: ["0x5d71077f43bcd46f25b74f2409d2f164"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> [
+>   {
+>     "logIndex": "0x0",
+>     "removed": false,
+>     "blockNumber": "0x233",
+>     "blockHash": "0xfc139f5e2edee9e9c888d8df9a2d2226133a9bd87c88ccbd9c930d3d4c9f9ef5",
+>     "topics": [
+>       "0x04474795f5b996ff80cb47c148d4c5ccdbe09ef27551820caa9c2f8ed149cce3"
+>     ],
+>     ....
+>   },
+>   {
+>     "logIndex": "0x0",
+>     "removed": false,
+>     "blockNumber": "0x238",
+>     "blockHash": "0x98b0ec0f9fea0018a644959accbe69cd046a8582e89402e1ab0ada91cad644ed",
+>     "topics": [
+>       "0x04474795f5b996ff80cb47c148d4c5ccdbe09ef27551820caa9c2f8ed149cce3"
+>     ],
+>     ....
+>   }
+> ]
+> ```
+
+#### 19. zond_getFilterLogs
+
+A method for returning an array of all logs matching the filter with the given ID (created using zond_newFilter).
+
+- ##### Request
+
+> ```typescript
+> const logObjects = await provider.request({
+>   method: "zond_getFilterLogs",
+>   params: ["0x1c2fc22a03559852c88e0b501792be88"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> [
+>   {
+>     "logIndex": "0x0",
+>     "removed": false,
+>     "blockNumber": "0x233",
+>     "blockHash": "0xfc139f5e2edee9e9c888d8df9a2d2226133a9bd87c88ccbd9c930d3d4c9f9ef5",
+>     "topics": [
+>       "0x04474795f5b996ff80cb47c148d4c5ccdbe09ef27551820caa9c2f8ed149cce3"
+>     ],
+>     ....
+>   },
+>   {
+>     "logIndex": "0x0",
+>     "removed": false,
+>     "blockNumber": "0x238",
+>     "blockHash": "0x98b0ec0f9fea0018a644959accbe69cd046a8582e89402e1ab0ada91cad644ed",
+>     "topics": [
+>       "0x04474795f5b996ff80cb47c148d4c5ccdbe09ef27551820caa9c2f8ed149cce3"
+>     ],
+>     ....
+>   }
+> ]
+> ```
+
+#### 20. zond_getLogs
+
+A method for returning an array of all logs matching the specified filter.
+
+- ##### Request
+
+> ```typescript
+> const log = await provider.request({
+>   method: "zond_getLogs",
+>   params: [
+>     {
+>       fromBlock: "0x1234AB",
+>       toBlock: "latest",
+>       address: "0xd01aaa39b223fe8d0a0e5c4f27ead9083c756dd3",
+>       topics: [],
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> [
+>   {
+>     "logIndex": "0x0",
+>     "removed": false,
+>     "blockNumber": "0x233",
+>     "blockHash": "0xfc139f5e2edee9e9c888d8df9a2d2226133a9bd87c88ccbd9c930d3d4c9f9ef5",
+>     "topics": [
+>       "0x04474795f5b996ff80cb47c148d4c5ccdbe09ef27551820caa9c2f8ed149cce3"
+>     ],
+>     ....
+>   },
+>   {
+>     "logIndex": "0x0",
+>     "removed": false,
+>     "blockNumber": "0x238",
+>     "blockHash": "0x98b0ec0f9fea0018a644959accbe69cd046a8582e89402e1ab0ada91cad644ed",
+>     "topics": [
+>       "0x04474795f5b996ff80cb47c148d4c5ccdbe09ef27551820caa9c2f8ed149cce3"
+>     ],
+>     ....
+>   }
+> ]
+> ```
+
+#### 21. zond_getProof
+
+A method that returns the merkle proof for a given account and optionally some storage keys.
+
+- ##### Request
+
+> ```typescript
+> const accountProof = await provider.request({
+>   method: "zond_getProof",
+>   params: ["Z20D20b8026B8F02540246f58120ddAAf35AECD9B", [], "latest"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "accountProof": [
+>     "0xf90191a05b49406cc....",
+>     "0xf851808080a0eeafb....",
+>     "0xf874a02082e4c4652...."
+>   ],
+>   "balance": "0x1a77e254760c9d13ccacd",
+>   "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+>   "nonce": "0xb",
+>   "storageHash": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+>   "storageProof": []
+> }
+> ```
+
+#### 22. zond_getStorageAt
+
+A method for returning the information about a transaction requested by transaction hash.
+
+- ##### Request
+
+> ```typescript
+> const storageAt = await provider.request({
+>   method: "zond_getStorageAt",
+>   params: ["Z20D20b8026B8F02540246f58120ddAAf35AECD9B", "0x0", "latest"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x0000000000000000000000000000000000000000000000000000000000000000"
+> ```
+
+#### 23. zond_getTransactionByBlockHashAndIndex
+
+A method for returning information about a transaction by block hash and transaction index position.
+
+- ##### Request
+
+> ```typescript
+> const transactionInformation = await provider.request({
+>   method: "zond_getTransactionByBlockHashAndIndex",
+>   params: [
+>     "0x28e25a85fe327cea53e461774d989181e71595ce653e193f96836242ae8b8f48",
+>     "0x2",
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "blockHash": "0x510efccf44a192e6e34bcb439a1947e24b86244280762cbb006858c237093fda",
+>   "blockNumber": "0x442",
+>   "chainId": 345,
+>   "from": "Z205fe2f3af6c04C415A82CA456588640435C9746"
+>   ....
+> }
+> ```
+
+#### 24. zond_getTransactionByBlockNumberAndIndex
+
+A method for returning information about a transaction by block number and transaction index position.
+
+- ##### Request
+
+> ```typescript
+> const transactionInformation = await provider.request({
+>   method: "zond_getTransactionByBlockNumberAndIndex",
+>   params: [
+>     "0x28e25a85fe327cea53e461774d989181e71595ce653e193f96836242ae8b8f48",
+>     "0x2",
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> {
+>   "blockHash": "0x510efccf44a192e6e34bcb439a1947e24b86244280762cbb006858c237093fda",
+>   "blockNumber": "0x442",
+>   "chainId": 345,
+>   "from": "Z205fe2f3af6c04C415A82CA456588640435C9746"
+>   ....
+> }
+> ```
+
+#### 25. zond_getTransactionByHash
 
 A method for returning the information about a transaction requested by transaction hash.
 
@@ -275,7 +1057,26 @@ A method for returning the information about a transaction requested by transact
 > }
 > ```
 
-#### 9. zond_getTransactionReceipt
+#### 26. zond_getTransactionCount
+
+A method for returning the code at a given address.
+
+- ##### Request
+
+> ```typescript
+> const transactionCount = await provider.request({
+>   method: "zond_getTransactionCount",
+>   params: ["Z20E7Bde67f00EA38ABb2aC57e1B0DD93f518446c", "latest"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x1"
+> ```
+
+#### 27. zond_getTransactionReceipt
 
 A method for returning the receipt of a transaction by transaction hash.
 
@@ -303,18 +1104,40 @@ A method for returning the receipt of a transaction by transaction hash.
 > }
 > ```
 
-#### 10. wallet_revokePermissions
+#### 28. zond_newBlockFilter
 
-A method for revoking the previously approved permissions for the dApp.
+A method that creates a filter in the node, to notify when a new block arrives.
 
 - ##### Request
 
 > ```typescript
-> await provider.request({
->   method: "wallet_revokePermissions",
+> const filterIdentifier = await provider.request({
+>   method: "zond_newBlockFilter",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x01"
+> ```
+
+#### 29. zond_newFilter
+
+A method that creates a filter object, based on filter options, to notify when the state changes (logs).
+
+- ##### Request
+
+> ```typescript
+> const filterIdentifier = await provider.request({
+>   method: "zond_newFilter",
 >   params: [
 >     {
->       zond_accounts: {},
+>       fromBlock: "latest",
+>       toBlock: "latest",
+>       address: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+>       topics: [],
 >     },
 >   ],
 > });
@@ -323,5 +1146,127 @@ A method for revoking the previously approved permissions for the dApp.
 - ##### Response
 
 > ```json
-> null
+> "0x67c04257976e0fa66c592cd5cf6bcfa8"
+> ```
+
+#### 30. zond_newPendingTransactionFilter
+
+A method that creates a filter in the node, to notify when new pending transactions arrive.
+
+- ##### Request
+
+> ```typescript
+> const filterIdentifier = await provider.request({
+>   method: "zond_newPendingTransactionFilter",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x4b81b2048ece0cf9eb61dba71b5df8d1"
+> ```
+
+#### 31. zond_sendRawTransaction
+
+A method that sends a raw transaction to the blockchain.
+
+- ##### Request
+
+> ```typescript
+> const transactionHash = await provider.request({
+>   method: "zond_sendRawTransaction",
+>   params: ["0xf869018203e882520894f17...."],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0x02f91c4a827e7e0c847735940084...."
+> ```
+
+#### 32. zond_subscribe
+
+A method that subscribes to specific Ethereum events, returning a subscription ID used to receive notifications. A unique subscription ID that can be used to unsubscribe or identify incoming notifications will be returned.
+
+- ##### Request
+
+> ```typescript
+> const subscriptionId = await provider.request({
+>   method: "zond_syncing",
+>   params: [
+>     "logs",
+>     {
+>       address: "Z208318ecd68f26726CE7C54b29CaBA94584969B6",
+>       topics: [
+>         "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a57b7edb8d6",
+>       ],
+>     },
+>   ],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> "0xbb0ecff80c39d75faac664a6dff7c43a"
+> ```
+
+#### 33. zond_syncing
+
+A method that returns an object with data about the sync status or false.
+
+- ##### Request
+
+> ```typescript
+> const syncingStatus = await provider.request({
+>   method: "zond_syncing",
+>   params: [],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> false
+> ```
+
+#### 34. zond_uninstallFilter
+
+A method for uninstalling a filter with given id.
+
+- ##### Request
+
+> ```typescript
+> const isSuccess = await provider.request({
+>   method: "zond_uninstallFilter",
+>   params: ["0x19ecc4e804cb0fa1827358325b53312"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> true
+> ```
+
+#### 35. zond_unsubscribe
+
+A method that unsubscribes from a specific Ethereum event, using the subscription ID provided by zond_subscribe method.
+
+- ##### Request
+
+> ```typescript
+> const unsubscribed = await provider.request({
+>   method: "zond_unsubscribe",
+>   params: ["0xbb0ecff80c39d75faac664a6dff7c43a"],
+> });
+> ```
+
+- ##### Response
+
+> ```json
+> true
 > ```
